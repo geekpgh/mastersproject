@@ -1,0 +1,11 @@
+*bin 
+*obj 
+*.user 
+*.suo 
+_vti_cnf 
+_vti_pvt 
+_vti_script 
+_vti_txt 
+Debug 
+Release 
+PrecompiledWeb
