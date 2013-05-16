@@ -26,7 +26,13 @@ namespace BrewersBuddy.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
-    }
+		public string Email { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string City { get; set; }
+		public string State { get; set; }
+		public string Zip { get; set; }
+	}
 
     public class RegisterExternalLoginModel
     {
@@ -73,6 +79,10 @@ namespace BrewersBuddy.Models
 
     public class RegisterModel
     {
+		[Required]
+		[Display(Name = "Email")]
+		public string Email { get; set; }
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -87,6 +97,21 @@ namespace BrewersBuddy.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+		[Display(Name = "First name")]
+		public string FirstName { get; set; }
+
+		[Display(Name = "Last name")]
+		public string LastName { get; set; }
+
+		[Display(Name = "City")]
+		public string City { get; set; }
+
+		[Display(Name = "State")]
+		public string State { get; set; }
+
+		[Display(Name = "Zip")]
+		public string Zip { get; set; }
     }
 
     public class ExternalLogin

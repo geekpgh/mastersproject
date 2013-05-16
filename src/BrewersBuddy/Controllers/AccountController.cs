@@ -45,6 +45,21 @@ namespace BrewersBuddy.Controllers
             return View(model);
         }
 
+		//
+		// POST: /Account/Login
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult RecoverPassword(string userName)
+		{
+			//Need to get info by username and send email of password to user
+
+			
+			return RedirectToAction("Manage", new { Message = "" });
+			//return RedirectToAction("Manage", new { Message = ManageMessageId.RecoverPasswordSent });
+		}
+
         //
         // POST: /Account/LogOff
 
@@ -131,6 +146,7 @@ namespace BrewersBuddy.Controllers
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+				: message == ManageMessageId.RecoverPasswordSent ? "An email with your password has been sent."
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -346,6 +362,7 @@ namespace BrewersBuddy.Controllers
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
+			RecoverPasswordSent
         }
 
         internal class ExternalLoginResult : ActionResult
