@@ -27,6 +27,30 @@
                 @Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
+            <li>
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.City)
+                @Html.TextBoxFor(m => m.City)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.State)
+                @Html.TextBoxFor(m => m.State)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Zip)
+                @Html.TextBoxFor(m => m.Zip)
+            </li>
         </ol>
         <input type="submit" value="Register" />
     </fieldset>
