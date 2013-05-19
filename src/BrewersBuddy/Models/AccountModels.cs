@@ -77,7 +77,7 @@ namespace BrewersBuddy.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterModel
+	public class RegisterModel
     {
 		[Required]
 		[Display(Name = "Email")]

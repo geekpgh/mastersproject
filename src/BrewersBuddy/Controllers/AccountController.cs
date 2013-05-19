@@ -15,7 +15,7 @@ namespace BrewersBuddy.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+	public class AccountController : Controller
     {
         //
         // GET: /Account/Login
@@ -94,7 +94,7 @@ namespace BrewersBuddy.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+					WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
