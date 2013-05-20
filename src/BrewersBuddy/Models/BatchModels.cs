@@ -44,6 +44,10 @@ namespace BrewersBuddy.Models
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public BatchType Type { get; set;  }
+
+        public virtual ICollection<Measurement> Measurements { get; set; } // This is new
+        public virtual ICollection<BatchNote> Notes { get; set; } // This is new
+        public virtual ICollection<BatchAction> Actions { get; set; } // This is new
     }
 
     [Table("BatchNote")]
@@ -55,7 +59,8 @@ namespace BrewersBuddy.Models
         public string Title { get; set; }
         public DateTime AuthorDate { get; set; }
         public string Text { get; set; }
-        public Batch batch { get; set; }
+        public Batch Batch { get; set; }
+
     }
 
 
@@ -68,8 +73,8 @@ namespace BrewersBuddy.Models
         public string Title { get; set; }
         public DateTime ActionDate { get; set; }
         public string Description { get; set; }
-        public ActionType type { get; set; }
-        public Batch batch { get; set; }
+        public ActionType Type { get; set; }
+        public Batch Batch { get; set; }
     }
 
 
@@ -84,8 +89,16 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         public double Value { get; set; }
         //This is what was measured, such as SO2, ABV, gravity
-        public String measured { get; set; }
-        public Batch batch { get; set; }
+        public String Measured { get; set; }
+        public Batch Batch { get; set; }
     }
 
+    ////////////////////CONTEXTS/////////////////////////////////////
+    public class BatchDBContext : DbContext
+    {
+        public DbSet<Batch> Batches { get; set; }
+        public DbSet<BatchNote> BatchNotes { get; set; }
+        public DbSet<BatchAction> BatchActions { get; set; }
+        public DbSet<Measurement> Measurements { get; set; }
+    }
 }
