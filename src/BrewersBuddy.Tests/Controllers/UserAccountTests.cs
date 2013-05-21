@@ -26,6 +26,7 @@ namespace BrewersBuddy.Tests.Controllers
 
 			db.UserProfiles.Add(userProfile);
 
+			var tmp = db.UserProfiles.Find(1);
 			Assert.IsTrue(false);
 
 			db.UserProfiles.Remove(userProfile);
@@ -44,7 +45,7 @@ namespace BrewersBuddy.Tests.Controllers
 			ViewResult result = controller.Login(loginModel, "URL") as ViewResult;
 
 			// Assert
-			// Find the global user for this instance and make sure the user is NUNIT_Test
+			var membership = System.Web.Security.Membership.GetUser();
 			Assert.AreEqual("Logged in username is NUNIT_Test", result.ViewBag.Message);
 		}
 
