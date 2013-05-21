@@ -9,13 +9,9 @@ using System.Web.Security;
 
 namespace BrewersBuddy.Models
 {
-    public class UsersContext : DbContext
-    {
-        public UsersContext()
-            : base("DefaultConnection")
-        {
-        }
-
+	////////////////////CONTEXTS/////////////////////////////////////
+	public class UserDBContext : DbContext
+	{
         public DbSet<UserProfile> UserProfiles { get; set; }
     }
 

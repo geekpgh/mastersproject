@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BrewersBuddy;
 using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
 
@@ -17,19 +12,23 @@ namespace BrewersBuddy.Tests.Controllers
 		public void RegisterUser_TEST()
 		{
 			// Arrange
-			AccountController controller = new AccountController();
-
+			UserDBContext db = new UserDBContext();
+			
 			// Act
-			RegisterModel registerModel = new RegisterModel();
-			registerModel.Email = "NUNIT@Test.com";
-			registerModel.UserName = "NUNIT_Test";
-			registerModel.Password = "123456";
-			registerModel.ConfirmPassword = "123456";
-			ViewResult result = controller.Register(registerModel) as ViewResult;
+			UserProfile userProfile = new UserProfile();
+			userProfile.UserName = "NUNIT_Test";
+			userProfile.Email = "NUNIT@Test.com";
+			userProfile.FirstName = "Nunit";
+			userProfile.LastName = "Test";
+			userProfile.City = "Brewery";
+			userProfile.State = "KS";
+			userProfile.Zip = "12345";
 
-			// Assert
-			// Do a database call or a get by login info to check to see if the person was added
-			Assert.AreEqual("Logged in username is NUNIT_Test", result.ViewBag.Message);
+			db.UserProfiles.Add(userProfile);
+
+			Assert.IsTrue(false);
+
+			db.UserProfiles.Remove(userProfile);
 		}
 
 		[TestMethod]
