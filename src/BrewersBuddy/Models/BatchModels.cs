@@ -35,6 +35,23 @@ namespace BrewersBuddy.Models
     }
 
 
+    public enum ContainerVolumeUnits
+    {
+        mL,
+        L,
+        gal,
+    }
+
+    public enum ContainerType
+    {
+        Bottle,
+        Keg,
+        Barrel,
+    }
+
+
+
+
     [Table("Batch")]
     public class Batch
     {
@@ -44,10 +61,12 @@ namespace BrewersBuddy.Models
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public BatchType Type { get; set;  }
+        public UserProfile Owner { get; set; }
 
-        public virtual ICollection<Measurement> Measurements { get; set; } // This is new
-        public virtual ICollection<BatchNote> Notes { get; set; } // This is new
-        public virtual ICollection<BatchAction> Actions { get; set; } // This is new
+        public virtual ICollection<Measurement> Measurements { get; set; }
+        public virtual ICollection<BatchNote> Notes { get; set; }
+        public virtual ICollection<BatchAction> Actions { get; set; }
+        public virtual ICollection<UserProfile> Collaborators { get; set; }
     }
 
     [Table("BatchNote")]
@@ -60,6 +79,7 @@ namespace BrewersBuddy.Models
         public DateTime AuthorDate { get; set; }
         public string Text { get; set; }
         public Batch Batch { get; set; }
+        public UserProfile Author { get; set; }
 
     }
 
@@ -75,6 +95,7 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         public ActionType Type { get; set; }
         public Batch Batch { get; set; }
+        public UserProfile Performer { get; set; }
     }
 
 
@@ -93,6 +114,61 @@ namespace BrewersBuddy.Models
         public Batch Batch { get; set; }
     }
 
+    [Table("Ingredient")]
+    public class Ingredient
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int IngredientId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Cost { get; set; }
+
+        public virtual ICollection<Recipe> Recipes { get; set; }
+    }
+
+
+    [Table("Recipe")]
+    public class Recipe
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int RecipeId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Cost { get; set; }
+
+        public virtual ICollection<Ingredient> Ingredients { get; set; }
+    }
+
+
+    [Table("Container")]
+    public class Container
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int ContainerId { get; set; }
+        public string Name { get; set; }
+        public double Volume { get; set; }
+        public ContainerVolumeUnits Unit { get; set; }
+        public ContainerType Type { get; set; }
+        public Batch Batch { get; set; }
+    }
+
+
+    [Table("Cellar")]
+    public class Cellar
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int CellarId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public UserProfile Owner { get; set; }
+
+        public virtual ICollection<Container> Containers { get; set; }
+    }
+
     ////////////////////CONTEXTS/////////////////////////////////////
     public class BatchDBContext : DbContext
     {
@@ -100,5 +176,9 @@ namespace BrewersBuddy.Models
         public DbSet<BatchNote> BatchNotes { get; set; }
         public DbSet<BatchAction> BatchActions { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Container> Containers { get; set; }
+        public DbSet<Cellar> Cellars { get; set; }
     }
 }

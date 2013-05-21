@@ -57,5 +57,38 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.IsTrue(batch.Actions.Contains(action));
         }
+
+
+        [TestMethod]
+        public void TestAddToInvetory()
+        {
+            BatchDBContext db = new BatchDBContext();
+
+            Batch batch = new Batch();
+            batch.Name = "Test";
+            batch.Type = BatchType.Beer;
+            batch.StartDate = DateTime.Now;
+
+            db.Batches.Add(batch);
+
+            Container container = new Container();
+            container.Batch = batch;
+            container.Name = "Test container";
+            container.Type = ContainerType.Bottle;
+            container.Unit = ContainerVolumeUnits.mL;
+            container.Volume = 750;
+
+            db.Containers.Add(container);
+
+            Cellar cellar = new Cellar();
+            cellar.Name = "test cellar";
+            cellar.Description = "My stash";
+            cellar.Containers = new List<Container>();
+            cellar.Containers.Add(container);
+
+            db.Cellars.Add(cellar);
+
+            Assert.IsTrue(cellar.Containers.Contains(container));
+        }
     }
 }
