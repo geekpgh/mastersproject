@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -10,7 +12,7 @@ using System.Web.Security;
 namespace BrewersBuddy.Models
 {
 	////////////////////CONTEXTS/////////////////////////////////////
-	public class UserDBContext : DbContext
+	public class UsersContext : DbContext
 	{
         public DbSet<UserProfile> UserProfiles { get; set; }
     }
@@ -21,7 +23,7 @@ namespace BrewersBuddy.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
-        public string UserName { get; set; }
+		public string UserName { get; set; }
 		public string Email { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -73,6 +75,12 @@ namespace BrewersBuddy.Models
         public bool RememberMe { get; set; }
     }
 
+	public enum ValidType
+	{
+		UserName,
+		Email
+	}
+
 	public class RegisterModel
     {
 		[Required]
@@ -80,7 +88,7 @@ namespace BrewersBuddy.Models
 		public string Email { get; set; }
 
         [Required]
-        [Display(Name = "User name")]
+		[Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required]
@@ -108,6 +116,51 @@ namespace BrewersBuddy.Models
 
 		[Display(Name = "Zip")]
 		public string Zip { get; set; }
+
+		public bool IsValid(ValidType validType)
+		{
+			using (var cn = new SqlConnection(@"Data Source=(localdb)\v11.0;Initial Catalog=aspnet-BrewersBuddy-20130514214341;" +
+			  @"Integrated Security=True;" +
+			  @"Connect Timeout=15;Encrypt=False;TrustServerCertificate=False"))
+			{
+				string _sql = string.Empty;
+
+				if (validType == ValidType.UserName)
+				{
+					_sql = @"SELECT [Username] FROM [dbo].[UserProfile] " +
+						   @"WHERE [Username] = @u";
+				}
+				else
+				{
+					_sql = @"SELECT [Email] FROM [dbo].[UserProfile] " +
+					   @"WHERE [Email] = @u";
+				}
+
+				var cmd = new SqlCommand(_sql, cn);
+				if (validType == ValidType.UserName)
+				{
+					cmd.Parameters.Add(new SqlParameter("@u", SqlDbType.NVarChar)).Value = this.UserName;
+				}
+				else
+				{
+					cmd.Parameters.Add(new SqlParameter("@u", SqlDbType.NVarChar)).Value = this.Email;
+				}
+				cn.Open();
+				var reader = cmd.ExecuteReader();
+				if (reader.HasRows)
+				{
+					reader.Dispose();
+					cmd.Dispose();
+					return false;
+				}
+				else
+				{
+					reader.Dispose();
+					cmd.Dispose();
+					return true;
+				}
+			}
+		}		
     }
 
     public class ExternalLogin

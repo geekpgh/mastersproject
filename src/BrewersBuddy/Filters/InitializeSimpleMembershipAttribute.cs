@@ -25,11 +25,11 @@ namespace BrewersBuddy.Filters
         {
             public SimpleMembershipInitializer()
             {
-				Database.SetInitializer<UserDBContext>(null);
+				Database.SetInitializer<UsersContext>(null);
 
                 try
                 {
-					using (var context = new UserDBContext())
+					using (var context = new UsersContext())
                     {
                         if (!context.Database.Exists())
                         {

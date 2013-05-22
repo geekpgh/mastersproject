@@ -12,7 +12,7 @@ namespace BrewersBuddy.Tests.Controllers
 		public void RegisterUser_TEST()
 		{
 			// Arrange
-			UserDBContext db = new UserDBContext();
+			UsersContext db = new UsersContext();
 			
 			// Act
 			UserProfile userProfile = new UserProfile();
