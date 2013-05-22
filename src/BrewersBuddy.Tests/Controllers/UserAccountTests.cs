@@ -26,8 +26,8 @@ namespace BrewersBuddy.Tests.Controllers
 
 			db.UserProfiles.Add(userProfile);
 
-			var tmp = db.UserProfiles.Find(1);
-			Assert.IsTrue(false);
+			var user = db.UserProfiles.Find(0);
+			Assert.AreEqual("NUNIT_Test", user.UserName);
 
 			db.UserProfiles.Remove(userProfile);
 		}
