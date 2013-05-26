@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
+using System.Linq;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -25,11 +26,13 @@ namespace BrewersBuddy.Tests.Controllers
 			userProfile.Zip = "12345";
 
 			db.UserProfiles.Add(userProfile);
+			db.SaveChanges();
 
-			var user = db.UserProfiles.Find(0);
+			var user = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
 			Assert.AreEqual("NUNIT_Test", user.UserName);
 
 			db.UserProfiles.Remove(userProfile);
+			db.SaveChanges();
 		}
 
 		[TestMethod]
@@ -84,36 +87,73 @@ namespace BrewersBuddy.Tests.Controllers
 		public void UserCanEditAccountInformation_TEST()
 		{
 			// Arrange
-			AccountController controller = new AccountController();
+			UsersContext db = new UsersContext();
 
 			// Act
-			LoginModel loginModel = new LoginModel();
-			loginModel.UserName = "NUNIT_Test";
-			loginModel.Password = "123456";
-			controller.Login(loginModel, "URL");
+			UserProfile userProfile = new UserProfile();
+			userProfile.UserName = "NUNIT_Test";
+			userProfile.Email = "NUNIT@Test.com";
+			userProfile.FirstName = "Nunit";
+			userProfile.LastName = "Test";
+			userProfile.City = "Brewery";
+			userProfile.State = "KS";
+			userProfile.Zip = "12345";
 
-			// Get global users account and edit some items and save the user
-			ViewResult result = controller.RecoverPassword("NUNIT_Test") as ViewResult;
+			db.UserProfiles.Add(userProfile);
+			db.SaveChanges();
 
-			// Assert
-			// Make suer the users account info changed
-			Assert.AreEqual("An email with your password has been sent.", result.ViewBag.Message);
+			UserProfile user = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+			user.FirstName = "Test";
+			user.LastName = "Nunit";
+			db.Entry(userProfile).State = System.Data.EntityState.Modified;
+			db.SaveChanges();
+
+			UserProfile user1 = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+			Assert.AreEqual("Nunit", user1.LastName);
+			Assert.AreEqual("Test", user1.FirstName);
+			db.UserProfiles.Remove(userProfile);
+			db.SaveChanges();
 		}
 
 		[TestMethod]
 		public void UserCanEnterZipToFindBrewers_TEST()
 		{
 			// Arrange
-			AccountController controller = new AccountController();
+			UsersContext db = new UsersContext();
 
 			// Act
-			// Create a few accounts with same zip code
-			// Call the search method with the zip code
-			ViewResult result = controller.RecoverPassword("NUNIT_Test") as ViewResult;
+			UserProfile userProfile = new UserProfile();
+			userProfile.UserName = "NUNIT_Test";
+			userProfile.Email = "NUNIT@Test.com";
+			userProfile.FirstName = "Nunit";
+			userProfile.Zip = "12345";
+			db.UserProfiles.Add(userProfile);
 
-			// Assert
-			// That all users returned have the same zip code
-			Assert.AreEqual("An email with your password has been sent.", result.ViewBag.Message);
+			UserProfile userProfile2 = new UserProfile();
+			userProfile2.UserName = "NUNIT2_Test";
+			userProfile2.Email = "NUNIT2@Test.com";
+			userProfile2.FirstName = "Nunit2";
+			userProfile2.Zip = "12345";
+			db.UserProfiles.Add(userProfile2);
+
+			UserProfile userProfile3 = new UserProfile();
+			userProfile3.UserName = "NUNIT3_Test";
+			userProfile3.Email = "NUNIT3@Test.com";
+			userProfile3.FirstName = "Nunit3";
+			userProfile3.Zip = "12345";
+			db.UserProfiles.Add(userProfile3);
+
+			db.SaveChanges();
+
+			var tmp = db.UserProfiles.Where(item => item.Zip == "12345").ToList();
+
+			Assert.AreEqual(3, tmp.Count);
+
+			foreach (UserProfile UP in db.UserProfiles)
+			{
+				db.UserProfiles.Remove(UP);
+			}
+			db.SaveChanges();
 		}
 
 		

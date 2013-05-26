@@ -116,51 +116,7 @@ namespace BrewersBuddy.Models
 
 		[Display(Name = "Zip")]
 		public string Zip { get; set; }
-
-		public bool IsValid(ValidType validType)
-		{
-			using (var cn = new SqlConnection(@"Data Source=(localdb)\v11.0;Initial Catalog=aspnet-BrewersBuddy-20130514214341;" +
-			  @"Integrated Security=True;" +
-			  @"Connect Timeout=15;Encrypt=False;TrustServerCertificate=False"))
-			{
-				string _sql = string.Empty;
-
-				if (validType == ValidType.UserName)
-				{
-					_sql = @"SELECT [Username] FROM [dbo].[UserProfile] " +
-						   @"WHERE [Username] = @u";
-				}
-				else
-				{
-					_sql = @"SELECT [Email] FROM [dbo].[UserProfile] " +
-					   @"WHERE [Email] = @u";
-				}
-
-				var cmd = new SqlCommand(_sql, cn);
-				if (validType == ValidType.UserName)
-				{
-					cmd.Parameters.Add(new SqlParameter("@u", SqlDbType.NVarChar)).Value = this.UserName;
-				}
-				else
-				{
-					cmd.Parameters.Add(new SqlParameter("@u", SqlDbType.NVarChar)).Value = this.Email;
-				}
-				cn.Open();
-				var reader = cmd.ExecuteReader();
-				if (reader.HasRows)
-				{
-					reader.Dispose();
-					cmd.Dispose();
-					return false;
-				}
-				else
-				{
-					reader.Dispose();
-					cmd.Dispose();
-					return true;
-				}
-			}
-		}		
+		
     }
 
     public class ExternalLogin

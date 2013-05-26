@@ -17,6 +17,9 @@ namespace BrewersBuddy.Controllers
 	[InitializeSimpleMembership]
 	public class AccountController : Controller
 	{
+		private UsersContext db = new UsersContext();
+
+
 		//
 		// GET: /Account/Login
 
@@ -89,7 +92,7 @@ namespace BrewersBuddy.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Register(RegisterModel model)
 		{
-			GetBrokenRules(model);
+			GetBrokenRulesFor(model);
 			if (ModelState.IsValid)
 			{
 				// Attempt to register the user
@@ -346,16 +349,39 @@ namespace BrewersBuddy.Controllers
 		}
 
 		#region Helpers
-		private void GetBrokenRules(RegisterModel model)
+		private void GetBrokenRulesFor(RegisterModel model)
 		{
-			if (!model.IsValid(ValidType.UserName))
+			if (!IsValid(model, ValidType.UserName))
 			{
 				ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.DuplicateUserName));
 			}
-			if (!model.IsValid(ValidType.Email))
+			if (!IsValid(model, ValidType.Email))
 			{
 				ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.DuplicateEmail));
 			}			
+		}
+
+		public bool IsValid(RegisterModel model, ValidType validType)
+		{
+			foreach (UserProfile UP in db.UserProfiles.ToList())
+			{
+				if (validType == ValidType.UserName)
+				{
+					if (UP.UserName == model.UserName)
+					{
+						return false;
+					}
+				}
+				if (validType == ValidType.Email)
+				{
+					if (UP.Email == model.Email)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
 		}
 
 		private ActionResult RedirectToLocal(string returnUrl)
