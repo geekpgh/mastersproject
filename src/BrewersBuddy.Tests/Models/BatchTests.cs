@@ -24,7 +24,7 @@ namespace BrewersBuddy.Tests.Models
             db.Batches.Add(batch);
 
             //DbSet<Batch> batches = db.Batches;
-            Assert.Fail("Not sure why the abve line isn;t working. Referneces??");
+            Assert.Fail("Not sure why the abve line isn't working. References??");
         }
 
         [TestMethod]
