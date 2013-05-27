@@ -28,8 +28,11 @@ namespace BrewersBuddy.Tests.Utils
             batch.Name = name;
             batch.Type = type;
             batch.Owner = owner;
+            batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);
+
+            db.SaveChanges();
 
             return batch;
         }
