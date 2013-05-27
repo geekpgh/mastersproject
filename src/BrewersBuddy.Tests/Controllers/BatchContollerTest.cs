@@ -7,6 +7,7 @@ using BrewersBuddy.Controllers;
 
 using BrewersBuddy.Tests.Utils;
 using System.Web.Mvc;
+using System.Collections;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -25,7 +26,9 @@ namespace BrewersBuddy.Tests.Controllers
             ViewResult result = (ViewResult)controller.Index();
             ViewDataDictionary data = result.ViewData;
 
-            Assert.IsTrue(data.Count == 5);
+            IList batchesList = result.ViewData.Model as IList;
+
+            Assert.IsTrue(batchesList.Count == 5);
 
             foreach (Batch batch in batches)
             {
