@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using BrewersBuddy.Models;
+using System.Data.Entity;
 
 namespace BrewersBuddy.Tests.Models
 {
@@ -23,8 +24,8 @@ namespace BrewersBuddy.Tests.Models
 
             db.Batches.Add(batch);
 
-            //DbSet<Batch> batches = db.Batches;
-            Assert.Fail("Not sure why the abve line isn't working. References??");
+            DbSet<Batch> batches = db.Batches;
+            Assert.AreEqual(batches.Find(batch.BatchId), batch);
         }
 
         [TestMethod]
