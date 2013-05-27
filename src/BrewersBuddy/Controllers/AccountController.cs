@@ -17,9 +17,12 @@ namespace BrewersBuddy.Controllers
 	[InitializeSimpleMembership]
 	public class AccountController : Controller
 	{
+		#region Properties
 		private UsersContext db = new UsersContext();
 
+		#endregion Properties
 
+		#region Login
 		//
 		// GET: /Account/Login
 
@@ -61,163 +64,6 @@ namespace BrewersBuddy.Controllers
 
 			return RedirectToAction("Manage", new { Message = "" });
 			//return RedirectToAction("Manage", new { Message = ManageMessageId.RecoverPasswordSent });
-		}
-
-		//
-		// POST: /Account/LogOff
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult LogOff()
-		{
-			WebSecurity.Logout();
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		//
-		// GET: /Account/Register
-
-		[AllowAnonymous]
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		//
-		// POST: /Account/Register
-
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult Register(RegisterModel model)
-		{
-			GetBrokenRulesFor(model);
-			if (ModelState.IsValid)
-			{
-				// Attempt to register the user
-				try
-				{
-					WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-					WebSecurity.Login(model.UserName, model.Password);
-					return RedirectToAction("Index", "Home");
-				}
-				catch (MembershipCreateUserException e)
-				{
-					ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		//
-		// POST: /Account/Disassociate
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Disassociate(string provider, string providerUserId)
-		{
-			string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-			ManageMessageId? message = null;
-
-			// Only disassociate the account if the currently logged in user is the owner
-			if (ownerAccount == User.Identity.Name)
-			{
-				// Use a transaction to prevent the user from deleting their last login credential
-				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-				{
-					bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-					if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-					{
-						OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-						scope.Complete();
-						message = ManageMessageId.RemoveLoginSuccess;
-					}
-				}
-			}
-
-			return RedirectToAction("Manage", new { Message = message });
-		}
-
-		//
-		// GET: /Account/Manage
-
-		public ActionResult Manage(ManageMessageId? message)
-		{
-			ViewBag.StatusMessage =
-				message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-				: message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-				: message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-				: message == ManageMessageId.RecoverPasswordSent ? "An email with your password has been sent."
-				: "";
-			ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-			ViewBag.ReturnUrl = Url.Action("Manage");
-			return View();
-		}
-
-		//
-		// POST: /Account/Manage
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Manage(LocalPasswordModel model)
-		{
-			bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-			ViewBag.HasLocalPassword = hasLocalAccount;
-			ViewBag.ReturnUrl = Url.Action("Manage");
-			if (hasLocalAccount)
-			{
-				if (ModelState.IsValid)
-				{
-					// ChangePassword will throw an exception rather than return false in certain failure scenarios.
-					bool changePasswordSucceeded;
-					try
-					{
-						changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-					}
-					catch (Exception)
-					{
-						changePasswordSucceeded = false;
-					}
-
-					if (changePasswordSucceeded)
-					{
-						return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-					}
-					else
-					{
-						ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-					}
-				}
-			}
-			else
-			{
-				// User does not have a local password so remove any validation errors caused by a missing
-				// OldPassword field
-				ModelState state = ModelState["OldPassword"];
-				if (state != null)
-				{
-					state.Errors.Clear();
-				}
-
-				if (ModelState.IsValid)
-				{
-					try
-					{
-						WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-						return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-					}
-					catch (Exception)
-					{
-						ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
-					}
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
 		}
 
 		//
@@ -347,6 +193,214 @@ namespace BrewersBuddy.Controllers
 			ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
 			return PartialView("_RemoveExternalLoginsPartial", externalLogins);
 		}
+
+		#endregion Login
+
+		#region LogOff
+		//
+		// POST: /Account/LogOff
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult LogOff()
+		{
+			WebSecurity.Logout();
+
+			return RedirectToAction("Index", "Home");
+		}
+
+		//
+		// POST: /Account/Disassociate
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Disassociate(string provider, string providerUserId)
+		{
+			string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
+			ManageMessageId? message = null;
+
+			// Only disassociate the account if the currently logged in user is the owner
+			if (ownerAccount == User.Identity.Name)
+			{
+				// Use a transaction to prevent the user from deleting their last login credential
+				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+				{
+					bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+					if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
+					{
+						OAuthWebSecurity.DeleteAccount(provider, providerUserId);
+						scope.Complete();
+						message = ManageMessageId.RemoveLoginSuccess;
+					}
+				}
+			}
+
+			return RedirectToAction("Manage", new { Message = message });
+		}
+
+		#endregion LogOff
+
+		#region Register
+		//
+		// GET: /Account/Register
+
+		[AllowAnonymous]
+		public ActionResult Register()
+		{
+			return View();
+		}
+
+		//
+		// POST: /Account/Register
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult Register(RegisterModel model)
+		{
+			GetBrokenRulesFor(model);
+			if (ModelState.IsValid)
+			{
+				// Attempt to register the user
+				try
+				{
+					WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, City = model.City, State = model.State, Zip = model.Zip });
+					WebSecurity.Login(model.UserName, model.Password);
+					return RedirectToAction("Index", "Home");
+				}
+				catch (MembershipCreateUserException e)
+				{
+					ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+		#endregion Register
+
+		#region Manage
+		//
+		// GET: /Account/Manage
+
+		public ActionResult Manage(ManageMessageId? message)
+		{
+			ViewBag.StatusMessage =
+				message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+				: message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+				: message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+				: message == ManageMessageId.RecoverPasswordSent ? "An email with your password has been sent."
+				: "";
+			ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+			ViewBag.ReturnUrl = Url.Action("Manage");
+			return View();
+		}
+
+		//
+		// POST: /Account/Manage
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Manage(LocalPasswordModel model)
+		{
+			bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+			ViewBag.HasLocalPassword = hasLocalAccount;
+			ViewBag.ReturnUrl = Url.Action("Manage");
+			if (hasLocalAccount)
+			{
+				if (ModelState.IsValid)
+				{
+					// ChangePassword will throw an exception rather than return false in certain failure scenarios.
+					bool changePasswordSucceeded;
+					try
+					{
+						changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+					}
+					catch (Exception)
+					{
+						changePasswordSucceeded = false;
+					}
+
+					if (changePasswordSucceeded)
+					{
+						return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+					}
+					else
+					{
+						ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+					}
+				}
+			}
+			else
+			{
+				// User does not have a local password so remove any validation errors caused by a missing
+				// OldPassword field
+				ModelState state = ModelState["OldPassword"];
+				if (state != null)
+				{
+					state.Errors.Clear();
+				}
+
+				if (ModelState.IsValid)
+				{
+					try
+					{
+						WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
+						return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+					}
+					catch (Exception)
+					{
+						ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
+					}
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+		#endregion Manage		
+
+		#region Edit Account
+		//
+		// GET: /Account/Edit/
+
+		public ActionResult Edit()
+		{
+			TempData["Success"] = string.Empty;
+			foreach (UserProfile UP in db.UserProfiles)
+			{
+				if (UP.UserName == User.Identity.Name)
+				{
+					return View(UP);
+				}
+			}
+
+			return HttpNotFound();
+		}
+
+		//
+		// POST: /Account/Edit/5
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(UserProfile userProfile)
+		{
+			if (ModelState.IsValid)
+			{
+				db.Entry(userProfile).State = System.Data.EntityState.Modified;
+				db.SaveChanges();
+
+				TempData["Success"] = "Save Successful";
+				return View(userProfile);
+			}
+
+			ModelState.AddModelError("", "Error saving changes to user account.");
+			return View(userProfile);
+		}
+
+		#endregion Edit Account
 
 		#region Helpers
 		private void GetBrokenRulesFor(RegisterModel model)
