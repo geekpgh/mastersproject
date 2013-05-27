@@ -32,5 +32,11 @@ namespace BrewersBuddy.Tests.Controllers
                 //Assert.IsTrue(data.Contains(batch));
             }
         }
+
+        [TestMethod]
+        public void TestEditBatch()
+        {
+            Assert.Fail("Implement me");
+        }
     }
 }
