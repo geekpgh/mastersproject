@@ -3,7 +3,8 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Account Information</h2>
+
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -72,6 +73,8 @@
                 
         <p>
             <input type="submit" value="Save" />
+            @Html.ActionLink("Change Password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+
         </p>
     </fieldset>
 }

@@ -111,9 +111,13 @@ namespace BrewersBuddy.Models
 		[Display(Name = "City")]
 		public string City { get; set; }
 
+		[MinLength(2)]
+		[MaxLengthAttribute(2)]
 		[Display(Name = "State")]
 		public string State { get; set; }
 
+		[MinLength(5)]
+		[MaxLengthAttribute(5)]
 		[Display(Name = "Zip")]
 		public string Zip { get; set; }
 		

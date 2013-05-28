@@ -334,6 +334,7 @@
     <Content Include="Views\Account\Edit.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Account\SearchIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

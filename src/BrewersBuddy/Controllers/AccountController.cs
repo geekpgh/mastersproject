@@ -402,6 +402,26 @@ namespace BrewersBuddy.Controllers
 
 		#endregion Edit Account
 
+		#region Search Accounts
+		public ActionResult SearchIndex(string searchString)
+		{
+			var users = from u in db.UserProfiles 
+						select u;
+
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				users = users.Where(s => s.Zip == searchString && s.UserName != User.Identity.Name);
+			}
+			else
+			{
+				users = users.Where(s => s.Zip == "-1");
+			}
+
+			return View(users);
+		}
+
+		#endregion Search Accounts
+
 		#region Helpers
 		private void GetBrokenRulesFor(RegisterModel model)
 		{
