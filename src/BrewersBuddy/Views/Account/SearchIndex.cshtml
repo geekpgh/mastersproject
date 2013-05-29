@@ -4,6 +4,8 @@
     ViewBag.Title = "SearchIndex";
 }
 
+<b> <p style="color:blue;font-size:larger">Enter Zip Code to search for brewer's in that area.</p> </b>
+
 <p> 
     @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get)){    
          <p> Zip Code: @Html.TextBox("SearchString") <br />   
@@ -53,8 +55,11 @@
 }
 </table>
 
-@if (!Model.Any())
-{
-    <p style="color:red;font-size:x-large">No Results Found.</p>
+@if ((bool)TempData["FirstLoad"])
+        {
+            <div class="firstLoad">
+                <p style="color:red;font-size:x-large"> No Results Found. </p>
+            </div>
+        }
 
-}
+

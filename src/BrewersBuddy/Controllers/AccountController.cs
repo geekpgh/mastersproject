@@ -410,10 +410,12 @@ namespace BrewersBuddy.Controllers
 
 			if (!String.IsNullOrEmpty(searchString))
 			{
+				TempData["FirstLoad"] = false;
 				users = users.Where(s => s.Zip == searchString && s.UserName != User.Identity.Name);
 			}
 			else
 			{
+				TempData["FirstLoad"] = true;
 				users = users.Where(s => s.Zip == "-1");
 			}
 
