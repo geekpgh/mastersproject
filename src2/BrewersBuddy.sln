@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrewersBuddy", "BrewersBuddy\BrewersBuddy.csproj", "{1FB211ED-272A-49AD-8195-26B7E6DDC08A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrewersBuddy.Tests", "BrewersBuddy.Tests\BrewersBuddy.Tests.csproj", "{1D175891-F5AF-49F5-B8CE-57094D120448}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FB211ED-272A-49AD-8195-26B7E6DDC08A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB211ED-272A-49AD-8195-26B7E6DDC08A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB211ED-272A-49AD-8195-26B7E6DDC08A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB211ED-272A-49AD-8195-26B7E6DDC08A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D175891-F5AF-49F5-B8CE-57094D120448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D175891-F5AF-49F5-B8CE-57094D120448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D175891-F5AF-49F5-B8CE-57094D120448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D175891-F5AF-49F5-B8CE-57094D120448}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
