@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,5 +29,7 @@ namespace BrewersBuddy.Controllers
 
             return View();
         }
+
+       
     }
 }

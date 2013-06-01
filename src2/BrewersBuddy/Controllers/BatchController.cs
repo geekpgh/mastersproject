@@ -2,12 +2,31 @@
 using System.Linq;
 using System.Web.Mvc;
 using BrewersBuddy.Models;
+using System;
+using System.Collections.Generic;
+using System.Web.Security;
 
 namespace BrewersBuddy.Controllers
 {
     public class BatchController : Controller
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
+
+        public ActionResult SelectType()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            var values = Enum.GetValues(typeof(BatchType));
+
+            int valueCount = 0;
+            foreach (var value in values)
+            {
+                items.Add(new SelectListItem { Text = value.ToString(), Value = valueCount.ToString() });
+            }
+
+            ViewBag.BatchType = items;
+            return View();
+        }
+
 
         //
         // GET: /Batch/
@@ -40,6 +59,9 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create()
         {
+            //Populate the batch type list
+            SelectType();
+
             return View();
         }
 
@@ -54,6 +76,9 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Set the start date to now
+                batch.StartDate = DateTime.Now;
+
                 db.Batches.Add(batch);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,6 +95,9 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            //Populate batchtype dropdown
+            SelectType();
+
             Batch batch = db.Batches.Find(id);
             if (batch == null)
             {
