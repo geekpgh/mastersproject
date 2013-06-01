@@ -8,12 +8,16 @@ namespace BrewersBuddy.Tests.TestUtilities
     {
         public static UserProfile createUser(int userId, String firstName, String lastName)
         {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
             UserProfile user = new UserProfile();
             user.UserId = userId;
             user.FirstName = firstName;
             user.LastName = lastName;
 
             //TODO should we register them somehow??
+            db.UserProfiles.Add(user);
+            db.SaveChanges();
 
             return user;
         }
