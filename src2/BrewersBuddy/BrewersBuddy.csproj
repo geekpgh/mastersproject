@@ -236,6 +236,14 @@
     <Compile Include="Migrations\201306021752556_add batch description.Designer.cs">
       <DependentUpon>201306021752556_add batch description.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306021826510_switchToMembershipUser.cs" />
+    <Compile Include="Migrations\201306021826510_switchToMembershipUser.Designer.cs">
+      <DependentUpon>201306021826510_switchToMembershipUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306021842494_switchtoUserId.cs" />
+    <Compile Include="Migrations\201306021842494_switchtoUserId.Designer.cs">
+      <DependentUpon>201306021842494_switchtoUserId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -435,6 +443,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306021752556_add batch description.resx">
       <DependentUpon>201306021752556_add batch description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306021826510_switchToMembershipUser.resx">
+      <DependentUpon>201306021826510_switchToMembershipUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306021842494_switchtoUserId.resx">
+      <DependentUpon>201306021842494_switchtoUserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,7 +12,7 @@ namespace BrewersBuddy.Models
         public int CellarId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public UserProfile Owner { get; set; }
+        public int OwnerId { get; set; }
 
         public virtual ICollection<Container> Containers { get; set; }
     }

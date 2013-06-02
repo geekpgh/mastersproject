@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Security;
 
 namespace BrewersBuddy.Models
 {
@@ -14,7 +15,8 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public BatchType Type { get; set; }
-        public UserProfile Owner { get; set; }
+        //The user id of the user
+        public int OwnerId { get; set; }
 
         public virtual ICollection<Measurement> Measurements { get; set; }
         public virtual ICollection<BatchNote> Notes { get; set; }

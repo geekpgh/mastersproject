@@ -29,7 +29,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             Batch batch = new Batch();
             batch.Name = name;
             batch.Type = type;
-            batch.Owner = owner;
+            batch.OwnerId = owner.UserId;
             batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);

@@ -5,6 +5,7 @@ using BrewersBuddy.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace BrewersBuddy.Controllers
 {
@@ -69,8 +70,8 @@ namespace BrewersBuddy.Controllers
             {
                 //Set the start date to now
                 batch.StartDate = DateTime.Now;
-
-                //batch.Owner = (UserProfile)User;
+                //Tie the object to the user
+                batch.OwnerId = ControllerUtils.getCurrentUserId(User);
 
                 db.Batches.Add(batch);
                 db.SaveChanges();

@@ -15,7 +15,7 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         public ActionType Type { get; set; }
         public Batch Batch { get; set; }
-        public UserProfile Performer { get; set; }
+        public int PerformerId { get; set; }
     }
 
 }

@@ -14,7 +14,7 @@ namespace BrewersBuddy.Models
         public DateTime AuthorDate { get; set; }
         public string Text { get; set; }
         public Batch Batch { get; set; }
-        public UserProfile Author { get; set; }
+        public int AuthorId { get; set; }
     }
 
 }
