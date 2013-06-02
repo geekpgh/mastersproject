@@ -11,6 +11,7 @@ namespace BrewersBuddy.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int BatchId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public BatchType Type { get; set; }
         public UserProfile Owner { get; set; }

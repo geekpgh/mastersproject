@@ -70,6 +70,8 @@ namespace BrewersBuddy.Controllers
                 //Set the start date to now
                 batch.StartDate = DateTime.Now;
 
+                //batch.Owner = (UserProfile)User;
+
                 db.Batches.Add(batch);
                 db.SaveChanges();
                 return RedirectToAction("Index");

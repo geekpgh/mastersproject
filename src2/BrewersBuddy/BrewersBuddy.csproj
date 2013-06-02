@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201305311945397_CreateBatchAction.Designer.cs">
       <DependentUpon>201305311945397_CreateBatchAction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306021752556_add batch description.cs" />
+    <Compile Include="Migrations\201306021752556_add batch description.Designer.cs">
+      <DependentUpon>201306021752556_add batch description.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -389,6 +393,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\SearchIndex.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Batch\Create.cshtml" />
+    <Content Include="Views\Batch\Delete.cshtml" />
+    <Content Include="Views\Batch\Details.cshtml" />
+    <Content Include="Views\Batch\Edit.cshtml" />
+    <Content Include="Views\Batch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -423,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201305311945397_CreateBatchAction.resx">
       <DependentUpon>201305311945397_CreateBatchAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306021752556_add batch description.resx">
+      <DependentUpon>201306021752556_add batch description.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
