@@ -14,7 +14,13 @@ namespace BrewersBuddy.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        //
+		#region Properties
+		private BrewersBuddyContext db = new BrewersBuddyContext();
+
+		#endregion Properties
+
+		#region Login
+		//
         // GET: /Account/Login
 
         [AllowAnonymous]
@@ -42,105 +48,303 @@ namespace BrewersBuddy.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
+		//
+		// POST: /Account/ExternalLogin
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            WebSecurity.Logout();
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ExternalLogin(string provider, string returnUrl)
+		{
+			return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+		}
 
-            return RedirectToAction("Index", "Home");
-        }
+		//
+		// GET: /Account/ExternalLoginCallback
 
-        //
-        // GET: /Account/Register
+		[AllowAnonymous]
+		public ActionResult ExternalLoginCallback(string returnUrl)
+		{
+			AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+			if (!result.IsSuccessful)
+			{
+				return RedirectToAction("ExternalLoginFailure");
+			}
 
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
+			if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+			{
+				return RedirectToLocal(returnUrl);
+			}
 
-        //
-        // POST: /Account/Login
+			if (User.Identity.IsAuthenticated)
+			{
+				// If the current user is logged in add the new account
+				OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
+				return RedirectToLocal(returnUrl);
+			}
+			else
+			{
+				// User is new, ask for their desired membership name
+				string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+				ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+				ViewBag.ReturnUrl = returnUrl;
+				return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+			}
+		}
+
+		//
+		// POST: /Account/ExternalLoginConfirmation
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
+		{
+			string provider = null;
+			string providerUserId = null;
+
+			if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+			{
+				return RedirectToAction("Manage");
+			}
+
+			if (ModelState.IsValid)
+			{
+				// Insert a new user into the database
+				using (BrewersBuddyContext db = new BrewersBuddyContext())
+				{
+					UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+					// Check if user already exists
+					if (user == null)
+					{
+						// Insert name into the profile table
+						db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+						db.SaveChanges();
+
+						OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+						OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+
+						return RedirectToLocal(returnUrl);
+					}
+					else
+					{
+						ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
+					}
+				}
+			}
+
+			ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
+			ViewBag.ReturnUrl = returnUrl;
+			return View(model);
+		}
+
+		//
+		// GET: /Account/ExternalLoginFailure
+
+		[AllowAnonymous]
+		public ActionResult ExternalLoginFailure()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		[ChildActionOnly]
+		public ActionResult ExternalLoginsList(string returnUrl)
+		{
+			ViewBag.ReturnUrl = returnUrl;
+			return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
+		}
+
+		[ChildActionOnly]
+		public ActionResult RemoveExternalLogins()
+		{
+			ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
+			List<ExternalLogin> externalLogins = new List<ExternalLogin>();
+			foreach (OAuthAccount account in accounts)
+			{
+				AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
+
+				externalLogins.Add(new ExternalLogin
+				{
+					Provider = account.Provider,
+					ProviderDisplayName = clientData.DisplayName,
+					ProviderUserId = account.ProviderUserId,
+				});
+			}
+
+			ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+			return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+		}
+
+		#endregion Login
+		
+		//
+		// POST: /Account/Login
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult RecoverPassword(string userName)
+		{
+			//Need to get info by username and send email of password to user
+			// ^ This is BAD BAD BAD, but I'm keeping it here for completeness from
+			// the previous version. You should NEVER do this - Steve
 
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult RecoverPassword(string userName)
-        {
-            //Need to get info by username and send email of password to user
-            // ^ This is BAD BAD BAD, but I'm keeping it here for completeness from
-            // the previous version. You should NEVER do this - Steve
 
+			return RedirectToAction("Manage", new { Message = "" });
+			//return RedirectToAction("Manage", new { Message = ManageMessageId.RecoverPasswordSent });
+		}
 
+		#region LogOff
+		//
+		// POST: /Account/LogOff
 
-            return RedirectToAction("Manage", new { Message = "" });
-            //return RedirectToAction("Manage", new { Message = ManageMessageId.RecoverPasswordSent });
-        }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult LogOff()
+		{
+			WebSecurity.Logout();
 
+			return RedirectToAction("Index", "Home");
+		}
 
-        //
-        // POST: /Account/Register
+		//
+		// POST: /Account/Disassociate
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Attempt to register the user
-                try
-                {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
-            }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Disassociate(string provider, string providerUserId)
+		{
+			string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
+			ManageMessageId? message = null;
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+			// Only disassociate the account if the currently logged in user is the owner
+			if (ownerAccount == User.Identity.Name)
+			{
+				// Use a transaction to prevent the user from deleting their last login credential
+				using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+				{
+					bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+					if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
+					{
+						OAuthWebSecurity.DeleteAccount(provider, providerUserId);
+						scope.Complete();
+						message = ManageMessageId.RemoveLoginSuccess;
+					}
+				}
+			}
 
-        //
-        // POST: /Account/Disassociate
+			return RedirectToAction("Manage", new { Message = message });
+		}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
-        {
-            string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-            ManageMessageId? message = null;
+		#endregion LogOff
+		
+        #region Register
+		//
+		// GET: /Account/Register
 
-            // Only disassociate the account if the currently logged in user is the owner
-            if (ownerAccount == User.Identity.Name)
-            {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-                {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-                    {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
-                    }
-                }
-            }
+		[AllowAnonymous]
+		public ActionResult Register()
+		{
+			return View();
+		}
 
-            return RedirectToAction("Manage", new { Message = message });
-        }
+		//
+		// POST: /Account/Register
 
-        //
-        // GET: /Account/Manage
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult Register(RegisterModel model)
+		{
+			GetBrokenRulesFor(model);
+			if (ModelState.IsValid)
+			{
+				// Attempt to register the user
+				try
+				{
+					WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, City = model.City, State = model.State, Zip = model.Zip });
+					WebSecurity.Login(model.UserName, model.Password);
+					return RedirectToAction("Index", "Home");
+				}
+				catch (MembershipCreateUserException e)
+				{
+					ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+		#endregion Register
+
+		#region Edit Account
+		//
+		// GET: /Account/Edit/
+
+		public ActionResult Edit()
+		{
+			TempData["Success"] = string.Empty;
+			foreach (UserProfile UP in db.UserProfiles)
+			{
+				if (UP.UserName == User.Identity.Name)
+				{
+					return View(UP);
+				}
+			}
+
+			return HttpNotFound();
+		}
+
+		//
+		// POST: /Account/Edit/5
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(UserProfile userProfile)
+		{
+			if (ModelState.IsValid)
+			{
+				db.Entry(userProfile).State = System.Data.EntityState.Modified;
+				db.SaveChanges();
+
+				TempData["Success"] = "Save Successful";
+				return View(userProfile);
+			}
+
+			ModelState.AddModelError("", "Error saving changes to user account.");
+			return View(userProfile);
+		}
+
+		#endregion Edit Account
+
+		#region Search Accounts
+		public ActionResult SearchIndex(string searchString)
+		{
+			var users = from u in db.UserProfiles
+						select u;
+
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				TempData["FirstLoad"] = false;
+				users = users.Where(s => s.Zip == searchString && s.UserName != User.Identity.Name);
+			}
+			else
+			{
+				TempData["FirstLoad"] = true;
+				users = users.Where(s => s.Zip == "-1");
+			}
+
+			return View(users);
+		}
+
+		#endregion Search Accounts
+
+		#region Manage
+		//
+		// GET: /Account/Manage
 
         public ActionResult Manage(ManageMessageId? message)
         {
@@ -217,136 +421,45 @@ namespace BrewersBuddy.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/ExternalLogin
+		#endregion Manage
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-        }
+		#region Helpers
+		private void GetBrokenRulesFor(RegisterModel model)
+		{
+			if (!IsValid(model, ValidType.UserName))
+			{
+				ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.DuplicateUserName));
+			}
+			if (!IsValid(model, ValidType.Email))
+			{
+				ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.DuplicateEmail));
+			}
+		}
 
-        //
-        // GET: /Account/ExternalLoginCallback
+		public bool IsValid(RegisterModel model, ValidType validType)
+		{
+			foreach (UserProfile UP in db.UserProfiles.ToList())
+			{
+				if (validType == ValidType.UserName)
+				{
+					if (UP.UserName == model.UserName)
+					{
+						return false;
+					}
+				}
+				if (validType == ValidType.Email)
+				{
+					if (UP.Email == model.Email)
+					{
+						return false;
+					}
+				}
+			}
 
-        [AllowAnonymous]
-        public ActionResult ExternalLoginCallback(string returnUrl)
-        {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-            if (!result.IsSuccessful)
-            {
-                return RedirectToAction("ExternalLoginFailure");
-            }
+			return true;
+		}
 
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
-            {
-                return RedirectToLocal(returnUrl);
-            }
-
-            if (User.Identity.IsAuthenticated)
-            {
-                // If the current user is logged in add the new account
-                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return RedirectToLocal(returnUrl);
-            }
-            else
-            {
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-            }
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
-        {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
-            {
-                return RedirectToAction("Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Insert a new user into the database
-                using (BrewersBuddyContext db = new BrewersBuddyContext())
-                {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Check if user already exists
-                    if (user == null)
-                    {
-                        // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
-                        db.SaveChanges();
-
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-
-                        return RedirectToLocal(returnUrl);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
-                }
-            }
-
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
-        }
-
-        [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
-        {
-            ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-            List<ExternalLogin> externalLogins = new List<ExternalLogin>();
-            foreach (OAuthAccount account in accounts)
-            {
-                AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
-
-                externalLogins.Add(new ExternalLogin
-                {
-                    Provider = account.Provider,
-                    ProviderDisplayName = clientData.DisplayName,
-                    ProviderUserId = account.ProviderUserId,
-                });
-            }
-
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
-        }
-
-        #region Helpers
-        private ActionResult RedirectToLocal(string returnUrl)
+		private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
