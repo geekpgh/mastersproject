@@ -14,16 +14,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult SelectType()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            var values = Enum.GetValues(typeof(BatchType));
-
-            int valueCount = 0;
-            foreach (var value in values)
-            {
-                items.Add(new SelectListItem { Text = value.ToString(), Value = valueCount.ToString() });
-            }
-
-            ViewBag.BatchType = items;
+            ViewBag.BatchType = ControllerUtils.getSelectionForEnum<BatchType>();
             return View();
         }
 
