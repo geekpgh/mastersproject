@@ -26,7 +26,14 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Batches.ToList());
+            int currentUserId = ControllerUtils.getCurrentUserId(User);
+
+            //Get only the batches for the current user
+            var owndedBatches = from batch in db.Batches
+                                where (batch.OwnerId.Equals(currentUserId))
+                                select batch;
+
+            return View(owndedBatches.ToList());
         }
 
 
