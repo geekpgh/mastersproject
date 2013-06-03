@@ -21,8 +21,10 @@
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
-        <div class="editor-field">
+        <div class="editor-label">
             @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
             @Html.DropDownList("BatchType")
             @Html.ValidationMessageFor(model => model.Type)
         </div>
