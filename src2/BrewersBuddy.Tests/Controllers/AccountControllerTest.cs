@@ -8,7 +8,7 @@ using WebMatrix.WebData;
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestClass]
-    public class AccountControllerTest : TestBase
+    public class AccountControllerTest : DbTestBase
     {
         [ClassInitialize]
         public static void Initialize(TestContext testContext)

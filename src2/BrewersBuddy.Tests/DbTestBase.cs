@@ -9,7 +9,7 @@ using WebMatrix.WebData;
 
 namespace BrewersBuddy.Tests
 {
-    public class TestBase
+    public class DbTestBase
     {
         protected BrewersBuddyContext context;
 

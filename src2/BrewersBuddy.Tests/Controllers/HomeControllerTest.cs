@@ -10,7 +10,7 @@ using BrewersBuddy.Controllers;
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestClass]
-    public class HomeControllerTest : TestBase
+    public class HomeControllerTest : DbTestBase
     {
         [TestMethod]
         public void Index()

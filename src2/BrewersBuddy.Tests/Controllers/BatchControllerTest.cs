@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestClass]
-    public class BatchControllerTest : TestBase
+    public class BatchControllerTest : DbTestBase
     {
         [TestMethod]
         public void TestBatchList()

@@ -9,7 +9,7 @@ using BrewersBuddy.Tests.Utilities;
 namespace BrewersBuddy.Tests.Models
 {
     [TestClass]
-    public class BatchTest : TestBase
+    public class BatchTest : DbTestBase
     {
         [TestMethod]
         public void TestCreateBatch()
