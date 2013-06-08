@@ -8,12 +8,10 @@ namespace BrewersBuddy.Migrations
         public override void Up()
         {
             AddColumn("dbo.Recipe", "AddDate", c => c.DateTime(nullable: false));
-            DropColumn("dbo.Recipe", "StartDate");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Recipe", "StartDate", c => c.DateTime(nullable: false));
             DropColumn("dbo.Recipe", "AddDate");
         }
     }
