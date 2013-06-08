@@ -15,6 +15,7 @@ namespace BrewersBuddy.Models
 	public class UsersContext : DbContext
 	{
         public DbSet<UserProfile> UserProfiles { get; set; }
+		public DbSet<webpages_Membership> webpages_Memberships { get; set; }
     }
 
     [Table("UserProfile")]
@@ -30,6 +31,23 @@ namespace BrewersBuddy.Models
 		public string City { get; set; }
 		public string State { get; set; }
 		public string Zip { get; set; }
+	}
+
+	[Table("webpages_Membership")]
+	public class webpages_Membership
+	{
+		[Key]
+		public int UserId { get; set; }
+		public DateTime CreateDate { get; set; }
+		public string ConfirmationToken { get; set; }
+		public bool IsConfirmed { get; set; }
+		public DateTime LastPasswordFailureDate { get; set; }
+		public int PasswordFailuresSinceLastSuccess { get; set; }
+		public string Password { get; set; }
+		public DateTime PasswordChangeDate { get; set; }
+		public string PasswordSalt { get; set; }
+		public string PasswordVerificationToken { get; set; }
+		public DateTime PasswordVerificationTokenExpirationDate { get; set; }
 	}
 
     public class RegisterExternalLoginModel

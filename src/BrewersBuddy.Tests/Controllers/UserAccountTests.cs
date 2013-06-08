@@ -71,19 +71,6 @@ namespace BrewersBuddy.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void RecoverPassword_TEST()
-		{
-			// Arrange
-			AccountController controller = new AccountController();
-
-			// Act
-			ViewResult result = controller.RecoverPassword("NUNIT_Test") as ViewResult;
-
-			// Assert
-			Assert.AreEqual("An email with your password has been sent.", result.ViewBag.Message);
-		}
-
-		[TestMethod]
 		public void UserCanEditAccountInformation_TEST()
 		{
 			// Arrange
