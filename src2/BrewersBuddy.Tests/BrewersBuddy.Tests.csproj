@@ -134,10 +134,10 @@
     <Compile Include="Models\BatchTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="TestInitializer.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TestUtilities\TestUtils.cs" />
     <Compile Include="Utilities\CalculationsTest.cs" />
-    <Compile Include="Utilities\DatabaseInitializer.cs" />
+    <Compile Include="DatabaseInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

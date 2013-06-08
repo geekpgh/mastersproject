@@ -4,11 +4,12 @@ using System.Data.Entity;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BrewersBuddy.Tests.Utilities;
 
 namespace BrewersBuddy.Tests.Models
 {
     [TestClass]
-    public class BatchTest
+    public class BatchTest : TestBase
     {
         [TestMethod]
         public void TestCreateBatch()
@@ -16,8 +17,7 @@ namespace BrewersBuddy.Tests.Models
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
 
-            BrewersBuddyContext db = new BrewersBuddyContext();
-            DbSet<Batch> batches = db.Batches;
+            DbSet<Batch> batches = context.Batches;
             Batch foundBatch = batches.Find(batch.BatchId);
 
             //Verify it was properly created
@@ -28,14 +28,12 @@ namespace BrewersBuddy.Tests.Models
         [TestMethod]
         public void TestAddMeasurement()
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Wine;
             batch.StartDate = DateTime.Now;
 
-            db.Batches.Add(batch);
+            context.Batches.Add(batch);
 
             Measurement measurement = new Measurement();
             measurement.Batch = batch;
@@ -44,8 +42,8 @@ namespace BrewersBuddy.Tests.Models
             measurement.Value = 1.01;
             measurement.MeasurementDate = DateTime.Now;
 
-            db.Measurements.Add(measurement);
-            db.SaveChanges();
+            context.Measurements.Add(measurement);
+            context.SaveChanges();
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
         }
@@ -53,14 +51,12 @@ namespace BrewersBuddy.Tests.Models
         [TestMethod]
         public void TestRemoveMeasurement()
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Wine;
             batch.StartDate = DateTime.Now;
 
-            db.Batches.Add(batch);
+            context.Batches.Add(batch);
 
             Measurement measurement = new Measurement();
             measurement.Batch = batch;
@@ -69,13 +65,13 @@ namespace BrewersBuddy.Tests.Models
             measurement.Value = 1.01;
             measurement.MeasurementDate = DateTime.Now;
 
-            db.Measurements.Add(measurement);
-            db.SaveChanges();
+            context.Measurements.Add(measurement);
+            context.SaveChanges();
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
 
             batch.Measurements.Remove(measurement);
-            db.SaveChanges();
+            context.SaveChanges();
 
             Assert.IsFalse(batch.Measurements.Contains(measurement));
         }
@@ -84,14 +80,12 @@ namespace BrewersBuddy.Tests.Models
         [TestMethod]
         public void TestAddBatchAction()
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Beer;
             batch.StartDate = DateTime.Now;
 
-            db.Batches.Add(batch);
+            context.Batches.Add(batch);
 
             BatchAction action = new BatchAction();
             action.Batch = batch;
@@ -100,8 +94,8 @@ namespace BrewersBuddy.Tests.Models
             action.Title = "Bottles the beer";
             action.ActionDate = DateTime.Now;
 
-            db.BatchActions.Add(action);
-            db.SaveChanges();
+            context.BatchActions.Add(action);
+            context.SaveChanges();
 
             Assert.IsTrue(batch.Actions.Contains(action));
         }
@@ -109,14 +103,12 @@ namespace BrewersBuddy.Tests.Models
         [TestMethod]
         public void TestRemoveBatchAction()
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Beer;
             batch.StartDate = DateTime.Now;
 
-            db.Batches.Add(batch);
+            context.Batches.Add(batch);
 
             BatchAction action = new BatchAction();
             action.Batch = batch;
@@ -125,13 +117,13 @@ namespace BrewersBuddy.Tests.Models
             action.Title = "Bottles the beer";
             action.ActionDate = DateTime.Now;
 
-            db.BatchActions.Add(action);
-            db.SaveChanges();
+            context.BatchActions.Add(action);
+            context.SaveChanges();
 
             Assert.IsTrue(batch.Actions.Contains(action));
 
-            db.BatchActions.Remove(action);
-            db.SaveChanges();
+            context.BatchActions.Remove(action);
+            context.SaveChanges();
 
             Assert.IsFalse(batch.Actions.Contains(action));
         }
@@ -139,15 +131,13 @@ namespace BrewersBuddy.Tests.Models
         [TestMethod]
         public void TestAddToInvetory()
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Beer;
             batch.StartDate = DateTime.Now;
 
-            db.Batches.Add(batch);
-            db.SaveChanges();
+            context.Batches.Add(batch);
+            context.SaveChanges();
 
             Container container = new Container();
             container.Batch = batch;
@@ -156,8 +146,8 @@ namespace BrewersBuddy.Tests.Models
             container.Unit = ContainerVolumeUnits.Milliliter;
             container.Volume = 750;
 
-            db.Containers.Add(container);
-            db.SaveChanges();
+            context.Containers.Add(container);
+            context.SaveChanges();
 
             Cellar cellar = new Cellar();
             cellar.Name = "test cellar";
@@ -165,8 +155,8 @@ namespace BrewersBuddy.Tests.Models
             cellar.Containers = new List<Container>();
             cellar.Containers.Add(container);
 
-            db.Cellars.Add(cellar);
-            db.SaveChanges();
+            context.Cellars.Add(cellar);
+            context.SaveChanges();
 
             Assert.IsTrue(cellar.Containers.Contains(container));
         }

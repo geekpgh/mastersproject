@@ -3,18 +3,27 @@ using System.Web.Mvc;
 using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WebMatrix.WebData;
 
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestClass]
-    public class AccountControllerTest
+    public class AccountControllerTest : TestBase
     {
+        [ClassInitialize]
+        public static void Initialize(TestContext testContext)
+        {
+            //WebSecurity.InitializeDatabaseConnection(
+            //      connectionStringName: "DefaultConnection",
+            //      userTableName: "UserProfile",
+            //      userIdColumn: "UserID",
+            //      userNameColumn: "UserName",
+            //      autoCreateTables: true);
+        }
+
         [TestMethod]
         public void RegisterUser_TEST()
         {
-            // Arrange
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             // Act
             UserProfile userProfile = new UserProfile();
             userProfile.UserName = "NUNIT_Test";
@@ -25,14 +34,14 @@ namespace BrewersBuddy.Tests.Controllers
             userProfile.State = "KS";
             userProfile.Zip = "12345";
 
-            db.UserProfiles.Add(userProfile);
-            db.SaveChanges();
+            context.UserProfiles.Add(userProfile);
+            context.SaveChanges();
 
-            var user = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+            var user = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
             Assert.AreEqual("NUNIT_Test", user.UserName);
 
-            db.UserProfiles.Remove(userProfile);
-            db.SaveChanges();
+            context.UserProfiles.Remove(userProfile);
+            context.SaveChanges();
         }
 
         [TestMethod]
@@ -89,9 +98,6 @@ namespace BrewersBuddy.Tests.Controllers
         [TestMethod]
         public void UserCanEditAccountInformation_TEST()
         {
-            // Arrange
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             // Act
             UserProfile userProfile = new UserProfile();
             userProfile.UserName = "NUNIT_Test";
@@ -102,62 +108,59 @@ namespace BrewersBuddy.Tests.Controllers
             userProfile.State = "KS";
             userProfile.Zip = "12345";
 
-            db.UserProfiles.Add(userProfile);
-            db.SaveChanges();
+            context.UserProfiles.Add(userProfile);
+            context.SaveChanges();
 
-            UserProfile user = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+            UserProfile user = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
             user.FirstName = "Test";
             user.LastName = "Nunit";
-            db.Entry(userProfile).State = System.Data.EntityState.Modified;
-            db.SaveChanges();
+            context.Entry(userProfile).State = System.Data.EntityState.Modified;
+            context.SaveChanges();
 
-            UserProfile user1 = db.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+            UserProfile user1 = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
             Assert.AreEqual("Nunit", user1.LastName);
             Assert.AreEqual("Test", user1.FirstName);
-            db.UserProfiles.Remove(userProfile);
-            db.SaveChanges();
+            context.UserProfiles.Remove(userProfile);
+            context.SaveChanges();
         }
 
 
         [TestMethod]
         public void UserCanEnterZipToFindBrewers_TEST()
         {
-            // Arrange
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             // Act
             UserProfile userProfile = new UserProfile();
             userProfile.UserName = "NUNIT_Test";
             userProfile.Email = "NUNIT@Test.com";
             userProfile.FirstName = "Nunit";
             userProfile.Zip = "12345";
-            db.UserProfiles.Add(userProfile);
+            context.UserProfiles.Add(userProfile);
 
             UserProfile userProfile2 = new UserProfile();
             userProfile2.UserName = "NUNIT2_Test";
             userProfile2.Email = "NUNIT2@Test.com";
             userProfile2.FirstName = "Nunit2";
             userProfile2.Zip = "12345";
-            db.UserProfiles.Add(userProfile2);
+            context.UserProfiles.Add(userProfile2);
 
             UserProfile userProfile3 = new UserProfile();
             userProfile3.UserName = "NUNIT3_Test";
             userProfile3.Email = "NUNIT3@Test.com";
             userProfile3.FirstName = "Nunit3";
             userProfile3.Zip = "12345";
-            db.UserProfiles.Add(userProfile3);
+            context.UserProfiles.Add(userProfile3);
 
-            db.SaveChanges();
+            context.SaveChanges();
 
-            var tmp = db.UserProfiles.Where(item => item.Zip == "12345").ToList();
+            var tmp = context.UserProfiles.Where(item => item.Zip == "12345").ToList();
 
             Assert.AreEqual(3, tmp.Count);
 
-            foreach (UserProfile UP in db.UserProfiles)
+            foreach (UserProfile UP in context.UserProfiles)
             {
-                db.UserProfiles.Remove(UP);
+                context.UserProfiles.Remove(UP);
             }
-            db.SaveChanges();
+            context.SaveChanges();
         }
 
     }
