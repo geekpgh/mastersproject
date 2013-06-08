@@ -9,6 +9,7 @@ using WebMatrix.WebData;
 
 namespace BrewersBuddy.Controllers
 {
+    [Authorize]
     public class BatchController : Controller
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
