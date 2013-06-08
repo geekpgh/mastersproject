@@ -157,6 +157,36 @@ namespace BrewersBuddy.Controllers
         }
 
 
+        //Custom NON CRUD actions
+        public ActionResult AddAction(int id = 0)
+        {
+            Batch batch = db.Batches.Find(id);
+
+            if (batch == null)
+            {
+                return HttpNotFound();
+            }
+            var result = View(batch);
+
+            return result;
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddAction(BatchAction action, int batchId)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(action).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(action);
+        }
+
+
+        //Clenup and disposal code
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
