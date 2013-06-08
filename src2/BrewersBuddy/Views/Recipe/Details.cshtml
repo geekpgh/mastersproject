@@ -1,0 +1,40 @@
+﻿@model BrewersBuddy.Models.Recipe
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Recipe</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AddDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AddDate)
+    </div>
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Description)
+     </div>
+    <div class="display-field-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.HowtoMakeit)
+     </div>
+    <div class="display-field-field">
+        @Html.DisplayFor(model => model.HowtoMakeit)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

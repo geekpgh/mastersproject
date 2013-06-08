@@ -196,7 +196,9 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\ControllerUtils.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RecipeController.cs" />
+    <Compile Include="Controllers\RecipeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +250,10 @@
     <Compile Include="Migrations\201306021842494_switchtoUserId.cs" />
     <Compile Include="Migrations\201306021842494_switchtoUserId.Designer.cs">
       <DependentUpon>201306021842494_switchtoUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306080837485_update database.cs" />
+    <Compile Include="Migrations\201306080837485_update database.Designer.cs">
+      <DependentUpon>201306080837485_update database.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -426,6 +432,10 @@
     <Content Include="Views\BatchAction\Edit.cshtml" />
     <Content Include="Views\BatchAction\Delete.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Recipe\Delete.cshtml" />
+    <Content Include="Views\Recipe\Create.cshtml" />
+    <Content Include="Views\Recipe\Details.cshtml" />
+    <Content Include="Views\Recipe\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -469,6 +479,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306021842494_switchtoUserId.resx">
       <DependentUpon>201306021842494_switchtoUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306080837485_update database.resx">
+      <DependentUpon>201306080837485_update database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
