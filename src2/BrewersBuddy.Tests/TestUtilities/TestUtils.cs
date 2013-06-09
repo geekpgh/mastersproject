@@ -55,6 +55,22 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batchRating;
         }
 
+        public static BatchComment createBatchComment(Batch batch, UserProfile user, string comment)
+        {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
+            BatchComment batchComment = new BatchComment();
+            batchComment.Batch = batch;
+            batchComment.User = user;
+            batchComment.Comment = comment;
+
+            db.BatchComments.Add(batchComment);
+
+            db.SaveChanges();
+
+            return batchComment;
+        }
+
         public static ICollection<Batch> createBatches(int number, UserProfile owner)
         {
             List<Batch> batches = new List<Batch>();

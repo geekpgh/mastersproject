@@ -23,6 +23,7 @@ namespace BrewersBuddy.Models
         public virtual ICollection<BatchAction> Actions { get; set; }
         public virtual ICollection<UserProfile> Collaborators { get; set; }
         public virtual ICollection<BatchRating> Ratings { get; set; }
+        public virtual ICollection<BatchComment> Comments { get; set; }
     }
 
 }

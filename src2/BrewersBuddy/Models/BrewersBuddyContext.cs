@@ -19,6 +19,7 @@ namespace BrewersBuddy.Models
         public DbSet<Container> Containers { get; set; }
         public DbSet<Cellar> Cellars { get; set; }
         public DbSet<BatchRating> BatchRatings { get; set; }
+        public DbSet<BatchComment> BatchComments { get; set; }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
 

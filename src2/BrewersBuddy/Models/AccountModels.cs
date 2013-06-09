@@ -20,6 +20,7 @@ namespace BrewersBuddy.Models
         public string Zip { get; set; }
 
         public virtual ICollection<BatchRating> BatchRatings { get; set; }
+        public virtual ICollection<BatchComment> BatchComments { get; set; }
     }
 
     public class RegisterExternalLoginModel
