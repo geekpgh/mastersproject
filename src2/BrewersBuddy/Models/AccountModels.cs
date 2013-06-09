@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
@@ -17,6 +18,8 @@ namespace BrewersBuddy.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+
+        public virtual ICollection<BatchRating> BatchRatings { get; set; }
     }
 
     public class RegisterExternalLoginModel
