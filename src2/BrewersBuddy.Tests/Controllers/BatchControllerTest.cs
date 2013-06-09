@@ -8,6 +8,7 @@ using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using BrewersBuddy.Tests.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Web;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -27,11 +28,33 @@ namespace BrewersBuddy.Tests.Controllers
             IList batchesList = result.ViewData.Model as IList;
 
             Assert.IsTrue(batchesList.Count == 5);
+        }
 
-            foreach (Batch batch in batches)
-            {
-                //Assert.IsTrue(data.Contains(batch));
-            }
+        [TestMethod]
+        public void TestBatchOnlyOwnedList()
+        {
+            //Create 5 batches for mike
+            UserProfile user = TestUtils.createUser(111, "Mike", "Smith");
+            ICollection<Batch> batches = TestUtils.createBatches(5, user);
+
+            //Now create some batches own by others these should not be returned 
+            //by the view
+            UserProfile userBob = TestUtils.createUser(112, "Bob", "Smith");
+            ICollection<Batch> batchesBob = TestUtils.createBatches(3, userBob);
+
+            UserProfile userTim = TestUtils.createUser(113, "Tim", "Smith");
+            ICollection<Batch> batchesTim = TestUtils.createBatches(3, userTim);
+
+            BatchController controller = new BatchController();
+            var httpCtxStub = new Mock<HttpContextBase>();
+            controllerCtx.HttpContext = httpCtxStub.Object;
+
+            ViewResult result = (ViewResult)controller.Index();
+            ViewDataDictionary data = result.ViewData;
+
+            IList batchesList = result.ViewData.Model as IList;
+
+            Assert.IsTrue(batchesList.Count == 5);
         }
 
 
