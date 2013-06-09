@@ -192,7 +192,7 @@ namespace BrewersBuddy.Controllers
                 action.PerformerId = ControllerUtils.getCurrentUserId(User);
 
                 //Associate the batch with the action
-                int batchId = (int)Session["CurrentBatchId"]
+                int batchId = (int)Session["CurrentBatchId"];
                 Batch batch = db.Batches.Find(batchId);
 
                 db.Entry(action).State = EntityState.Added;
