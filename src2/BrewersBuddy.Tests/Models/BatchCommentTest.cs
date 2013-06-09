@@ -33,10 +33,12 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchComment comment = TestUtils.createBatchComment(batch, bob, "my comment");
+            TestUtils.createBatchComment(batch, bob, "my comment");
+
+            BatchComment comment = context.BatchComments.First();
 
             Assert.IsNotNull(comment.User);
-            Assert.Equals(bob.UserId, comment.User.UserId);
+            Assert.AreEqual(bob.UserId, comment.User.UserId);
         }
 
         [TestMethod]
@@ -44,10 +46,12 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchComment comment = TestUtils.createBatchComment(batch, bob, "my comment");
+            TestUtils.createBatchComment(batch, bob, "my comment");
+
+            BatchComment comment = context.BatchComments.First();
 
             Assert.IsNotNull(comment.Batch);
-            Assert.Equals(batch.BatchId, comment.Batch.BatchId);
+            Assert.AreEqual(batch.BatchId, comment.Batch.BatchId);
         }
 
         [TestMethod]

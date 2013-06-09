@@ -50,7 +50,7 @@ namespace BrewersBuddy.Tests.Models
             BatchRating rating = context.BatchRatings.Find(bob.UserId, batch.BatchId);
 
             Assert.IsNotNull(rating.User);
-            Assert.Equals(bob.UserId, rating.User.UserId);
+            Assert.AreEqual(bob.UserId, rating.User.UserId);
         }
 
         [TestMethod]
