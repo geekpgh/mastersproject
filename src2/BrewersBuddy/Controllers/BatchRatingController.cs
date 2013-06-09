@@ -8,6 +8,7 @@ using System.Web.Security;
 
 namespace BrewersBuddy.Controllers
 {
+    [Authorize]
     public class BatchRatingController : Controller
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();

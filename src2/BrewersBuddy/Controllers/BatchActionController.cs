@@ -9,6 +9,7 @@ using BrewersBuddy.Models;
 
 namespace BrewersBuddy.Controllers
 {
+    [Authorize]
     public class BatchActionController : Controller
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
