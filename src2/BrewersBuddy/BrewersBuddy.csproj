@@ -446,6 +446,8 @@
     <Content Include="Views\Recipe\Create.cshtml" />
     <Content Include="Views\Recipe\Details.cshtml" />
     <Content Include="Views\Recipe\Index.cshtml" />
+    <Content Include="Views\Batch\AddAction.cshtml" />
+    <Content Include="Views\Batch\AddNote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -34,8 +34,22 @@
     <div class="display-field-field">
         @Html.DisplayFor(model => model.Description)
     </div>
+
 </fieldset>
+
+<h2>Notes</h2>
+
+@foreach (var note in Model.Notes) {
+    <h4>
+            @Html.DisplayFor(modelItem => note.Title)
+    </h4>
+    <p>
+            @Html.DisplayFor(modelItem => note.Text)
+    </p>
+}
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }) |
+    @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

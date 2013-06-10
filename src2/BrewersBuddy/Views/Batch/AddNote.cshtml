@@ -1,17 +1,17 @@
-﻿@model BrewersBuddy.Models.BatchAction
+﻿@model BrewersBuddy.Models.BatchNote
 
 @{
-    ViewBag.Title = "Add Action";
+    ViewBag.Title = "View1";
 }
 
-<h2>Add Action</h2>
+<h2>View1</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>BatchAction</legend>
+        <legend>BatchNote</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Title)
@@ -20,20 +20,14 @@
             @Html.EditorFor(model => model.Title)
             @Html.ValidationMessageFor(model => model.Title)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("ActionType")
-            @Html.ValidationMessageFor(model => model.Type)
-        </div>
 
+ 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
+            @Html.LabelFor(model => model.Text)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Description", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Description)
+            @Html.TextArea("Notes", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Text)
         </div>
 
         <p>
@@ -41,6 +35,10 @@
         </p>
     </fieldset>
 }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

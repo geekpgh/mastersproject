@@ -91,15 +91,15 @@ namespace BrewersBuddy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(BatchAction batchaction)
+        public ActionResult Edit(BatchAction batchAction)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(batchaction).State = EntityState.Modified;
+                db.Entry(batchAction).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(batchaction);
+            return View(batchAction);
         }
 
         //

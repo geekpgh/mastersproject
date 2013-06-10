@@ -20,6 +20,12 @@ namespace BrewersBuddy.Controllers
             return View();
         }
 
+        public ActionResult SelectActionType()
+        {
+            ViewBag.ActionType = ControllerUtils.getSelectionForEnum<ActionType>();
+            return View();
+        }
+
 
         //
         // GET: /Batch/
@@ -160,30 +166,85 @@ namespace BrewersBuddy.Controllers
         //Custom NON CRUD actions
         public ActionResult AddAction(int id = 0)
         {
+            //Populate the action type list
+            SelectActionType();
+
             Batch batch = db.Batches.Find(id);
 
             if (batch == null)
             {
                 return HttpNotFound();
             }
-            var result = View(batch);
 
-            return result;
-
+            ViewBag.Batch = batch;
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddAction(BatchAction action, int batchId)
+        public ActionResult AddAction(BatchAction action)
         {
             if (ModelState.IsValid)
             {
+                //Add the date
+                action.ActionDate = DateTime.Now;
+                action.PerformerId = ControllerUtils.getCurrentUserId(User);
+
+                //Associate the batch with the action
+                Batch batch = ViewBag.Batch;
+                //action.Batch = 
+
                 db.Entry(action).State = EntityState.Added;
+                batch.Actions.Add(action);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(action);
+       
+       }
+
+        public ActionResult AddNote(int id = 0)
+        {
+            Batch batch = db.Batches.Find(id);
+
+            if (batch == null)
+            {
+                return HttpNotFound();
+            }
+            //ViewData["Batch"] = batch;
+            //ViewBag.Batch = batch;
+            Session["CurrentBatchId"] = batch.BatchId;
+
+            return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNote(BatchNote note)
+        {
+            if (ModelState.IsValid)
+            {
+                //Add the date
+                note.AuthorDate = DateTime.Now;
+                note.AuthorId = ControllerUtils.getCurrentUserId(User);
+
+                //Associate the batch with the action
+                int batchId = (int)Session["CurrentBatchId"];
+                Batch batch = db.Batches.Find(batchId);
+                //(Batch)ViewData["Batch"];
+                //action.Batch = 
+
+                db.Entry(note).State = EntityState.Added;
+                batch.Notes.Add(note);
+
+                db.SaveChanges();
+                return RedirectToAction("Details/" + batch.BatchId);
+            }
+
+            return View(note);
+        }
+
 
 
         //Clenup and disposal code

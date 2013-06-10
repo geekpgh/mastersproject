@@ -34,8 +34,8 @@ namespace BrewersBuddy.Tests.Controllers
         public void TestBatchOnlyOwnedList()
         {
             //Create 5 batches for mike
-            UserProfile user = TestUtils.createUser(111, "Mike", "Smith");
-            ICollection<Batch> batches = TestUtils.createBatches(5, user);
+            UserProfile userMike = TestUtils.createUser(111, "Mike", "Smith");
+            ICollection<Batch> batchesMike = TestUtils.createBatches(5, userMike);
 
             //Now create some batches own by others these should not be returned 
             //by the view
@@ -44,16 +44,18 @@ namespace BrewersBuddy.Tests.Controllers
 
             UserProfile userTim = TestUtils.createUser(113, "Tim", "Smith");
             ICollection<Batch> batchesTim = TestUtils.createBatches(3, userTim);
-
+    
             BatchController controller = new BatchController();
-            var httpCtxStub = new Mock<HttpContextBase>();
-            controllerCtx.HttpContext = httpCtxStub.Object;
+
+            //TODO
+            //Mock that user mike is logged in
 
             ViewResult result = (ViewResult)controller.Index();
             ViewDataDictionary data = result.ViewData;
 
             IList batchesList = result.ViewData.Model as IList;
 
+            //Verify that the controller only returns the logged in user's Batches.
             Assert.IsTrue(batchesList.Count == 5);
         }
 
