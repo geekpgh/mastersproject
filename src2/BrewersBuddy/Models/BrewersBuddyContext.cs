@@ -22,6 +22,7 @@ namespace BrewersBuddy.Models
         public DbSet<BatchComment> BatchComments { get; set; }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+		public DbSet<webpages_Membership> webpages_Memberships { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

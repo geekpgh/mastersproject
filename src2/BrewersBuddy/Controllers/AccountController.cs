@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -11,9 +13,9 @@ using WebMatrix.WebData;
 
 namespace BrewersBuddy.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
-    {
+	[Authorize]
+	public class AccountController : Controller
+	{
 		#region Properties
 		private BrewersBuddyContext db = new BrewersBuddyContext();
 
@@ -21,32 +23,32 @@ namespace BrewersBuddy.Controllers
 
 		#region Login
 		//
-        // GET: /Account/Login
+		// GET: /Account/Login
 
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
+		[AllowAnonymous]
+		public ActionResult Login(string returnUrl)
+		{
+			ViewBag.ReturnUrl = returnUrl;
+			return View();
+		}
 
-        //
-        // POST: /Account/Login
+		//
+		// POST: /Account/Login
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
-        {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
-            {
-                return RedirectToLocal(returnUrl);
-            }
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult Login(LoginModel model, string returnUrl)
+		{
+			if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+			{
+				return RedirectToLocal(returnUrl);
+			}
 
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
-        }
+			// If we got this far, something failed, redisplay form
+			ModelState.AddModelError("", "The user name or password provided is incorrect.");
+			return View(model);
+		}
 
 		//
 		// POST: /Account/ExternalLogin
@@ -177,24 +179,6 @@ namespace BrewersBuddy.Controllers
 		}
 
 		#endregion Login
-		
-		//
-		// POST: /Account/Login
-
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult RecoverPassword(string userName)
-		{
-			//Need to get info by username and send email of password to user
-			// ^ This is BAD BAD BAD, but I'm keeping it here for completeness from
-			// the previous version. You should NEVER do this - Steve
-
-
-
-			return RedirectToAction("Manage", new { Message = "" });
-			//return RedirectToAction("Manage", new { Message = ManageMessageId.RecoverPasswordSent });
-		}
 
 		#region LogOff
 		//
@@ -239,8 +223,8 @@ namespace BrewersBuddy.Controllers
 		}
 
 		#endregion LogOff
-		
-        #region Register
+
+		#region Register
 		//
 		// GET: /Account/Register
 
@@ -346,80 +330,217 @@ namespace BrewersBuddy.Controllers
 		//
 		// GET: /Account/Manage
 
-        public ActionResult Manage(ManageMessageId? message)
-        {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
-        }
+		public ActionResult Manage(ManageMessageId? message)
+		{
+			ViewBag.StatusMessage =
+				message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+				: message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+				: message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+				: "";
+			ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+			ViewBag.ReturnUrl = Url.Action("Manage");
+			return View();
+		}
 
-        //
-        // POST: /Account/Manage
+		//
+		// POST: /Account/Manage
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
-        {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.HasLocalPassword = hasLocalAccount;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasLocalAccount)
-            {
-                if (ModelState.IsValid)
-                {
-                    // ChangePassword will throw an exception rather than return false in certain failure scenarios.
-                    bool changePasswordSucceeded;
-                    try
-                    {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                    }
-                    catch (Exception)
-                    {
-                        changePasswordSucceeded = false;
-                    }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Manage(LocalPasswordModel model)
+		{
+			bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+			ViewBag.HasLocalPassword = hasLocalAccount;
+			ViewBag.ReturnUrl = Url.Action("Manage");
+			if (hasLocalAccount)
+			{
+				if (ModelState.IsValid)
+				{
+					// ChangePassword will throw an exception rather than return false in certain failure scenarios.
+					bool changePasswordSucceeded;
+					try
+					{
+						changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+					}
+					catch (Exception)
+					{
+						changePasswordSucceeded = false;
+					}
 
-                    if (changePasswordSucceeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a local password so remove any validation errors caused by a missing
-                // OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
+					if (changePasswordSucceeded)
+					{
+						return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+					}
+					else
+					{
+						ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+					}
+				}
+			}
+			else
+			{
+				// User does not have a local password so remove any validation errors caused by a missing
+				// OldPassword field
+				ModelState state = ModelState["OldPassword"];
+				if (state != null)
+				{
+					state.Errors.Clear();
+				}
 
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    catch (Exception)
-                    {
-                        ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
-                    }
-                }
-            }
+				if (ModelState.IsValid)
+				{
+					try
+					{
+						WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
+						return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+					}
+					catch (Exception)
+					{
+						ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
+					}
+				}
+			}
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+		//
+		// GET: Account/ForgotPassword
+		//
+
+		[AllowAnonymous]
+		public ActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		//
+		// POST: Account/ForgotPassword
+		//
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ForgotPassword(string UserName)
+		{
+			//check user existance
+			var user = Membership.GetUser(UserName);
+			if (user == null)
+			{
+				TempData["Message"] = "User Not exist.";
+			}
+			else
+			{
+				//generate password token
+				var token = WebSecurity.GeneratePasswordResetToken(UserName);
+				//create url with above token
+				var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new { un = UserName, rt = token }, "http") + "'>Reset Password</a>";
+				//get user emailid
+				BrewersBuddyContext db = new BrewersBuddyContext();
+				var emailid = (from i in db.UserProfiles
+							   where i.UserName == UserName
+							   select i.Email).FirstOrDefault();
+				//send mail
+				string subject = "Password Reset Token";
+				string body = "<b>Please find the Password Reset Token</b><br/>" + resetLink; //edit it
+				try
+				{
+					SendEMail(emailid, subject, body);
+					TempData["Message"] = "Mail Sent.";
+				}
+				catch (Exception ex)
+				{
+					TempData["Message"] = "Error occured while sending email." + ex.Message;
+				}
+			}
+
+			return View();
+		}
+
+		//
+		// GET: Account/Login
+		//
+		[AllowAnonymous]
+		public ActionResult ResetPassword(string un, string rt)
+		{
+			BrewersBuddyContext db = new BrewersBuddyContext();
+			//TODO: Check the un and rt matching and then perform following
+			//get userid of received username
+			var userid = (from i in db.UserProfiles
+						  where i.UserName == un
+						  select i.UserId).FirstOrDefault();
+			//check userid and token matches
+			bool any = (from j in db.webpages_Memberships
+						where (j.UserId == userid)
+						&& (j.PasswordVerificationToken == rt)
+						//&& (j.PasswordVerificationTokenExpirationDate < DateTime.Now)
+						select j).Any();
+
+			if (any == true)
+			{
+				//generate random password
+				string newpassword = GenerateRandomPassword(8);
+				//reset password
+				bool response = WebSecurity.ResetPassword(rt, newpassword);
+				if (response == true)
+				{
+					//get user emailid to send password
+					var emailid = (from i in db.UserProfiles
+								   where i.UserName == un
+								   select i.Email).FirstOrDefault();
+					//send email
+					string subject = "New Password";
+					string body = "<b>Please find the New Password</b><br/>" + newpassword; //edit it
+					try
+					{
+						SendEMail(emailid, subject, body);
+						TempData["Message"] = "Success! Check email we sent for new password.";
+					}
+					catch (Exception ex)
+					{
+						TempData["Message"] = "Error occured while sending email." + ex.Message;
+					}
+				}
+				else
+				{
+					TempData["Message"] = "Hey, avoid random request on this page.";
+				}
+			}
+			else
+			{
+				TempData["Message"] = "Username and token not maching.";
+			}
+
+			return View();
+		}
+
+		private string GenerateRandomPassword(int length)
+		{
+			string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
+			char[] chars = new char[length];
+			Random rd = new Random();
+			for (int i = 0; i < length; i++)
+			{
+				chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+			}
+			return new string(chars);
+		}
+
+		private void SendEMail(string emailid, string subject, string body)
+		{
+			var client = new SmtpClient("smtp.gmail.com", 587);
+			client.Credentials = new NetworkCredential("brewersbuddy@gmail.com", "sweng500");
+			client.EnableSsl = true;
+
+			MailMessage msg = new MailMessage("Noreply@BrewersBuddy.com", emailid);
+
+			msg.Subject = subject;
+			msg.IsBodyHtml = true;
+			msg.Body = body + "<br/><br/>*** DO NOT REPLY TO THIS EMAIL.  THIS EMAIL IS NOT CHECKED. ***";
+
+			client.Send(msg);
+		}
 
 		#endregion Manage
 
@@ -460,78 +581,78 @@ namespace BrewersBuddy.Controllers
 		}
 
 		private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
+		{
+			if (Url.IsLocalUrl(returnUrl))
+			{
+				return Redirect(returnUrl);
+			}
+			else
+			{
+				return RedirectToAction("Index", "Home");
+			}
+		}
 
-        public enum ManageMessageId
-        {
-            ChangePasswordSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
-        }
+		public enum ManageMessageId
+		{
+			ChangePasswordSuccess,
+			SetPasswordSuccess,
+			RemoveLoginSuccess,
+		}
 
-        internal class ExternalLoginResult : ActionResult
-        {
-            public ExternalLoginResult(string provider, string returnUrl)
-            {
-                Provider = provider;
-                ReturnUrl = returnUrl;
-            }
+		internal class ExternalLoginResult : ActionResult
+		{
+			public ExternalLoginResult(string provider, string returnUrl)
+			{
+				Provider = provider;
+				ReturnUrl = returnUrl;
+			}
 
-            public string Provider { get; private set; }
-            public string ReturnUrl { get; private set; }
+			public string Provider { get; private set; }
+			public string ReturnUrl { get; private set; }
 
-            public override void ExecuteResult(ControllerContext context)
-            {
-                OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
-            }
-        }
+			public override void ExecuteResult(ControllerContext context)
+			{
+				OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
+			}
+		}
 
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
-        {
-            // See http://go.microsoft.com/fwlink/?LinkID=177550 for
-            // a full list of status codes.
-            switch (createStatus)
-            {
-                case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+		private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+		{
+			// See http://go.microsoft.com/fwlink/?LinkID=177550 for
+			// a full list of status codes.
+			switch (createStatus)
+			{
+				case MembershipCreateStatus.DuplicateUserName:
+					return "User name already exists. Please enter a different user name.";
 
-                case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+				case MembershipCreateStatus.DuplicateEmail:
+					return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
 
-                case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+				case MembershipCreateStatus.InvalidPassword:
+					return "The password provided is invalid. Please enter a valid password value.";
 
-                case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+				case MembershipCreateStatus.InvalidEmail:
+					return "The e-mail address provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+				case MembershipCreateStatus.InvalidAnswer:
+					return "The password retrieval answer provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+				case MembershipCreateStatus.InvalidQuestion:
+					return "The password retrieval question provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+				case MembershipCreateStatus.InvalidUserName:
+					return "The user name provided is invalid. Please check the value and try again.";
 
-                case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+				case MembershipCreateStatus.ProviderError:
+					return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
-                case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+				case MembershipCreateStatus.UserRejected:
+					return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
-                default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-            }
-        }
-        #endregion
-    }
+				default:
+					return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+			}
+		}
+		#endregion
+	}
 }

@@ -34,8 +34,12 @@
         </ol>
         <input type="submit" value="Log in" />
     </fieldset>
+    <br/>
     <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
+        @Html.ActionLink("Recover if you forgot your password.", "ForgotPassword")
+    </p>
+   <p>
+        @Html.ActionLink("Register if you don't have an account.", "Register")
     </p>
 }
 </section>

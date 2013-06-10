@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201306100038099_AddBatchRatingComment.Designer.cs">
       <DependentUpon>201306100038099_AddBatchRatingComment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306102336151_CreateWebpages_Membership.cs" />
+    <Compile Include="Migrations\201306102336151_CreateWebpages_Membership.Designer.cs">
+      <DependentUpon>201306102336151_CreateWebpages_Membership.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -308,6 +312,7 @@
     <Compile Include="Models\Measurement.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\MembershipModel.cs" />
     <Compile Include="Models\Recipe.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -453,6 +458,8 @@
     <Content Include="Views\Batch\AddAction.cshtml" />
     <Content Include="Views\Batch\AddNote.cshtml" />
     <Content Include="Views\BatchRating\Create.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -508,6 +515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306100038099_AddBatchRatingComment.resx">
       <DependentUpon>201306100038099_AddBatchRatingComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306102336151_CreateWebpages_Membership.resx">
+      <DependentUpon>201306102336151_CreateWebpages_Membership.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
