@@ -10,9 +10,6 @@ namespace BrewersBuddy.Models
     [Table("BatchRating")]
     public class BatchRating
     {
-        //[Key]
-        //[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        //public int RatingId { get; set; }
         [Key, Column(Order = 0)]
         [Required]
         public int BatchId { get; set; }
@@ -22,6 +19,8 @@ namespace BrewersBuddy.Models
 
         [Range(0,100)]
         public int Rating { get; set; }
+        [MaxLength(Int32.MaxValue)]
+        public string Comment { get; set; }
 
         public virtual Batch Batch { get; set; }
         public virtual UserProfile User { get; set; }

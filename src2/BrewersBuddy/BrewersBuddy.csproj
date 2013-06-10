@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201306091950206_CreateBatchComments.Designer.cs">
       <DependentUpon>201306091950206_CreateBatchComments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306100038099_AddBatchRatingComment.cs" />
+    <Compile Include="Migrations\201306100038099_AddBatchRatingComment.Designer.cs">
+      <DependentUpon>201306100038099_AddBatchRatingComment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -500,6 +504,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306091950206_CreateBatchComments.resx">
       <DependentUpon>201306091950206_CreateBatchComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306100038099_AddBatchRatingComment.resx">
+      <DependentUpon>201306100038099_AddBatchRatingComment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
