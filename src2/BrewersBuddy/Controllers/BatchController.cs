@@ -176,7 +176,8 @@ namespace BrewersBuddy.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Batch = batch;
+            //Store away the batch for the callback
+            Session["CurrentBatchId"] = batch.BatchId;
             return View();
         }
 
@@ -191,8 +192,8 @@ namespace BrewersBuddy.Controllers
                 action.PerformerId = ControllerUtils.getCurrentUserId(User);
 
                 //Associate the batch with the action
-                Batch batch = ViewBag.Batch;
-                //action.Batch = 
+                int batchId = (int)Session["CurrentBatchId"]
+                Batch batch = db.Batches.Find(batchId);
 
                 db.Entry(action).State = EntityState.Added;
                 batch.Actions.Add(action);
@@ -212,8 +213,7 @@ namespace BrewersBuddy.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewData["Batch"] = batch;
-            //ViewBag.Batch = batch;
+
             Session["CurrentBatchId"] = batch.BatchId;
 
             return View();
@@ -232,8 +232,6 @@ namespace BrewersBuddy.Controllers
                 //Associate the batch with the action
                 int batchId = (int)Session["CurrentBatchId"];
                 Batch batch = db.Batches.Find(batchId);
-                //(Batch)ViewData["Batch"];
-                //action.Batch = 
 
                 db.Entry(note).State = EntityState.Added;
                 batch.Notes.Add(note);
