@@ -14,97 +14,67 @@ namespace BrewersBuddy.Controllers
         private BrewersBuddyContext db = new BrewersBuddyContext();
 
         //
-        // GET: /BatchRating/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        //
-        // GET: /BatchRating/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
         // GET: /BatchRating/Create
 
-        public ActionResult Create()
+        public ActionResult Create(int batchId = 0)
         {
-            return View();
+            int currentUserId = ControllerUtils.getCurrentUserId(User);
+            Batch batch = db.Batches.Find(batchId);
+
+            BatchRating previousRating = db.BatchRatings
+                .Where(r => r.BatchId == batchId && r.UserId == currentUserId)
+                .FirstOrDefault();
+
+            if (previousRating != null)
+            {
+                // You can only rate a batch once
+                // TODO - Do something nicer here... this is kind of jarring
+                // and no explanation is given in the UI as to why a user can't rate
+                return RedirectToAction("Details", "Batch", new { id = batchId });
+            }
+
+            if (batch == null)
+            {
+                // I'm not sure if this makes sense here, but keeping
+                // it for the time being - S. Platz
+                HttpNotFound();
+            }
+
+            BatchRating rating = new BatchRating()
+            {
+                BatchId = batchId,
+                Batch = batch
+            };
+
+            // Create a list from 0 - 100 for all possible rating values
+            ViewBag.Ratings = Enumerable.Range(0, 101)
+                .Select(num => new SelectListItem() 
+                { 
+                    Text = num.ToString(),
+                    Value = num.ToString() 
+                });
+
+            return View(rating);
         }
 
         //
         // POST: /BatchRating/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(BatchRating rating)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                rating.UserId = ControllerUtils.getCurrentUserId(User);
 
-                return RedirectToAction("Index");
+                db.BatchRatings.Add(rating);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Batch", new { id = rating.BatchId });
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        //
-        // GET: /BatchRating/Edit/5
 
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /BatchRating/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /BatchRating/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /BatchRating/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(rating);
         }
     }
 }

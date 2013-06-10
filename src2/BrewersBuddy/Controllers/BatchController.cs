@@ -243,7 +243,16 @@ namespace BrewersBuddy.Controllers
             return View(note);
         }
 
+        //
+        // GET: /Batch/Ratings/5
 
+        public ActionResult Ratings(int id)
+        {
+            IEnumerable<BatchRating> ratings = db.BatchRatings
+                .Where(r => r.BatchId == id);
+
+            return View(ratings);
+        }
 
         //Clenup and disposal code
         protected override void Dispose(bool disposing)

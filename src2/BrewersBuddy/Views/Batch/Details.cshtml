@@ -51,5 +51,6 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }) |
     @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }) |
+    @Html.ActionLink("Rate", "Create", "BatchRating", new { Model.BatchId }, null) | 
     @Html.ActionLink("Back to List", "Index")
 </p>
