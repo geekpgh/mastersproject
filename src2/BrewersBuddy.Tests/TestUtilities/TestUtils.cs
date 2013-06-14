@@ -39,6 +39,23 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batch;
         }
 
+        public static BatchNote createBatchNote(Batch batch, String title, String text, UserProfile user)
+        {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
+            BatchNote note = new BatchNote();
+            note.Batch = batch;
+            note.Text = text;
+            note.Title = title;
+            note.AuthorId = user.UserId;
+            note.AuthorDate = DateTime.Now;
+
+            db.BatchNotes.Add(note);
+            db.SaveChanges();
+
+            return note;
+        }
+
         public static BatchRating createBatchRating(Batch batch, UserProfile user, int rating, string comment)
         {
             BrewersBuddyContext db = new BrewersBuddyContext();

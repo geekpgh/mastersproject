@@ -134,6 +134,7 @@
     <Compile Include="Models\BatchRatingTest.cs" />
     <Compile Include="Models\BatchTest.cs" />
     <Compile Include="Models\BatchCommentTest.cs" />
+    <Compile Include="Models\BatchNoteTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="DbTestBase.cs" />
