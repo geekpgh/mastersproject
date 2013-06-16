@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="developwithpassion.specifications">
+      <HintPath>..\packages\developwithpassion.specifications.nsubstitue.0.6.0\lib\developwithpassion.specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="developwithpassion.specifications.nsubstitue">
+      <HintPath>..\packages\developwithpassion.specifications.nsubstitue.0.6.0\lib\developwithpassion.specifications.nsubstitue.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>

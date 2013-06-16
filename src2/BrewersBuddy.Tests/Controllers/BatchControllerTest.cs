@@ -9,6 +9,8 @@ using BrewersBuddy.Tests.TestUtilities;
 using BrewersBuddy.Tests.Utilities;
 using NUnit.Framework;
 using System.Web;
+using NSubstitute;
+using System.Web.Routing;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -21,7 +23,12 @@ namespace BrewersBuddy.Tests.Controllers
             UserProfile user = TestUtils.createUser(111, "Mike", "Smith");
             ICollection<Batch> batches = TestUtils.createBatches(5, user);
 
-            BatchController controller = new BatchController();
+            var context = Substitute.For<HttpContextBase>();
+            context.Session["UserID"].Returns(111);
+            var controllerContext = new ControllerContext(context, new RouteData(), new BatchController());
+            BatchController controller = (BatchController)controllerContext.Controller;
+
+            
             ViewResult result = (ViewResult)controller.Index();
             ViewDataDictionary data = result.ViewData;
 
