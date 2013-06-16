@@ -27,7 +27,7 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.IsTrue(batch.Notes.Contains(note));
 
-            context.BatchNotes.Remove(note);
+            batch.Notes.Remove(note);
             context.SaveChanges();
 
             Assert.IsFalse(batch.Notes.Contains(note));
