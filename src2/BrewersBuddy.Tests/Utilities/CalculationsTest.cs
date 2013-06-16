@@ -1,12 +1,12 @@
 ﻿using BrewersBuddy.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace BrewersBuddy.Tests.Utilities
 {
-    [TestClass]
+    [TestFixture]
     public class CalculationsTest
     {
-        [TestMethod]
+        [Test]
         public void TestABV()
         {
             double originalGravity = 1.05;
@@ -17,7 +17,7 @@ namespace BrewersBuddy.Tests.Utilities
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestABVPercentage()
         {
             double originalGravity = 1.05;

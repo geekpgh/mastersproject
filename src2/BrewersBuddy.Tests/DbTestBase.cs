@@ -1,5 +1,5 @@
 ﻿using BrewersBuddy.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +13,7 @@ namespace BrewersBuddy.Tests
     {
         protected BrewersBuddyContext context;
 
-        [TestInitialize]
+        [SetUp]
         public virtual void TestInitialize()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -34,7 +34,7 @@ namespace BrewersBuddy.Tests
             }
         }
 
-        [TestCleanup]
+        [TearDown]
         public virtual void TestCleanup()
         {
             context.Dispose();

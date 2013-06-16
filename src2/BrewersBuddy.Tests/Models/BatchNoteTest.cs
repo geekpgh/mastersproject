@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 
 namespace BrewersBuddy.Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class BatchNoteTest : DbTestBase
     {
-        [TestMethod]
+        [Test]
         public void TestAddBatchNotes()
         {
             UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");
@@ -18,7 +18,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsTrue(batch.Notes.Contains(note));
         }
 
-        [TestMethod]
+        [Test]
         public void TestRemoveBatchNotes()
         {
             UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");

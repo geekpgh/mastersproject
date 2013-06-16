@@ -1,6 +1,6 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,10 +11,10 @@ using System.Text;
 
 namespace BrewersBuddy.Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class BatchCommentTest : DbTestBase
     {
-        [TestMethod]
+        [Test]
         public void TestCreateBatchComment()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -28,7 +28,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(batch.BatchId, comment.BatchId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCanRetrieveAssociatedUser()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -41,7 +41,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(bob.UserId, comment.User.UserId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCanRetrieveAssociatedBatch()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -54,7 +54,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(batch.BatchId, comment.Batch.BatchId);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestCommentCannotBeEmpty()
         {
@@ -63,7 +63,7 @@ namespace BrewersBuddy.Tests.Models
             BatchComment comment = TestUtils.createBatchComment(batch, bob, "");
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestCommentCannotBeLongerThan256Characters()
         {
@@ -79,7 +79,7 @@ namespace BrewersBuddy.Tests.Models
             BatchComment comment = TestUtils.createBatchComment(batch, bob, sb.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void TestCommentCanBeExactly256Characters()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");

@@ -1,6 +1,6 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,10 +10,10 @@ using System.Text;
 
 namespace BrewersBuddy.Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class BatchRatingTest : DbTestBase
     {
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DbUpdateException))]
         public void TestBatchAndUserMustBeUnique()
         {
@@ -28,7 +28,7 @@ namespace BrewersBuddy.Tests.Models
             TestUtils.createBatchRating(batch, bob, 90, "");
         }
 
-        [TestMethod]
+        [Test]
         public void TestCreateBatchRating()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -40,7 +40,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsNotNull(rating);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCanRetrieveAssociatedUser()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -53,7 +53,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(bob.UserId, rating.User.UserId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCanRetrieveAssociatedBatch()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -66,7 +66,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(batch.BatchId, rating.Batch.BatchId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestUserCanHaveMultipleRatings()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -85,7 +85,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual(10, ratingsForBob.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void TestRatingCanHaveComment()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -98,7 +98,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual("this is a comment", rating.Comment);
         }
 
-        [TestMethod]
+        [Test]
         public void TestRatingCanHaveNullComment()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");

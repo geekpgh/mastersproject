@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using BrewersBuddy.Tests.Utilities;
 
 namespace BrewersBuddy.Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class BatchTest : DbTestBase
     {
-        [TestMethod]
+        [Test]
         public void TestCreateBatch()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -25,7 +25,7 @@ namespace BrewersBuddy.Tests.Models
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestAddMeasurement()
         {
             Batch batch = new Batch();
@@ -48,7 +48,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsTrue(batch.Measurements.Contains(measurement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestRemoveMeasurement()
         {
             Batch batch = new Batch();
@@ -77,7 +77,7 @@ namespace BrewersBuddy.Tests.Models
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestAddBatchAction()
         {
             Batch batch = new Batch();
@@ -100,7 +100,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsTrue(batch.Actions.Contains(action));
         }
 
-        [TestMethod]
+        [Test]
         public void TestRemoveBatchAction()
         {
             Batch batch = new Batch();
@@ -128,7 +128,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsFalse(batch.Actions.Contains(action));
         }
 
-        [TestMethod]
+        [Test]
         public void TestAddToInvetory()
         {
             Batch batch = new Batch();
@@ -161,7 +161,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsTrue(cellar.Containers.Contains(container));
         }
 
-        [TestMethod]
+        [Test]
         public void TestViewBacthActions()
         {
 

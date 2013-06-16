@@ -2,16 +2,16 @@
 using System.Web.Mvc;
 using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebMatrix.WebData;
+using NUnit.Framework;
 
 namespace BrewersBuddy.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class AccountControllerTest : DbTestBase
     {
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
+        [TestFixtureSetUp]
+        public static void Initialize()
         {
             //WebSecurity.InitializeDatabaseConnection(
             //      connectionStringName: "DefaultConnection",
@@ -21,7 +21,7 @@ namespace BrewersBuddy.Tests.Controllers
             //      autoCreateTables: true);
         }
 
-        [TestMethod]
+        [Test]
         public void RegisterUser_TEST()
         {
             // Act
@@ -44,7 +44,7 @@ namespace BrewersBuddy.Tests.Controllers
             context.SaveChanges();
         }
 
-        [TestMethod]
+        [Test]
         public void Login_TEST()
         {
             // Arrange
@@ -62,7 +62,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
 
-        [TestMethod]
+        [Test]
         public void LogOff_TEST()
         {
             // Arrange
@@ -81,7 +81,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
 
-       [TestMethod]
+       [Test]
         public void UserCanEditAccountInformation_TEST()
         {
             // Act
@@ -111,7 +111,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
 
-        [TestMethod]
+        [Test]
         public void UserCanEnterZipToFindBrewers_TEST()
         {
             // Act

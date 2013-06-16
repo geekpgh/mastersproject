@@ -7,15 +7,15 @@ using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using BrewersBuddy.Tests.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Web;
 
 namespace BrewersBuddy.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class BatchControllerTest : DbTestBase
     {
-        [TestMethod]
+        [Test]
         public void TestBatchList()
         {
             UserProfile user = TestUtils.createUser(111, "Mike", "Smith");
@@ -30,7 +30,7 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.IsTrue(batchesList.Count == 5);
         }
 
-        [TestMethod]
+        [Test]
         public void TestBatchOnlyOwnedList()
         {
             //Create 5 batches for mike
@@ -60,7 +60,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestEditBatch()
         {
             Assert.Fail("Implement me");
