@@ -19,7 +19,7 @@ namespace BrewersBuddy.Migrations
                         Author_UserId = c.Int(),
                     })
                 .PrimaryKey(t => t.NoteId)
-                .ForeignKey("dbo.Batch", t => t.Batch_BatchId)
+                .ForeignKey("dbo.Batch", t => t.Batch_BatchId, cascadeDelete: true)
                 .ForeignKey("dbo.UserProfile", t => t.Author_UserId)
                 .Index(t => t.Batch_BatchId)
                 .Index(t => t.Author_UserId);
