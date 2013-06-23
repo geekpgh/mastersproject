@@ -202,8 +202,8 @@ namespace BrewersBuddy.Controllers
                 return RedirectToAction("Index");
             }
             return View(action);
-       
-       }
+
+        }
 
         public ActionResult AddNote(int id = 0)
         {
@@ -242,6 +242,44 @@ namespace BrewersBuddy.Controllers
 
             return View(note);
         }
+
+        // working for DeleteNote
+        //
+        // GET: /Batch/DeleteNote/5
+
+
+        public ActionResult DeleteNote(int id = 0)
+        {
+            BatchNote note = db.BatchNotes.Find(id);
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+            return View(note);
+        }
+
+
+        //
+        // POST: /Batch/Delete/5
+
+
+        [HttpPost, ActionName("DeleteNote")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteNoteConfirmed(int id)
+        {
+            //Associate the note and batch with the action
+            BatchNote note = db.BatchNotes.Find(id);
+
+            //            int batchId = note.Batch_BatchId;
+            //            Batch batch = db.Batches.Find(batchId);
+
+            db.BatchNotes.Remove(note);
+            db.SaveChanges();
+            return RedirectToAction("Index/");
+            //            return RedirectToAction("Details/" + batch.BatchId);
+        }
+
+
 
         //
         // GET: /Batch/Ratings/5
