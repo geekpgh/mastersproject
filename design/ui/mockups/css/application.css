@@ -1,3 +1,45 @@
+body {
+	color: #505050 !important;
+}
+
+.subhead {
+	height: 110px;
+	margin-top: 40px;
+	border: 1px solid #000;
+}
+
+.subhead h1 {
+	position: relative;
+	top: 40px;
+}
+
+h1 {
+	font-weight: 200;
+	font-size: 30px;
+}
+
+.submenu {
+	position: relative;
+	left: 0;
+	display: block;
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+.submenu li {
+	display: list-item;
+	float: left;
+	line-height: 20px;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	text-align: left;
+}
+
+/********************************************
+* Bootstrap overrides
+*********************************************/
+
 .brand { 
 	font-weight: 100 !important;
 	color: #252525 !important;
