@@ -1,0 +1,22 @@
+.brand { 
+	font-weight: 100 !important;
+	color: #252525 !important;
+}
+
+.navbar {
+	background-color: #ededed;
+	border-bottom: 1px solid #dddada;
+}
+
+.nav li a {
+	color: #505050 !important;
+}
+
+.nav li.active a {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	background-color: transparent !important;
+	color: #0f93e6 !important;
+	font-weight: bold;
+}

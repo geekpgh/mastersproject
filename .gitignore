@@ -24,3 +24,5 @@ Thumbs.db
 
 # Nuget stuff
 packages
+
+.DS_Store
