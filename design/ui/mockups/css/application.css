@@ -80,10 +80,15 @@ h1 {
 
 .batch-list a {
 	font-size: 20px;
+	font-weight: 500;
 }
 
 .batch-list p {
-	margin-left: -20px;
+	margin: 0 0 0 -20px;
+}
+
+.batch-list .row {
+	margin-bottom: 20px;
 }
 
 /********************************************
