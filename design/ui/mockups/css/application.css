@@ -2,6 +2,12 @@ body {
 	color: #505050 !important;
 }
 
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
 .subhead {
 	position: relative;
 	height: 110px;
@@ -116,4 +122,15 @@ h1 {
 	background-color: transparent !important;
 	color: #0f93e6 !important;
 	font-weight: bold;
+}
+
+.btn {
+	font-size: 16px;
+	padding: 10px 20px 10px 20px;
+}
+
+input,
+select,
+textarea {
+	width: 300px;
 }
