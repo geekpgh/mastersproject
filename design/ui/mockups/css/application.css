@@ -3,14 +3,14 @@ body {
 }
 
 .subhead {
+	position: relative;
 	height: 110px;
 	margin-top: 40px;
-	border: 1px solid #000;
 }
 
 .subhead h1 {
 	position: relative;
-	top: 40px;
+	top: 50px;
 }
 
 h1 {
@@ -19,14 +19,17 @@ h1 {
 }
 
 .submenu {
-	position: relative;
+	position: absolute;
 	left: 0;
 	display: block;
-	float: left;
-	margin: 0 10px 0 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .submenu li {
+	font-size: 18px;
+	font-weight: 200;
 	display: list-item;
 	float: left;
 	line-height: 20px;
@@ -34,6 +37,53 @@ h1 {
 	list-style-position: outside;
 	list-style-type: none;
 	text-align: left;
+	margin-right: 40px;
+}
+
+.submenu li.active {
+	font-weight: 500;
+}
+
+.subnav {
+	color: #fc6ca5;
+	display: block;
+	position: absolute;
+	top: 30px;
+}
+
+.content {
+	margin-top: 20px;
+}
+
+.content-with-submenu {
+	margin-top: 30px;
+}
+
+.list-type {
+	height: 40px;
+	width: 40px;
+	background: #505050;
+	color: #fff;
+	font-family: "Georgia", "Times New Roman", Times;
+	text-align: center;
+	line-height: 40px;
+	font-size: 24px;
+}
+
+.list-type.beer {
+	background: #cca23e;
+}
+
+.list-type.wine {
+	background: #a92b58;
+}
+
+.batch-list a {
+	font-size: 20px;
+}
+
+.batch-list p {
+	margin-left: -20px;
 }
 
 /********************************************
