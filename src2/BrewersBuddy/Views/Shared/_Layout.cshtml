@@ -1,137 +1,41 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
     <title>@ViewBag.Title &middot; Brewers Buddy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    @Styles.Render("~/Content/css")
+	@Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap")
+</head>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div clas="navbar-inner">
+			<div class="container">
+				@Html.ActionLink("BrewersBuddy", "Index", "Home", htmlAttributes: new { @class = "brand" })
+				<ul class="nav">
+                    <li>@Html.ActionLink("Recipes", "Index", "Recipe")</li>
+                    <li>@Html.ActionLink("Batches", "Index", "Batch")</li>
+                    <li>@Html.ActionLink("Users", "Index", "User")</li>
+				</ul>
+                @Html.Partial("_LoginPartial")
+			</div>
+		</div>
+	</div>
+	<div class="container main">
+		@RenderBody()
 
-    <style type="text/css">
-      body {
-        padding-top: 20px;
-        padding-bottom: 60px;
-      }
+        <hr>
 
-      /* Custom container */
-      .container {
-        margin: 0 auto;
-        max-width: 1000px;
-      }
-      .container > hr {
-        margin: 60px 0;
-      }
-
-      /* Main marketing message and sign up button */
-      .jumbotron {
-        margin: 80px 0;
-        text-align: center;
-      }
-      .jumbotron h1 {
-        font-size: 100px;
-        line-height: 1;
-      }
-      .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-      }
-      .jumbotron .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 60px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
-
-
-      /* Customize the navbar links to be fill the entire space of the .navbar */
-      .navbar .navbar-inner {
-        padding: 0;
-      }
-      .navbar .nav {
-        margin: 0;
-        display: table;
-        width: 100%;
-      }
-      .navbar .nav li {
-        display: table-cell;
-        width: 1%;
-        float: none;
-      }
-      .navbar .nav li a {
-        font-weight: bold;
-        text-align: center;
-        border-left: 1px solid rgba(255,255,255,.75);
-        border-right: 1px solid rgba(0,0,0,.1);
-      }
-      .navbar .nav li:first-child a {
-        border-left: 0;
-        border-radius: 3px 0 0 3px;
-      }
-      .navbar .nav li:last-child a {
-        border-right: 0;
-        border-radius: 0 3px 3px 0;
-      }
-    </style>
-    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- Fav and touch icons -->
-    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  </head>
-
-  <body>
-
-    <div class="container">
-
-      <div class="masthead">
-        <div class="row-fluid">
-          <div class="span6">
-            <h3 class="muted">Brewers Buddy</h3>
-          </div>
-          <div class="span6">
-               @Html.Partial("_LoginPartial")
-          </div>
+        <div class="footer">
+            <p>&copy; PSU SWENG 500 Team 3</p>
         </div>
-        <!--<h3 class="muted">Brewers Buddy</h3>-->
-        <div class="navbar">
-          <div class="navbar-inner">
-            <div class="container">
-              <ul class="nav">
-                <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Recipes", "Index", "Recipe")</li>
-                <li>@Html.ActionLink("Batches", "Index", "Batch")</li>
-                <li>@Html.ActionLink("Users", "Index", "User")</li>
-              </ul>
-            </div>
-          </div>
-        </div><!-- /.navbar -->
-      </div>
-
-      @RenderBody()
-
-      <hr>
-
-      <div class="footer">
-        <p>&copy; PSU SWENG 500 Team 3</p>
-      </div>
-
-    </div> <!-- /container -->
+	</div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-  </body>
+</body>
 </html>
