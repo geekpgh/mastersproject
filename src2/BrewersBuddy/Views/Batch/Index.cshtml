@@ -1,8 +1,43 @@
 ﻿@model IEnumerable<BrewersBuddy.Models.Batch>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Batches";
 }
+
+<div class="row">
+	<div class="span7">
+		<div class="subhead">
+			<a class="subnav">&lt; All Batches</a>
+			<h1>All Batches</h1>
+			<ul class="submenu">
+				<li class="active"><a href="#">My Batches</a></li>
+				<li><a href="#">Shared Batches</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="span2">
+		@Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "pull-right" })
+	</div>
+</div>
+<div class="content-with-submenu row">
+	<div class="batch-list span9">
+        @foreach (var item in Model) {
+		    <div class="row">
+			    <div class="span1">
+				    <div class="list-type beer">
+					    B
+				    </div>
+			    </div>
+			    <div class="span8">
+				    <p>@Html.ActionLink(item.Name, "Details", new { id=item.BatchId })</p>
+				    <p>
+					    @Html.DisplayFor(modelItem => item.Description)
+				    </p>
+			    </div>
+		    </div>
+        }
+    </div>
+</div>
 
 <h2>Index</h2>
 

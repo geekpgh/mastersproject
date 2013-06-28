@@ -1,5 +1,6 @@
 ﻿body {
 	color: #505050 !important;
+    margin-top: 60px !important;
 }
 
 * {
@@ -10,13 +11,13 @@
 
 .subhead {
 	position: relative;
-	height: 110px;
-	margin-top: 40px;
+	height: 80px;
 }
 
 .subhead h1 {
-	position: relative;
-	top: 50px;
+	position: absolute;
+	margin: 0;
+	top: 20px;
 }
 
 h1 {
@@ -54,7 +55,7 @@ h1 {
 	color: #fc6ca5;
 	display: block;
 	position: absolute;
-	top: 30px;
+	top: 0px;
 }
 
 .main {
