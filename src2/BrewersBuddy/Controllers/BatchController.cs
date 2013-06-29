@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Security;
 using WebMatrix.WebData;
+using System.Data.Entity;
 
 namespace BrewersBuddy.Controllers
 {
@@ -91,8 +92,6 @@ namespace BrewersBuddy.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-
             return View(batch);
         }
 
@@ -202,8 +201,8 @@ namespace BrewersBuddy.Controllers
                 return RedirectToAction("Index");
             }
             return View(action);
-
-        }
+       
+       }
 
         public ActionResult AddNote(int id = 0)
         {
@@ -235,7 +234,6 @@ namespace BrewersBuddy.Controllers
 
                 db.Entry(note).State = EntityState.Added;
                 batch.Notes.Add(note);
-
                 db.SaveChanges();
                 return RedirectToAction("Details/" + batch.BatchId);
             }
@@ -243,10 +241,8 @@ namespace BrewersBuddy.Controllers
             return View(note);
         }
 
-        // working for DeleteNote
         //
         // GET: /Batch/DeleteNote/5
-
 
         public ActionResult DeleteNote(int id = 0)
         {
@@ -258,27 +254,54 @@ namespace BrewersBuddy.Controllers
             return View(note);
         }
 
-
         //
-        // POST: /Batch/Delete/5
-
+        // POST: /Batch/DeleteNote/5
 
         [HttpPost, ActionName("DeleteNote")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteNoteConfirmed(int id)
         {
-            //Associate the note and batch with the action
+            
+//Associate the note and batch with the action
             BatchNote note = db.BatchNotes.Find(id);
-
-            //            int batchId = note.Batch_BatchId;
-            //            Batch batch = db.Batches.Find(batchId);
 
             db.BatchNotes.Remove(note);
             db.SaveChanges();
             return RedirectToAction("Index/");
-            //            return RedirectToAction("Details/" + batch.BatchId);
+//            return RedirectToAction("Details/" + BatchId);
         }
 
+
+        public ActionResult EditNote(int id = 0)
+        {
+            BatchNote note = db.BatchNotes.Find(id);
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+  BatchNote note1 = db.BatchNotes.Find(id);
+
+            return View(note);
+        }
+
+
+        //
+        // POST: /Batch/EditNote/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditNote(BatchNote note)
+        {
+            if (ModelState.IsValid)
+            {
+                BrewersBuddyContext db2 = new BrewersBuddyContext();
+                db2.Entry(note).State = EntityState.Modified;
+                db2.SaveChanges();
+//                return RedirectToAction("Details/" + BatchNumber);
+                return RedirectToAction("Index");
+            }
+            return View(note);
+        }
 
 
         //

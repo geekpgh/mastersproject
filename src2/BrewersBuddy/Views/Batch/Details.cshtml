@@ -9,34 +9,60 @@
 <fieldset>
     <legend>Batch</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Type)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Type)
-    </div>
+<table>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Name)</b>
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Type)</b>
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Type)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.StartDate)</b>
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.StartDate)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Description)</b>
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Description)
+            </div>
+        </td>
+    </tr>
+</table>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.StartDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.StartDate)
-    </div>
-    <div class="display-label">
-            @Html.DisplayNameFor(model => model.Description)
-     </div>
-    <div class="display-field-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
+<br />
 
 </fieldset>
-
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }) |
     @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }) |
@@ -44,16 +70,27 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
+<br />
 <h2>Notes</h2>
 
 @foreach (var note in Model.Notes) {
-    <p>
-            @Html.ActionLink("View", "Edit", new { id=Model.BatchId })  |
-            @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId })  |
-            @Html.ActionLink("Delete", "DeleteNote", new { id=note.NoteId })  |
-            <b>@Html.DisplayFor(modelItem => note.Title)</b>
-    </p>
-    <p>
-            @Html.DisplayFor(modelItem => note.Text)
-    </p>
+    <table>
+        <tr>
+            <td>
+                @Html.ActionLink("View", "Edit", new { id=Model.BatchId })  |
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditNote", new { id=note.NoteId })  |
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteNote", new { id=note.NoteId })  |
+            </td>
+            <td>
+                <b>@Html.DisplayFor(modelItem => note.Title)</b>
+            </td>
+        </tr>
+</table>
+    
 }
+
+
