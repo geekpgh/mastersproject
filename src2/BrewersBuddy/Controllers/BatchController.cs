@@ -184,6 +184,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddAction(BatchAction action)
         {
+            SelectActionType();
             if (ModelState.IsValid)
             {
                 //Add the date
@@ -198,7 +199,7 @@ namespace BrewersBuddy.Controllers
                 batch.Actions.Add(action);
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + batch.BatchId);
             }
             return View(action);
        
@@ -279,7 +280,7 @@ namespace BrewersBuddy.Controllers
             {
                 return HttpNotFound();
             }
-  BatchNote note1 = db.BatchNotes.Find(id);
+            BatchNote note1 = db.BatchNotes.Find(id);
 
             return View(note);
         }
