@@ -462,6 +462,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Batch\DeleteNote.cshtml" />
     <Content Include="Views\Batch\EditNote.cshtml" />
+    <Content Include="Views\Batch\AddMeasurement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

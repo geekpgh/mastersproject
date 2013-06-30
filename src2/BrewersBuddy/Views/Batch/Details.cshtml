@@ -67,6 +67,7 @@
     @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }) |
     @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }) |
     @Html.ActionLink("Add Action", "AddAction", new { id=Model.BatchId }) |
+    @Html.ActionLink("Add Measurement", "AddMeasurement", new { id=Model.BatchId }) |
     @Html.ActionLink("Rate", "Create", "BatchRating", new { Model.BatchId }, null) | 
     @Html.ActionLink("Back to List", "Index")
 </p>
@@ -91,7 +92,28 @@
             </td>
         </tr>
 </table>
+}
     
+
+<br />
+<h2>Measurements</h2>
+@foreach (var measurement in Model.Measurements) {
+<table>
+    <tr>
+        <td>
+            @Html.ActionLink("View", "Edit", new { id=Model.BatchId })  |
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditMeasurment", new { id=measurement.MeasurementId })  |
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "DeleteMesurment", new { id=measurement.MeasurementId  })  |
+        </td>
+        <td>
+            <b>@Html.DisplayFor(modelItem => measurement.Name)</b>
+        </td>
+    </tr>
+</table>  
 }
 
 

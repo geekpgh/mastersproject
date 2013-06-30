@@ -242,6 +242,43 @@ namespace BrewersBuddy.Controllers
             return View(note);
         }
 
+        public ActionResult AddMeasurement(int id = 0)
+        {
+            Batch batch = db.Batches.Find(id);
+
+            if (batch == null)
+            {
+                return HttpNotFound();
+            }
+
+            Session["CurrentBatchId"] = batch.BatchId;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddMeasurement(Measurement measurement)
+        {
+            if (ModelState.IsValid)
+            {
+                //Add the date
+                measurement.MeasurementDate = DateTime.Now;
+
+                //Associate the batch with the measurement
+                int batchId = (int)Session["CurrentBatchId"];
+                Batch batch = db.Batches.Find(batchId);
+                measurement.Batch = batch;
+
+                db.Entry(measurement).State = EntityState.Added;
+                batch.Measurements.Add(measurement);
+                db.SaveChanges();
+                return RedirectToAction("Details/" + batch.BatchId);
+            }
+
+            return View(measurement);
+        }
+
         //
         // GET: /Batch/DeleteNote/5
 

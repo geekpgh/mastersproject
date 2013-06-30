@@ -56,6 +56,24 @@ namespace BrewersBuddy.Tests.TestUtilities
             return note;
         }
 
+        public static Measurement createMeasurement(Batch batch, String name, String description, String measured, Double value)
+        {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
+            Measurement measurment = new Measurement();
+            measurment.Batch = batch;
+            measurment.Name = name;
+            measurment.Description = description;
+            measurment.Measured = measured;
+            measurment.MeasurementDate = DateTime.Now;
+            measurment.Value = value;
+
+            db.Measurements.Add(measurment);
+            db.SaveChanges();
+
+            return measurment;
+        }
+
         public static BatchRating createBatchRating(Batch batch, UserProfile user, int rating, string comment)
         {
             BrewersBuddyContext db = new BrewersBuddyContext();
