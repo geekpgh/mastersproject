@@ -14,11 +14,11 @@
 	<div class="navbar navbar-fixed-top">
 		<div clas="navbar-inner">
 			<div class="container">
-				@Html.ActionLink("BrewersBuddy", "Index", "Home", htmlAttributes: new { @class = "brand" })
+                @Html.ActionLink("BrewersBuddy", "Index", new { controller = "Home" }, htmlAttributes: new { @class = "brand" })
 				<ul class="nav">
                     <li>@Html.ActionLink("Recipes", "Index", "Recipe")</li>
                     <li>@Html.ActionLink("Batches", "Index", "Batch")</li>
-                    <li>@Html.ActionLink("Users", "Index", "User")</li>
+                    <li>@Html.ActionLink("Users", "SearchIndex", "Account")</li>
 				</ul>
                 @Html.Partial("_LoginPartial")
 			</div>

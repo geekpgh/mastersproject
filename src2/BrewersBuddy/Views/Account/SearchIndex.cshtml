@@ -55,7 +55,7 @@
 }
 </table>
 
-@if (!(bool)TempData["FirstLoad"])
+@if (!(bool)TempData["FirstLoad"] && !Model.Any())
         {
             <div class="firstLoad">
                 <p style="color:red;font-size:x-large"> No Results Found. </p>
