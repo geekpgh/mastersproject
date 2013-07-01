@@ -1,0 +1,43 @@
+﻿@model BrewersBuddy.Models.BatchNote
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>BatchNote</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AuthorDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AuthorDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Text)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AuthorId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AuthorId)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
