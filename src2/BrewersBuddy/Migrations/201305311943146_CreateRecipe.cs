@@ -15,6 +15,8 @@ namespace BrewersBuddy.Migrations
                         Name = c.String(),
                         Description = c.String(),
                         Cost = c.Double(nullable: false),
+						OwnerId = c.Int(nullable:false),
+						HowtoMakeit = c.String(),
                     })
                 .PrimaryKey(t => t.RecipeId);
             
@@ -22,10 +24,10 @@ namespace BrewersBuddy.Migrations
                 "dbo.RecipeIngredient",
                 c => new
                     {
-                        Recipe_RecipeId = c.Int(nullable: false),
-                        Ingredient_IngredientId = c.Int(nullable: false),
+						Ingredient_IngredientId = c.Int(nullable: false),
+						Recipe_RecipeId = c.Int(nullable: false),                        
                     })
-                .PrimaryKey(t => new { t.Recipe_RecipeId, t.Ingredient_IngredientId })
+				.PrimaryKey(t => new { t.Recipe_RecipeId, t.Ingredient_IngredientId })
                 .ForeignKey("dbo.Recipe", t => t.Recipe_RecipeId, cascadeDelete: true)
                 .ForeignKey("dbo.Ingredient", t => t.Ingredient_IngredientId, cascadeDelete: true)
                 .Index(t => t.Recipe_RecipeId)
