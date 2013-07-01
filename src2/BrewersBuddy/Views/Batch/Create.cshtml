@@ -4,47 +4,51 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<div class="row">
+	<div class="span9">
+		<div class="subhead">
+			@Html.ActionLink("< All Batches", "Index", "Batch", null, htmlAttributes: new { @class = "subnav" })
+			<h1>Create</h1>
+		</div>
+	</div>
+</div>
+<div class="content row">
+    <div class="span9">
+        @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
 
-    <fieldset>
-        <legend>Batch</legend>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Type)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownList("BatchType")
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="editor-field">
+                @Html.TextArea("Description", new { rows=10, columns=40 })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("BatchType")
-            @Html.ValidationMessageFor(model => model.Type)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("Description", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+            <p>
+                <input type="submit" class="btn" value="Create" />
+            </p>
+        </fieldset>
+        }
+    </div>
 </div>
 
 @section Scripts {
