@@ -273,6 +273,10 @@
     <Compile Include="Migrations\201306102336151_CreateWebpages_Membership.Designer.cs">
       <DependentUpon>201306102336151_CreateWebpages_Membership.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307010027354_MakeBatchNameMandatory.cs" />
+    <Compile Include="Migrations\201307010027354_MakeBatchNameMandatory.Designer.cs">
+      <DependentUpon>201307010027354_MakeBatchNameMandatory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -525,6 +529,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306102336151_CreateWebpages_Membership.resx">
       <DependentUpon>201306102336151_CreateWebpages_Membership.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307010027354_MakeBatchNameMandatory.resx">
+      <DependentUpon>201307010027354_MakeBatchNameMandatory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
