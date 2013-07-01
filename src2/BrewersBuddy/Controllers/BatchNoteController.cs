@@ -56,4 +56,5 @@ namespace BrewersBuddy.Controllers
             }
             return View(batchnote);
         }
+    }
 }
