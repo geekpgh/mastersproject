@@ -66,9 +66,6 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create()
         {
-            //Populate the batch type list
-            SelectType();
-
             return View();
         }
 

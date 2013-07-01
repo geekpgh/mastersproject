@@ -10,18 +10,22 @@ namespace BrewersBuddy.Controllers
 {
     public class ControllerUtils
     {
-        public static List<SelectListItem> getSelectionForEnum<T>()
+        public static IEnumerable<SelectListItem> getSelectionForEnum<T>()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            var values = Enum.GetValues(typeof(T));
-
-            int valueCount = 0;
-            foreach (var value in values)
+            try
             {
-                items.Add(new SelectListItem { Text = value.ToString(), Value = valueCount.ToString() });
+                return Enum.GetValues(typeof(T))
+                    .Cast<T>()
+                    .Select(x => new SelectListItem()
+                    {
+                        Text = x.ToString(),
+                        Value = Convert.ToInt32(x).ToString()
+                    });
             }
-
-            return items;
+            catch
+            {
+                return new List<SelectListItem>();
+            }
         }
 
         public static int getCurrentUserId(IPrincipal user)

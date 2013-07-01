@@ -31,9 +31,7 @@
         @foreach (var item in Model) {
 		    <div class="row">
 			    <div class="span1">
-				    <div class="list-type beer">
-					    B
-				    </div>
+				    @Html.BatchType(item.Type)
 			    </div>
 			    <div class="span8">
 				    <p>@Html.ActionLink(item.Name, "Details", new { id=item.BatchId })</p>
