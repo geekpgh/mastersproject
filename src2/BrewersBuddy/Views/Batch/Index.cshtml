@@ -1,26 +1,33 @@
-﻿@model IEnumerable<BrewersBuddy.Models.Batch>
+﻿@using BrewersBuddy.Utilities;
+@model IEnumerable<BrewersBuddy.Models.Batch>
 
 @{
     ViewBag.Title = "All Batches";
 }
 
 <div class="row">
-	<div class="span7">
+	<div class="span9">
 		<div class="subhead">
-			<a class="subnav">&lt; All Batches</a>
+			<!--<a class="subnav">&lt; All Batches</a>-->
 			<h1>All Batches</h1>
 			<ul class="submenu">
-				<li class="active"><a href="#">My Batches</a></li>
-				<li><a href="#">Shared Batches</a></li>
+                @Html.SubmenuActionLink("My Batches", "Index", "Batch")
+                @Html.SubmenuActionLink("Shared Batches", "Shared", "Batch")
+                @Html.SubmenuActionLink("Create New", "Create", "Batch")
 			</ul>
 		</div>
 	</div>
-	<div class="span2">
-		@Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "pull-right" })
-	</div>
 </div>
 <div class="content-with-submenu row">
-	<div class="batch-list span9">
+	<div class="span9">
+        @if (Model.Count() == 0) {
+            <div class="row">
+			    <div class="span9">
+                    You haven't added any bacthes yet. @Html.ActionLink("Create", "Create") one now.
+                </div>
+            </div>
+        }
+        <div class="batch-list">
         @foreach (var item in Model) {
 		    <div class="row">
 			    <div class="span1">
@@ -36,39 +43,6 @@
 			    </div>
 		    </div>
         }
+        </div>
     </div>
 </div>
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BatchId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BatchId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BatchId })
-        </td>
-    </tr>
-}
-
-</table>

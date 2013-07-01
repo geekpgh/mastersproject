@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using BrewersBuddy.Utilities;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -16,9 +18,9 @@
 			<div class="container">
                 @Html.ActionLink("BrewersBuddy", "Index", new { controller = "Home" }, htmlAttributes: new { @class = "brand" })
 				<ul class="nav">
-                    <li>@Html.ActionLink("Recipes", "Index", "Recipe")</li>
-                    <li>@Html.ActionLink("Batches", "Index", "Batch")</li>
-                    <li>@Html.ActionLink("Users", "SearchIndex", "Account")</li>
+                    @Html.MenuActionLink("Recipes", "Index", "Recipe")
+                    @Html.MenuActionLink("Batches", "Index", "Batch")
+                    @Html.MenuActionLink("Users", "SearchIndex", "Account")
 				</ul>
                 @Html.Partial("_LoginPartial")
 			</div>
