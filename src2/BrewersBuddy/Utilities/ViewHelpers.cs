@@ -41,7 +41,7 @@ namespace BrewersBuddy.Utilities
             else if (type == Models.BatchType.Other)
             {
                 div.AddCssClass("other");
-                div.SetInnerText(")");
+                div.SetInnerText("O");
             }
 
             return MvcHtmlString.Create(div.ToString());

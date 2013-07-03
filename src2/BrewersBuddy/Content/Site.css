@@ -89,6 +89,10 @@ h1 {
 	background: #a92b58;
 }
 
+.list-type.mead {
+    background: #a65d20;    
+}
+
 .batch-list a {
 	font-size: 20px;
 	font-weight: 500;
