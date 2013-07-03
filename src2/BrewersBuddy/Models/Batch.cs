@@ -15,9 +15,22 @@ namespace BrewersBuddy.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
-        public BatchType Type { get; set; }
+        [Required]
+        public int BatchTypeValue { get; set; }
         //The user id of the user
         public int OwnerId { get; set; }
+
+        public BatchType Type
+        {
+            get 
+            {
+                return (BatchType)Enum.ToObject(typeof(BatchType), BatchTypeValue); 
+            }
+            set
+            {
+                BatchTypeValue = (int)value;
+            }
+        }
 
         public virtual ICollection<Measurement> Measurements { get; set; }
         public virtual ICollection<BatchNote> Notes { get; set; }
