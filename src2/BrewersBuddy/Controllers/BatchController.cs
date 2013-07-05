@@ -123,7 +123,7 @@ namespace BrewersBuddy.Controllers
             {
                 db.Entry(batch).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + batch.BatchId);
             }
             return View(batch);
         }
@@ -279,9 +279,18 @@ namespace BrewersBuddy.Controllers
         //
         // GET: /Batch/DeleteNote/5
 
-        public ActionResult DeleteNote(int id = 0)
+        public ActionResult DeleteNote(int idNote = 0, int idBatch = 0)
         {
-            BatchNote note = db.BatchNotes.Find(id);
+            Batch batch = db.Batches.Find(idBatch);
+            if (batch == null)
+            {
+                return HttpNotFound();
+            }
+            Session["CurrentBatchId"] = batch.BatchId;
+
+            BrewersBuddyContext db2 = new BrewersBuddyContext();
+
+            BatchNote note = db.BatchNotes.Find(idNote);
             if (note == null)
             {
                 return HttpNotFound();
@@ -294,27 +303,36 @@ namespace BrewersBuddy.Controllers
 
         [HttpPost, ActionName("DeleteNote")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteNoteConfirmed(int id)
+        public ActionResult DeleteNoteConfirmed(int idNote = 0)
         {
-            
-//Associate the note and batch with the action
-            BatchNote note = db.BatchNotes.Find(id);
+            BatchNote note = db.BatchNotes.Find(idNote);
 
             db.BatchNotes.Remove(note);
             db.SaveChanges();
-            return RedirectToAction("Index/");
-//            return RedirectToAction("Details/" + BatchId);
+
+            //Associate the batch with the note
+            int batchId = (int)Session["CurrentBatchId"];
+
+            return RedirectToAction("Details/" + batchId);
         }
 
 
-        public ActionResult EditNote(int id = 0)
+        public ActionResult EditNote(int idNote = 0, int idBatch = 0)
         {
-            BatchNote note = db.BatchNotes.Find(id);
+            Batch batch = db.Batches.Find(idBatch);
+            if (batch == null)
+            {
+                return HttpNotFound();
+            }
+            Session["CurrentBatchId"] = batch.BatchId;
+
+            BrewersBuddyContext db2 = new BrewersBuddyContext();
+
+            BatchNote note = db2.BatchNotes.Find(idNote);
             if (note == null)
             {
                 return HttpNotFound();
             }
-            BatchNote note1 = db.BatchNotes.Find(id);
 
             return View(note);
         }
@@ -332,8 +350,11 @@ namespace BrewersBuddy.Controllers
                 BrewersBuddyContext db2 = new BrewersBuddyContext();
                 db2.Entry(note).State = EntityState.Modified;
                 db2.SaveChanges();
-//                return RedirectToAction("Details/" + BatchNumber);
-                return RedirectToAction("Index");
+
+                //Associate the batch with the note
+                int batchId = (int)Session["CurrentBatchId"];
+
+                return RedirectToAction("Details/" + batchId);
             }
             return View(note);
         }
