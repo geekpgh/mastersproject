@@ -5,42 +5,36 @@
     ViewBag.Title = "All Batches";
 }
 
-<div class="row">
-	<div class="span9">
-		<div class="subhead">
-			<!--<a class="subnav">&lt; All Batches</a>-->
-			<h1>All Batches</h1>
-			<ul class="submenu">
-                @Html.SubmenuActionLink("My Batches", "Index", "Batch")
-                @Html.SubmenuActionLink("Shared Batches", "Shared", "Batch")
-                @Html.SubmenuActionLink("Create New", "Create", "Batch")
-			</ul>
-		</div>
-	</div>
+<h2>All Batches</h2>
+<div class="subnav" data-spy="affix" data-offset-top="70">
+    <ul class="nav nav-pills">
+        @Html.SubmenuActionLink("My Batches", "Index", "Batch")
+        @Html.SubmenuActionLink("Shared Batches", "Shared", "Batch")
+        @Html.SubmenuActionLink("Create New", "Create", "Batch")
+    </ul>
 </div>
-<div class="content-with-submenu row">
-	<div class="span9">
-        @if (Model.Count() == 0) {
-            <div class="row">
-			    <div class="span9">
-                    You haven't added any bacthes yet. @Html.ActionLink("Create", "Create") one now.
-                </div>
-            </div>
-        }
-        <div class="batch-list">
-        @foreach (var item in Model) {
-		    <div class="row">
-			    <div class="span1">
-				    @Html.BatchType(item.Type)
-			    </div>
-			    <div class="span8">
-				    <p>@Html.ActionLink(item.Name, "Details", new { id=item.BatchId })</p>
-				    <p>
-					    @Html.DisplayFor(modelItem => item.Description)
-				    </p>
-			    </div>
-		    </div>
-        }
+
+<div class="index-list">
+@if (Model.Count() == 0) {
+    <div class="row">
+		<div class="span9">
+            You haven't added any bacthes yet. @Html.ActionLink("Create", "Create") one now.
         </div>
     </div>
+}
+@foreach (var item in Model) {
+	<div class="row">
+		<div class="span9">
+            <h4>@Html.ActionLink(item.Name, "Details", new { id=item.BatchId })</h4>
+            <p>
+                @Html.DisplayFor(modelItem => item.Description)
+            </p>
+            <p>
+                <span class="label label-@item.Type.ToString().ToLower()">@item.Type.ToString().ToLower()</span>
+                <span class="label">@item.StartDate.ToShortDateString()</span>
+            </p>
+            <hr />
+		</div>
+	</div>
+}
 </div>

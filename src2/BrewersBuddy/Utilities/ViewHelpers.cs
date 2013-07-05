@@ -15,38 +15,6 @@ namespace BrewersBuddy.Utilities
         private static readonly SelectListItem[] SingleEmptyItem = 
             new[] { new SelectListItem { Text = "", Value = "" } };
 
-        public static MvcHtmlString BatchType(
-            this HtmlHelper htmlHelper,
-            BatchType type)
-        {
-            var div = new TagBuilder("div");
-
-            div.AddCssClass("list-type");
-
-            if (type == Models.BatchType.Beer)
-            {
-                div.AddCssClass("beer");
-                div.SetInnerText("B");
-            }
-            else if (type == Models.BatchType.Mead)
-            {
-                div.AddCssClass("mead");
-                div.SetInnerText("M");
-            }
-            else if (type == Models.BatchType.Wine)
-            {
-                div.AddCssClass("wine");
-                div.SetInnerText("W");
-            }
-            else if (type == Models.BatchType.Other)
-            {
-                div.AddCssClass("other");
-                div.SetInnerText("O");
-            }
-
-            return MvcHtmlString.Create(div.ToString());
-        }
-
         /// <summary>
         /// 
         /// </summary>

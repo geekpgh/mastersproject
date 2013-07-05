@@ -1,151 +1,66 @@
-﻿body {
-	color: #505050 !important;
-    margin-top: 60px !important;
+﻿.main {
+    margin-top: 60px;
 }
 
-* {
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
+.label-beer {
+    background-color: #cca23e;
 }
 
-.subhead {
-	position: relative;
-	height: 80px;
+.label-wine {
+    background-color: #a92b58;
 }
 
-.subhead h1 {
-	position: absolute;
-	margin: 0;
-	top: 20px;
+.label-mead {
+    background-color: #a65d20;
 }
 
-h1 {
-	font-weight: 200;
-	font-size: 30px;
+.label-other {
+    background-color: #505050;
 }
 
-.submenu {
-	position: absolute;
-	left: 0;
-	display: block;
-	bottom: 0;
-	margin: 0;
-	padding: 0;
+.index-list hr {
+    margin: 0;
 }
 
-.submenu li {
-	font-size: 18px;
-	font-weight: 200;
-	display: list-item;
-	float: left;
-	line-height: 20px;
-	list-style-image: none;
-	list-style-position: outside;
-	list-style-type: none;
-	text-align: left;
-	margin-right: 40px;
+.index-list .row:last-child hr {
+    display: none;
 }
 
-.submenu li.active {
-	font-weight: 600;
-}
-
-.subnav {
-	color: #fc6ca5;
-	display: block;
-	position: absolute;
-	top: 0px;
-}
-
-.main {
-    margin-top: 40px;
-}
-
-.content {
-	margin-top: 20px;
-}
-
-.content-with-submenu {
-	margin-top: 30px;
-}
-
-.list-type {
-	height: 40px;
-	width: 40px;
-	background: #505050;
-	color: #fff;
-	font-family: "Georgia", "Times New Roman", Times;
-	text-align: center;
-	line-height: 40px;
-	font-size: 24px;
-}
-
-.list-type.beer {
-	background: #cca23e;
-}
-
-.list-type.wine {
-	background: #a92b58;
-}
-
-.list-type.mead {
-    background: #a65d20;    
-}
-
-.batch-list a {
-	font-size: 20px;
-	font-weight: 500;
-}
-
-.batch-list p {
-	margin: 0 0 0 -20px;
-}
-
-.batch-list .row {
-	margin-bottom: 20px;
-}
-
-/********************************************
-* Bootstrap overrides
-*********************************************/
-
-.brand { 
-	font-weight: 100 !important;
-	color: #252525 !important;
-}
-
-.navbar {
-	background-color: #ededed;
-	border-bottom: 1px solid #dddada;
-}
-
-.nav li a {
-	color: #505050 !important;
-}
-
-.nav li.active a {
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	background-color: transparent !important;
-	color: #0f93e6 !important;
-	font-weight: bold;
-}
+/*
+ Bootstrap overrides 
+*/
 
 .navbar form {
     margin: 0 !important;
-    padding: 10px 15px 10px;
-    text-shadow: 0 1px 0 #ffffff;
+    padding: 0 !important;
 }
 
-.btn {
-	font-size: 16px;
-	padding: 10px 20px 10px 20px;
+.dropdown-menu a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
-input,
-select,
-textarea {
-	width: 300px;
+.dropdown-menu a:hover,
+.dropdown-menu a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #17b394;
+  background-image: -moz-linear-gradient(top, #18bc9c, #15a589);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#18bc9c), to(#15a589));
+  background-image: -webkit-linear-gradient(top, #18bc9c, #15a589);
+  background-image: -o-linear-gradient(top, #18bc9c, #15a589);
+  background-image: linear-gradient(to bottom, #18bc9c, #15a589);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff18bc9c', endColorstr='#ff15a589', GradientType=0);
+}
+
+.subnav {
+    margin-bottom: 20px !important;
 }
