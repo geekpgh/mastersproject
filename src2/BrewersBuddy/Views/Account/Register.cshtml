@@ -2,57 +2,35 @@
 @{
     ViewBag.Title = "Register";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+ 
+<h2>Create a new account.</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+    @Html.ValidationSummary(true, "The following errors occurred", new { @class = "alert alert-error" })
 
     <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.FirstName)
-                @Html.TextBoxFor(m => m.FirstName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.LastName)
-                @Html.TextBoxFor(m => m.LastName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.City)
-                @Html.TextBoxFor(m => m.City)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.State)
-                @Html.TextBoxFor(m => m.State)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Zip)
-                @Html.TextBoxFor(m => m.Zip)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
+        <legend></legend>
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName)
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password)
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword)
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email)
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.LabelFor(m => m.City)
+        @Html.TextBoxFor(m => m.City)
+        @Html.LabelFor(m => m.State)
+        @Html.TextBoxFor(m => m.State)
+        @Html.LabelFor(m => m.Zip)
+        @Html.TextBoxFor(m => m.Zip)
+        <br />
+        <input type="submit" class="btn btn-primary" value="Register" />
     </fieldset>
 }
 
