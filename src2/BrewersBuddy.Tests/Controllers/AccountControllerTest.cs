@@ -111,7 +111,34 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
 
-        [Test]
+       [Test]
+       public void TestRemoveAccount()
+       {
+           // Act
+           UserProfile userProfile = new UserProfile();
+           userProfile.UserName = "NUNIT_Test";
+           userProfile.Email = "NUNIT@Test.com";
+           userProfile.FirstName = "Nunit";
+           userProfile.LastName = "Test";
+           userProfile.City = "Brewery";
+           userProfile.State = "KS";
+           userProfile.Zip = "12345";
+
+           context.UserProfiles.Add(userProfile);
+           context.SaveChanges();
+
+           UserProfile user = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+           Assert.AreNotEqual(user, null);
+
+           context.UserProfiles.Remove(user);
+           context.SaveChanges();
+
+           UserProfile user1 = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
+           Assert.AreEqual(user1, null);
+       }
+
+
+       [Test]
         public void UserCanEnterZipToFindBrewers_TEST()
         {
             // Act

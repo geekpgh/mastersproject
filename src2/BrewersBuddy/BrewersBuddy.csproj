@@ -476,6 +476,7 @@
     <Content Include="Views\Batch\AddMeasurement.cshtml" />
     <Content Include="Views\BatchNote\Details.cshtml" />
     <Content Include="Views\BatchNote\Edit.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

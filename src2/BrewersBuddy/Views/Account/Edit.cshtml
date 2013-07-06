@@ -73,12 +73,25 @@
                 
         <p>
             <input type="submit" value="Save" />
-            @Html.ActionLink("Change Password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
-
+            <br><br>
         </p>
-    </fieldset>
-}
 
+    <table>
+        <tr>
+            <td>
+             @Html.ActionLink("Back", "..")  &nbsp;|&nbsp;
+            </td>
+           <td>
+             @Html.ActionLink("Change Password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })  &nbsp;|&nbsp;
+            </td>
+            <td>
+             @Html.ActionLink("Delete Account", "Delete")  
+            </td>
+        </tr>
+</table>
+
+    </fieldset>}
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

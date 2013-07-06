@@ -304,6 +304,61 @@ namespace BrewersBuddy.Controllers
 
 		#endregion Edit Account
 
+        #region Delete Account
+        //
+        // GET: /Account/Delete/
+
+
+        public ActionResult Delete()
+        {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
+            var currentUser = User.Identity.Name;
+            UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == currentUser.ToLower());
+
+            if (user == null)
+            {
+                // Some problem occured
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+
+        //
+        // POST: /Account/Delete/
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(UserProfile user)
+        {
+            WebSecurity.Logout();
+            OAuthWebSecurity.DeleteAccount(user.UserName, user.UserId.ToString());
+
+            UserProfile user1 = db.UserProfiles.Find(user.UserId);
+
+            // Remove all user batches
+            var owndedBatches = from batch in db.Batches
+                                where (batch.OwnerId == user.UserId)
+                                select batch;
+            if (owndedBatches != null)
+            {
+                var list = owndedBatches.ToList();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    db.Batches.Remove(list[i]);
+                }
+            }
+
+            // Remove user                            
+            db.UserProfiles.Remove(user1);
+            db.SaveChanges();
+
+            return RedirectToAction("..");
+        }
+
+        #endregion Delete Account
+        
 		#region Search Accounts
 		public ActionResult SearchIndex(string searchString)
 		{
