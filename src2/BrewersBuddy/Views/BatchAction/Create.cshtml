@@ -23,19 +23,11 @@
         </div>
         
         <div class="editor-label">
-            @Html.LabelFor(model => model.Type)
+                @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
             @Html.EnumDropDownListFor(model => model.Type)
             @Html.ValidationMessageFor(model => model.Type)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ActionDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ActionDate)
-            @Html.ValidationMessageFor(model => model.ActionDate)
         </div>
 
         <div class="editor-label">

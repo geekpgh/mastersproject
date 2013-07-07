@@ -22,7 +22,7 @@ namespace BrewersBuddy.Models
         {
             get
             {
-                return (ActionType)Enum.ToObject(typeof(BatchType), ActionTypeValue);
+                return (ActionType)Enum.ToObject(typeof(ActionType), ActionTypeValue);
             }
             set
             {
