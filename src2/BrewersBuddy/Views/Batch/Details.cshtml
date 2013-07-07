@@ -80,13 +80,13 @@
     <table>
         <tr>
             <td>
-                @Html.ActionLink("View", "Details", new { id=note.NoteId })  &nbsp;|&nbsp;
+                @Html.ActionLink("View", "Details", "BatchNote", new { id=note.NoteId }, null)  &nbsp;|&nbsp;
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditNote", new { idNote=note.NoteId, idBatch=Model.BatchId })  &nbsp;|&nbsp;
+                @Html.ActionLink("Edit", "EditNote", "BatchNote", new { idNote=note.NoteId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;
             </td>
             <td>
-                @Html.ActionLink("Delete", "DeleteNote", new { idNote=note.NoteId, idBatch=Model.BatchId })  &nbsp;|&nbsp;&nbsp;
+                @Html.ActionLink("Delete", "DeleteNote", "BatchNote", new { idNote=note.NoteId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;&nbsp;
             </td>
             <td>
                 <b>@Html.DisplayFor(modelItem => note.Title)</b>
