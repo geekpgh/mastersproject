@@ -1,4 +1,5 @@
-﻿@model BrewersBuddy.Models.BatchAction
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.BatchAction
 
 @{
     ViewBag.Title = "Create";
@@ -20,11 +21,12 @@
             @Html.EditorFor(model => model.Title)
             @Html.ValidationMessageFor(model => model.Title)
         </div>
+        
         <div class="editor-label">
             @Html.LabelFor(model => model.Type)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("ActionType")
+            @Html.EnumDropDownListFor(model => model.Type)
             @Html.ValidationMessageFor(model => model.Type)
         </div>
 
