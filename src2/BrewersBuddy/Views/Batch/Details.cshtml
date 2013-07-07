@@ -94,6 +94,30 @@
         </tr>
 </table>
 }
+
+
+<br>
+<h2>Actions</h2>
+@foreach (var action in Model.Actions) {
+    <table>
+        <tr>
+            <td>
+                @Html.ActionLink("View", "Details", "BatchAction", new { id=action.ActionId }, null)  &nbsp;|&nbsp;
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "BatchAction", new { idNote=action.ActionId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "BatchAction", new { idNote=action.ActionId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;&nbsp;
+            </td>
+            <td>
+                <b>@Html.DisplayFor(modelItem => action.Title)</b>
+            </td>
+        </tr>
+</table>
+}
+
+
    
 <br />
 <h2>Measurements</h2>

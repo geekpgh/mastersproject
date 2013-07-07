@@ -13,9 +13,22 @@ namespace BrewersBuddy.Models
         public string Title { get; set; }
         public DateTime ActionDate { get; set; }
         public string Description { get; set; }
-        public ActionType Type { get; set; }
+        [Required]
+        public int ActionTypeValue { get; set; }
         public Batch Batch { get; set; }
         public int PerformerId { get; set; }
+
+        public ActionType Type
+        {
+            get
+            {
+                return (ActionType)Enum.ToObject(typeof(BatchType), ActionTypeValue);
+            }
+            set
+            {
+                ActionTypeValue = (int)value;
+            }
+        }
     }
 
 }
