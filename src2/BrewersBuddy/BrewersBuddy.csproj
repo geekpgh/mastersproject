@@ -298,6 +298,10 @@
     <Compile Include="Migrations\201307072318277_action-type-fix.Designer.cs">
       <DependentUpon>201307072318277_action-type-fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs" />
+    <Compile Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.Designer.cs">
+      <DependentUpon>201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -578,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307072318277_action-type-fix.resx">
       <DependentUpon>201307072318277_action-type-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.resx">
+      <DependentUpon>201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
