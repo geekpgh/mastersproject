@@ -1,29 +1,37 @@
 ﻿using BrewersBuddy.Models;
+using BrewersBuddy.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace BrewersBuddy.Controllers
 {
     [Authorize]
     public class BatchRatingController : Controller
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly IBatchService _batchService;
+        private readonly IBatchRatingService _ratingService;
+
+        public BatchRatingController(
+            IBatchRatingService ratingService,
+            IBatchService batchService)
+        {
+            if (ratingService == null)
+                throw new ArgumentNullException("ratingService");
+            if (batchService == null)
+                throw new ArgumentNullException("batchService");
+
+            _ratingService = ratingService;
+            _batchService = batchService;
+        }
 
         //
         // GET: /BatchRating/Create
-
         public ActionResult Create(int batchId = 0)
         {
             int currentUserId = ControllerUtils.GetCurrentUserId(User);
-            Batch batch = db.Batches.Find(batchId);
-
-            BatchRating previousRating = db.BatchRatings
-                .Where(r => r.BatchId == batchId && r.UserId == currentUserId)
-                .FirstOrDefault();
+            Batch batch = _batchService.Get(batchId);
+            BatchRating previousRating = _ratingService.GetUserRatingForBatch(batchId, currentUserId);
 
             if (previousRating != null)
             {
@@ -48,10 +56,10 @@ namespace BrewersBuddy.Controllers
 
             // Create a list from 0 - 100 for all possible rating values
             ViewBag.Ratings = Enumerable.Range(0, 101)
-                .Select(num => new SelectListItem() 
-                { 
+                .Select(num => new SelectListItem()
+                {
                     Text = num.ToString(),
-                    Value = num.ToString() 
+                    Value = num.ToString()
                 });
 
             return View(rating);
@@ -68,8 +76,8 @@ namespace BrewersBuddy.Controllers
             {
                 rating.UserId = ControllerUtils.GetCurrentUserId(User);
 
-                db.BatchRatings.Add(rating);
-                db.SaveChanges();
+                _ratingService.Create(rating);
+
                 return RedirectToAction("Details", "Batch", new { id = rating.BatchId });
             }
 

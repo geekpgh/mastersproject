@@ -32,6 +32,13 @@ namespace BrewersBuddy.Services
                 .Where(r => r.BatchId == batchId);
         }
 
+        public BatchRating GetUserRatingForBatch(int batchId, int userId)
+        {
+            return db.BatchRatings
+                .Where(rating => rating.BatchId == batchId && rating.UserId == userId)
+                .FirstOrDefault();
+        }
+
         public void Update(BatchRating @object)
         {
             db.Entry(@object).State = EntityState.Modified;
