@@ -163,25 +163,25 @@ namespace BrewersBuddy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddAction(BatchAction action)
+        public ActionResult AddAction(BatchAction model)
         {
             if (ModelState.IsValid)
             {
                 //Add the date
-                action.ActionDate = DateTime.Now;
-                action.PerformerId = ControllerUtils.getCurrentUserId(User);
+                model.ActionDate = DateTime.Now;
+                model.PerformerId = ControllerUtils.getCurrentUserId(User);
 
                 //Associate the batch with the action
                 int batchId = (int)Session["CurrentBatchId"];
                 Batch batch = db.Batches.Find(batchId);
 
-                db.Entry(action).State = EntityState.Added;
-                batch.Actions.Add(action);
+                db.Entry(model).State = EntityState.Added;
+                batch.Actions.Add(model);
 
                 db.SaveChanges();
                 return RedirectToAction("Details/" + batch.BatchId);
             }
-            return View(action);
+            return View(model);
        
        }
 
