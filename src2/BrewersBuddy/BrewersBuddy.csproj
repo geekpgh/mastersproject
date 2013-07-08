@@ -347,6 +347,8 @@
     <Compile Include="Services\BatchService.cs" />
     <Compile Include="Services\BatchRatingService.cs" />
     <Compile Include="Services\BatchActionService.cs" />
+    <Compile Include="Services\RecipeService.cs" />
+    <Compile Include="Services\IRecipeService.cs" />
     <Compile Include="Services\MeasurementService.cs" />
     <Compile Include="Services\IMeasurementService.cs" />
     <Compile Include="Services\IBatchActionService.cs" />

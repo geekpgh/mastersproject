@@ -58,6 +58,7 @@ namespace BrewersBuddy.App_Start
             kernel.Bind<IBatchActionService>().To<BatchActionService>();
             kernel.Bind<IBatchNoteService>().To<BatchNoteService>();
             kernel.Bind<IMeasurementService>().To<MeasurementService>();
+            kernel.Bind<IRecipeService>().To<RecipeService>();
         }
     }
 }

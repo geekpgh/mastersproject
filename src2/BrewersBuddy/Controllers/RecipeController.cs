@@ -1,45 +1,39 @@
-﻿using System.Data;
-using System.Linq;
-using System.Web.Mvc;
-using BrewersBuddy.Models;
+﻿using BrewersBuddy.Models;
+using BrewersBuddy.Services;
 using System;
 using System.Collections.Generic;
-using System.Web.Security;
-using WebMatrix.WebData;
+using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
 {
     [Authorize]
     public class RecipeController : Controller
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly IRecipeService _recipeService;
 
+        public RecipeController(IRecipeService recipeService)
+        {
+            if (recipeService == null)
+                throw new ArgumentNullException("recipeService");
 
+            _recipeService = recipeService;
+        }
 
         //
         // GET: /Recipe/
-
-
         public ActionResult Index()
         {
             int currentUserId = ControllerUtils.GetCurrentUserId(User);
+            IEnumerable<Recipe> recipes = _recipeService.GetAllForUser(currentUserId);
 
-            //Get only the Recipes for the current user
-            var owndedRecipes = from Recipe in db.Recipes
-                                where (Recipe.OwnerId.Equals(currentUserId))
-                                select Recipe;
-
-            return View(owndedRecipes.ToList());
+            return View(recipes);
         }
-
 
         //
         // GET: /Recipe/Details/5
-
-
         public ActionResult Details(int id = 0)
         {
-            Recipe Recipe = db.Recipes.Find(id);
+            Recipe Recipe = _recipeService.Get(id);
             if (Recipe == null)
             {
                 return HttpNotFound();
@@ -47,53 +41,39 @@ namespace BrewersBuddy.Controllers
             return View(Recipe);
         }
 
-
         //
         // GET: /Recipe/Create
-
-
         public ActionResult Create()
         {
- ;
-
             return View();
         }
 
-
         //
         // POST: /Recipe/Create
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Recipe Recipe)
+        public ActionResult Create(Recipe recipe)
         {
             if (ModelState.IsValid)
             {
                 //Set the start date to now
-                Recipe.AddDate = DateTime.Now;
+                recipe.AddDate = DateTime.Now;
                 //Tie the object to the user
-                Recipe.OwnerId = ControllerUtils.GetCurrentUserId(User);
+                recipe.OwnerId = ControllerUtils.GetCurrentUserId(User);
 
-                db.Recipes.Add(Recipe);
-                db.SaveChanges();
+                _recipeService.Create(recipe);
                 return RedirectToAction("Index");
             }
 
 
-            return View(Recipe);
+            return View(recipe);
         }
-
-
-      
 
         //
         // GET: /Recipe/Delete/5
-
-
         public ActionResult Delete(int id = 0)
         {
-            Recipe Recipe = db.Recipes.Find(id);
+            Recipe Recipe = _recipeService.Get(id);
             if (Recipe == null)
             {
                 return HttpNotFound();
@@ -104,23 +84,13 @@ namespace BrewersBuddy.Controllers
 
         //
         // POST: /Recipe/Delete/5
-
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Recipe Recipe = db.Recipes.Find(id);
-            db.Recipes.Remove(Recipe);
-            db.SaveChanges();
+            Recipe recipe = _recipeService.Get(id);
+            _recipeService.Delete(recipe);
             return RedirectToAction("Index");
-        }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
 
     }
