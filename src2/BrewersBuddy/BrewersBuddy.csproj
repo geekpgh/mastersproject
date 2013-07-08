@@ -208,7 +208,6 @@
     <Compile Include="Controllers\BatchController.cs" />
     <Compile Include="Controllers\BatchNoteController.cs" />
     <Compile Include="Controllers\BatchRatingController.cs" />
-    <Compile Include="Controllers\ControllerUtils.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeasurementController.cs" />
     <Compile Include="Controllers\RecipeController.cs">
@@ -351,6 +350,7 @@
     <Compile Include="Services\BatchService.cs" />
     <Compile Include="Services\BatchRatingService.cs" />
     <Compile Include="Services\BatchActionService.cs" />
+    <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\RecipeService.cs" />
     <Compile Include="Services\IRecipeService.cs" />
     <Compile Include="Services\MeasurementService.cs" />
@@ -360,6 +360,7 @@
     <Compile Include="Services\IBatchNoteService.cs" />
     <Compile Include="Services\IBatchService.cs" />
     <Compile Include="Services\ICRUDService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\Calculations.cs" />
     <Compile Include="Utilities\MenuHelpers.cs" />
     <Compile Include="Utilities\ViewHelpers.cs" />

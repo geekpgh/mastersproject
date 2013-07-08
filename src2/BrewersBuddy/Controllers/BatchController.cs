@@ -12,11 +12,13 @@ namespace BrewersBuddy.Controllers
         private readonly IBatchService _batchService;
         private readonly IBatchNoteService _noteService;
         private readonly IBatchRatingService _ratingService;
+        private readonly IUserService _userService;
 
         public BatchController(
             IBatchService batchService,
             IBatchNoteService noteService,
-            IBatchRatingService ratingService)
+            IBatchRatingService ratingService,
+            IUserService userService)
         {
             if (batchService == null)
                 throw new ArgumentNullException("batchService");
@@ -24,17 +26,20 @@ namespace BrewersBuddy.Controllers
                 throw new ArgumentNullException("noteService");
             if (ratingService == null)
                 throw new ArgumentNullException("ratingService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
 
             _batchService = batchService;
             _noteService = noteService;
             _ratingService = ratingService;
+            _userService = userService;
         }
 
         //
         // GET: /Batch/
         public ActionResult Index()
         {
-            int currentUserId = ControllerUtils.GetCurrentUserId(User);
+            int currentUserId = _userService.GetCurrentUserId();
             IEnumerable<Batch> batches = _batchService.GetAllForUser(currentUserId);
             return View(batches);
         }
@@ -72,7 +77,7 @@ namespace BrewersBuddy.Controllers
                 //Set the start date to now
                 batch.StartDate = DateTime.Now;
                 //Tie the object to the user
-                batch.OwnerId = ControllerUtils.GetCurrentUserId(User);
+                batch.OwnerId = _userService.GetCurrentUserId();
 
                 _batchService.Create(batch);
 
@@ -158,7 +163,7 @@ namespace BrewersBuddy.Controllers
             {
                 //Add the date
                 model.ActionDate = DateTime.Now;
-                model.PerformerId = ControllerUtils.GetCurrentUserId(User);
+                model.PerformerId = _userService.GetCurrentUserId();
 
                 //Associate the batch with the action
                 int batchId = (int)Session["CurrentBatchId"];
@@ -194,7 +199,7 @@ namespace BrewersBuddy.Controllers
             {
                 //Add the date
                 note.AuthorDate = DateTime.Now;
-                note.AuthorId = ControllerUtils.GetCurrentUserId(User);
+                note.AuthorId = _userService.GetCurrentUserId();
 
                 //Associate the batch with the action
                 int batchId = (int)Session["CurrentBatchId"];

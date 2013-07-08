@@ -11,25 +11,30 @@ namespace BrewersBuddy.Controllers
     {
         private readonly IBatchService _batchService;
         private readonly IBatchRatingService _ratingService;
+        private readonly IUserService _userService;
 
         public BatchRatingController(
             IBatchRatingService ratingService,
-            IBatchService batchService)
+            IBatchService batchService,
+            IUserService userService)
         {
             if (ratingService == null)
                 throw new ArgumentNullException("ratingService");
             if (batchService == null)
                 throw new ArgumentNullException("batchService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
 
             _ratingService = ratingService;
             _batchService = batchService;
+            _userService = userService;
         }
 
         //
         // GET: /BatchRating/Create
         public ActionResult Create(int batchId = 0)
         {
-            int currentUserId = ControllerUtils.GetCurrentUserId(User);
+            int currentUserId = _userService.GetCurrentUserId();
             Batch batch = _batchService.Get(batchId);
             BatchRating previousRating = _ratingService.GetUserRatingForBatch(batchId, currentUserId);
 
@@ -74,7 +79,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                rating.UserId = ControllerUtils.GetCurrentUserId(User);
+                rating.UserId = _userService.GetCurrentUserId();
 
                 _ratingService.Create(rating);
 

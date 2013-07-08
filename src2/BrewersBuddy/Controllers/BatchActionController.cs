@@ -10,13 +10,19 @@ namespace BrewersBuddy.Controllers
     public class BatchActionController : Controller
     {
         private readonly IBatchActionService _actionService;
+        private readonly IUserService _userService;
 
-        public BatchActionController(IBatchActionService actionService)
+        public BatchActionController(
+            IBatchActionService actionService,
+            IUserService userService)
         {
             if (actionService == null)
                 throw new ArgumentNullException("actionService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
 
             _actionService = actionService;
+            _userService = userService;
         }
 
         //
@@ -58,7 +64,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                batchAction.PerformerId = ControllerUtils.GetCurrentUserId(User);
+                batchAction.PerformerId = _userService.GetCurrentUserId();
                 _actionService.Create(batchAction);
                 return RedirectToAction("Index");
             }

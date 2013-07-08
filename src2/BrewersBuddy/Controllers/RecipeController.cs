@@ -10,20 +10,26 @@ namespace BrewersBuddy.Controllers
     public class RecipeController : Controller
     {
         private readonly IRecipeService _recipeService;
+        private readonly IUserService _userService;
 
-        public RecipeController(IRecipeService recipeService)
+        public RecipeController(
+            IRecipeService recipeService,
+            IUserService userService)
         {
             if (recipeService == null)
                 throw new ArgumentNullException("recipeService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
 
             _recipeService = recipeService;
+            _userService = userService;
         }
 
         //
         // GET: /Recipe/
         public ActionResult Index()
         {
-            int currentUserId = ControllerUtils.GetCurrentUserId(User);
+            int currentUserId = _userService.GetCurrentUserId();
             IEnumerable<Recipe> recipes = _recipeService.GetAllForUser(currentUserId);
 
             return View(recipes);
@@ -59,7 +65,7 @@ namespace BrewersBuddy.Controllers
                 //Set the start date to now
                 recipe.AddDate = DateTime.Now;
                 //Tie the object to the user
-                recipe.OwnerId = ControllerUtils.GetCurrentUserId(User);
+                recipe.OwnerId = _userService.GetCurrentUserId();
 
                 _recipeService.Create(recipe);
                 return RedirectToAction("Index");
