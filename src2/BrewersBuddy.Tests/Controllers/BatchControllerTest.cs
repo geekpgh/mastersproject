@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestFixture]
-    public class BatchControllerTest : DbTestBase
+    public class BatchControllerTest
     {
         [Test]
         public void TestBatchList()
