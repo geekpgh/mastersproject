@@ -18,7 +18,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create(int batchId = 0)
         {
-            int currentUserId = ControllerUtils.getCurrentUserId(User);
+            int currentUserId = ControllerUtils.GetCurrentUserId(User);
             Batch batch = db.Batches.Find(batchId);
 
             BatchRating previousRating = db.BatchRatings
@@ -66,7 +66,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                rating.UserId = ControllerUtils.getCurrentUserId(User);
+                rating.UserId = ControllerUtils.GetCurrentUserId(User);
 
                 db.BatchRatings.Add(rating);
                 db.SaveChanges();

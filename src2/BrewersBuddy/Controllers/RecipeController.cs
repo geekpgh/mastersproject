@@ -22,7 +22,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Index()
         {
-            int currentUserId = ControllerUtils.getCurrentUserId(User);
+            int currentUserId = ControllerUtils.GetCurrentUserId(User);
 
             //Get only the Recipes for the current user
             var owndedRecipes = from Recipe in db.Recipes
@@ -73,7 +73,7 @@ namespace BrewersBuddy.Controllers
                 //Set the start date to now
                 Recipe.AddDate = DateTime.Now;
                 //Tie the object to the user
-                Recipe.OwnerId = ControllerUtils.getCurrentUserId(User);
+                Recipe.OwnerId = ControllerUtils.GetCurrentUserId(User);
 
                 db.Recipes.Add(Recipe);
                 db.SaveChanges();

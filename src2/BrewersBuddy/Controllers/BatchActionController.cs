@@ -52,7 +52,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                batchAction.PerformerId = ControllerUtils.getCurrentUserId(User);
+                batchAction.PerformerId = ControllerUtils.GetCurrentUserId(User);
                 db.BatchActions.Add(batchAction);
                 db.SaveChanges();
                 return RedirectToAction("Index");

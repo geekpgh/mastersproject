@@ -11,7 +11,7 @@ namespace BrewersBuddy.Controllers
     public class ControllerUtils
     {
 
-        public static int getCurrentUserId(IPrincipal user)
+        public static int GetCurrentUserId(IPrincipal user)
         {
             return WebSecurity.GetUserId(user.Identity.Name);
         }
