@@ -1,25 +1,31 @@
-﻿using System;
+﻿using BrewersBuddy.Models;
+using BrewersBuddy.Services;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using BrewersBuddy.Models;
 
 namespace BrewersBuddy.Controllers
 {
     [Authorize]
     public class BatchActionController : Controller
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly IBatchActionService _actionService;
+
+        public BatchActionController(IBatchActionService actionService)
+        {
+            if (actionService == null)
+                throw new ArgumentNullException("actionService");
+
+            _actionService = actionService;
+        }
 
         //
         // GET: /BatchAction/
 
-        public ActionResult Index()
+        public ActionResult Index(int batchId = 0)
         {
-            return View(db.BatchActions.ToList());
+            IEnumerable<BatchAction> actions = _actionService.GetAllForBatch(batchId);
+            return View(actions);
         }
 
         //
@@ -27,7 +33,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            BatchAction batchaction = db.BatchActions.Find(id);
+            BatchAction batchaction = _actionService.Get(id);
             if (batchaction == null)
             {
                 return HttpNotFound();
@@ -53,8 +59,7 @@ namespace BrewersBuddy.Controllers
             if (ModelState.IsValid)
             {
                 batchAction.PerformerId = ControllerUtils.GetCurrentUserId(User);
-                db.BatchActions.Add(batchAction);
-                db.SaveChanges();
+                _actionService.Create(batchAction);
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +71,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            BatchAction batchAction = db.BatchActions.Find(id);
+            BatchAction batchAction = _actionService.Get(id);
             if (batchAction == null)
             {
                 return HttpNotFound();
@@ -83,8 +88,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(batchAction).State = EntityState.Modified;
-                db.SaveChanges();
+                _actionService.Update(batchAction);
                 return RedirectToAction("Index");
             }
             return View(batchAction);
@@ -95,7 +99,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            BatchAction batchaction = db.BatchActions.Find(id);
+            BatchAction batchaction = _actionService.Get(id);
             if (batchaction == null)
             {
                 return HttpNotFound();
@@ -110,16 +114,9 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BatchAction batchaction = db.BatchActions.Find(id);
-            db.BatchActions.Remove(batchaction);
-            db.SaveChanges();
+            BatchAction batchAction = _actionService.Get(id);
+            _actionService.Delete(batchAction);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

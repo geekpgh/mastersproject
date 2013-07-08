@@ -15,8 +15,8 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         [Required]
         public int ActionTypeValue { get; set; }
-        public Batch Batch { get; set; }
         public int PerformerId { get; set; }
+        public int BatchId { get; set; }
 
         public ActionType Type
         {
@@ -29,6 +29,9 @@ namespace BrewersBuddy.Models
                 ActionTypeValue = (int)value;
             }
         }
+
+        [ForeignKey("BatchId")]
+        public virtual Batch Batch { get; set; }
     }
 
 }

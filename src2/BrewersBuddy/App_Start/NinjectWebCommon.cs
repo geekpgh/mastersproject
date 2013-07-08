@@ -55,6 +55,7 @@ namespace BrewersBuddy.App_Start
             kernel.Bind<IBatchService>().To<BatchService>();
             kernel.Bind<IBatchRatingService>().To<BatchRatingService>();
             kernel.Bind<IBatchNoteService>().To<BatchNoteService>();
+            kernel.Bind<IBatchActionService>().To<BatchActionService>();
         }
     }
 }

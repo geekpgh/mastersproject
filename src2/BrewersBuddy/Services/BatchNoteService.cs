@@ -29,5 +29,11 @@ namespace BrewersBuddy.Services
             db.Entry(@object).State = EntityState.Modified;
             db.SaveChanges();
         }
+
+        public void Dispose()
+        {
+            if (db != null)
+                db.Dispose();
+        }
     }
 }

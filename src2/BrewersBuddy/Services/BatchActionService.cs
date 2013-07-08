@@ -6,33 +6,32 @@ using System.Linq;
 
 namespace BrewersBuddy.Services
 {
-    public class BatchRatingService : IBatchRatingService
+    public class BatchActionService : IBatchActionService
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
 
-        public void Create(BatchRating @object)
+        public void Create(BatchAction @object)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(BatchRating @object)
+        public void Delete(BatchAction @object)
         {
-            db.BatchRatings.Remove(@object);
+            db.BatchActions.Remove(@object);
             db.SaveChanges();
         }
 
-        public BatchRating Get(int id)
+        public BatchAction Get(int id)
         {
-            return db.BatchRatings.Find(id);
+            return db.BatchActions.Find(id);
         }
 
-        public IEnumerable<BatchRating> GetAllForBatch(int batchId)
+        public IEnumerable<BatchAction> GetAllForBatch(int batchId)
         {
-            return db.BatchRatings
-                .Where(r => r.BatchId == batchId);
+            return db.BatchActions.Where(action => action.BatchId == batchId);
         }
 
-        public void Update(BatchRating @object)
+        public void Update(BatchAction @object)
         {
             db.Entry(@object).State = EntityState.Modified;
             db.SaveChanges();
