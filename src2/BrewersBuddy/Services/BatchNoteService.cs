@@ -1,6 +1,8 @@
 ﻿using BrewersBuddy.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace BrewersBuddy.Services
 {
@@ -22,6 +24,11 @@ namespace BrewersBuddy.Services
         public BatchNote Get(int id)
         {
             return db.BatchNotes.Find(id);
+        }
+
+        public IEnumerable<BatchNote> GetAllForBatch(int batchId)
+        {
+            return db.BatchNotes.Where(note => note.BatchId == batchId);
         }
 
         public void Update(BatchNote @object)

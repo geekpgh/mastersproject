@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using BrewersBuddy.Models;
+using BrewersBuddy.Services;
+using System;
 using System.Web.Mvc;
-using BrewersBuddy.Models;
 
 namespace BrewersBuddy.Controllers
 {
     public class BatchNoteController : Controller
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly IBatchNoteService _noteService;
 
+        public BatchNoteController(IBatchNoteService noteService)
+        {
+            if (noteService == null)
+                throw new ArgumentNullException("noteService");
+
+            _noteService = noteService;
+        }
 
         //
         // GET: /BatchNote/Details/5
 
         public ActionResult Details(int id = 0)
         {
-            BatchNote batchnote = db.BatchNotes.Find(id);
+            BatchNote batchnote = _noteService.Get(id);
             if (batchnote == null)
             {
                 return HttpNotFound();
@@ -33,7 +36,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            BatchNote batchnote = db.BatchNotes.Find(id);
+            BatchNote batchnote = _noteService.Get(id);
             if (batchnote == null)
             {
                 return HttpNotFound();
@@ -46,15 +49,14 @@ namespace BrewersBuddy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(BatchNote batchnote)
+        public ActionResult Edit(BatchNote batchNote)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(batchnote).State = EntityState.Modified;
-                db.SaveChanges();
+                _noteService.Update(batchNote);
                 return RedirectToAction("Index");
             }
-            return View(batchnote);
+            return View(batchNote);
         }
     }
 }

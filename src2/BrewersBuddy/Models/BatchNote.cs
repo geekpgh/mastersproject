@@ -13,8 +13,11 @@ namespace BrewersBuddy.Models
         public string Title { get; set; }
         public DateTime AuthorDate { get; set; }
         public string Text { get; set; }
-        public Batch Batch { get; set; }
+        public int BatchId { get; set; }
         public int AuthorId { get; set; }
+
+        [ForeignKey("BatchId")]
+        public virtual Batch Batch { get; set; }
     }
 
 }
