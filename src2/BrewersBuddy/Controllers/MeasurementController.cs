@@ -1,25 +1,31 @@
-﻿using System;
+﻿using BrewersBuddy.Models;
+using BrewersBuddy.Services;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using BrewersBuddy.Models;
 
 namespace BrewersBuddy.Controllers
 {
     [Authorize]
     public class MeasurementController : Controller
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly IMeasurementService _measurementService;
+
+        public MeasurementController(IMeasurementService measurementService)
+        {
+            if (measurementService == null)
+                throw new ArgumentNullException("measurementService");
+
+            _measurementService = measurementService;
+        }
 
         //
         // GET: /Measurment/
 
-        public ActionResult Index()
+        public ActionResult Index(int batchId)
         {
-            return View(db.Measurements.ToList());
+            IEnumerable<Measurement> measurements = _measurementService.GetAllForBatch(batchId);
+            return View(measurements);
         }
 
         //
@@ -27,7 +33,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Measurement measurement = db.Measurements.Find(id);
+            Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
@@ -40,7 +46,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Measurement measurement = db.Measurements.Find(id);
+            Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
@@ -57,8 +63,7 @@ namespace BrewersBuddy.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(measurement).State = EntityState.Modified;
-                db.SaveChanges();
+                _measurementService.Update(measurement);
                 return RedirectToAction("Index");
             }
             return View(measurement);
@@ -69,7 +74,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Measurement measurement = db.Measurements.Find(id);
+            Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
@@ -84,16 +89,9 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Measurement measurement = db.Measurements.Find(id);
-            db.Measurements.Remove(measurement);
-            db.SaveChanges();
+            Measurement measurement = _measurementService.Get(id);
+            _measurementService.Delete(measurement);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

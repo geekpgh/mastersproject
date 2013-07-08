@@ -16,7 +16,10 @@ namespace BrewersBuddy.Models
         public double Value { get; set; }
         //This is what was measured, such as SO2, ABV, gravity
         public String Measured { get; set; }
-        public Batch Batch { get; set; }
+        public int BatchId { get; set; }
+
+        [ForeignKey("BatchId")]
+        public virtual Batch Batch { get; set; }
     }
 
 }
