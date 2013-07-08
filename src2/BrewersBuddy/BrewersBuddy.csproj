@@ -197,6 +197,7 @@
     <Compile Include="Controllers\BatchRatingController.cs" />
     <Compile Include="Controllers\ControllerUtils.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeasurementController.cs" />
     <Compile Include="Controllers\RecipeController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -279,6 +280,10 @@
     <Compile Include="Migrations\201307010149494_AddBatchTypeValueToBatch.cs" />
     <Compile Include="Migrations\201307010149494_AddBatchTypeValueToBatch.Designer.cs">
       <DependentUpon>201307010149494_AddBatchTypeValueToBatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307072318277_action-type-fix.cs" />
+    <Compile Include="Migrations\201307072318277_action-type-fix.Designer.cs">
+      <DependentUpon>201307072318277_action-type-fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -477,6 +482,10 @@
     <Content Include="Views\BatchNote\Details.cshtml" />
     <Content Include="Views\BatchNote\Edit.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Measurement\Index.cshtml" />
+    <Content Include="Views\Measurement\Details.cshtml" />
+    <Content Include="Views\Measurement\Edit.cshtml" />
+    <Content Include="Views\Measurement\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -541,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307010149494_AddBatchTypeValueToBatch.resx">
       <DependentUpon>201307010149494_AddBatchTypeValueToBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307072318277_action-type-fix.resx">
+      <DependentUpon>201307072318277_action-type-fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

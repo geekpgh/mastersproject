@@ -1,4 +1,5 @@
-﻿@model BrewersBuddy.Models.Batch
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.Batch
 
 @{
     ViewBag.Title = "Edit";
@@ -28,13 +29,14 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Type)
         </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
         <div class="editor-field">
-            @Html.DropDownList("BatchType")
+            @Html.EnumDropDownListFor(model => model.Type)
             @Html.ValidationMessageFor(model => model.Type)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
+
         <div class="editor-field">
             @Html.TextArea("Description", new { rows=10, columns=40 })
             @Html.ValidationMessageFor(model => model.Description)

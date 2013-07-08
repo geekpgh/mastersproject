@@ -14,12 +14,6 @@ namespace BrewersBuddy.Controllers
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
 
-        public ActionResult SelectType()
-        {
-            ViewBag.ActionType = ControllerUtils.getSelectionForEnum<ActionType>();
-            return View();
-        }
-
         //
         // GET: /BatchAction/
 
@@ -46,9 +40,6 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create()
         {
-            //Populate the action type dropdown
-            SelectType();
-
             return View();
         }
 
@@ -75,15 +66,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            //Populate the action type dropdown
-            SelectType();
-
-            BatchAction batchaction = db.BatchActions.Find(id);
-            if (batchaction == null)
+            BatchAction batchAction = db.BatchActions.Find(id);
+            if (batchAction == null)
             {
                 return HttpNotFound();
             }
-            return View(batchaction);
+            return View(batchAction);
         }
 
         //

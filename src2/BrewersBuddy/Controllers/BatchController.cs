@@ -15,19 +15,6 @@ namespace BrewersBuddy.Controllers
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
 
-        public ActionResult SelectType()
-        {
-            ViewBag.BatchType = ControllerUtils.getSelectionForEnum<BatchType>();
-            return View();
-        }
-
-        public ActionResult SelectActionType()
-        {
-            ViewBag.ActionType = ControllerUtils.getSelectionForEnum<ActionType>();
-            return View();
-        }
-
-
         //
         // GET: /Batch/
 
@@ -99,14 +86,14 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            //Populate batchtype dropdown
-            SelectType();
-
             Batch batch = db.Batches.Find(id);
             if (batch == null)
             {
                 return HttpNotFound();
             }
+
+            //SelectType(batch.Type);
+
             return View(batch);
         }
 
@@ -162,9 +149,6 @@ namespace BrewersBuddy.Controllers
         //Custom NON CRUD actions
         public ActionResult AddAction(int id = 0)
         {
-            //Populate the action type list
-            SelectActionType();
-
             Batch batch = db.Batches.Find(id);
 
             if (batch == null)
@@ -181,7 +165,6 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddAction(BatchAction action)
         {
-            SelectActionType();
             if (ModelState.IsValid)
             {
                 //Add the date

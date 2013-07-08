@@ -80,13 +80,13 @@
     <table>
         <tr>
             <td>
-                @Html.ActionLink("View", "Details", new { id=note.NoteId })  &nbsp;|&nbsp;
+                @Html.ActionLink("View", "Details", "BatchNote", new { id=note.NoteId }, null)  &nbsp;|&nbsp;
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditNote", new { idNote=note.NoteId, idBatch=Model.BatchId })  &nbsp;|&nbsp;
+                @Html.ActionLink("Edit", "EditNote", "BatchNote", new { idNote=note.NoteId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;
             </td>
             <td>
-                @Html.ActionLink("Delete", "DeleteNote", new { idNote=note.NoteId, idBatch=Model.BatchId })  &nbsp;|&nbsp;&nbsp;
+                @Html.ActionLink("Delete", "DeleteNote", "BatchNote", new { idNote=note.NoteId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;&nbsp;
             </td>
             <td>
                 <b>@Html.DisplayFor(modelItem => note.Title)</b>
@@ -94,20 +94,46 @@
         </tr>
 </table>
 }
+
+
+<br>
+<h2>Actions</h2>
+@foreach (var action in Model.Actions) {
+    <table>
+        <tr>
+            <td>
+                @Html.ActionLink("View", "Details", "BatchAction", new { id=action.ActionId }, null)  &nbsp;|&nbsp;
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "BatchAction", new { idNote=action.ActionId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "BatchAction", new { idNote=action.ActionId, idBatch=Model.BatchId }, null)  &nbsp;|&nbsp;&nbsp;
+            </td>
+            <td>
+                <b>@Html.DisplayFor(modelItem => action.Title)</b>
+            </td>
+        </tr>
+</table>
+}
+
+
    
 <br />
 <h2>Measurements</h2>
 @foreach (var measurement in Model.Measurements) {
 <table>
     <tr>
+       <!-- this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues, object htmlAttributes-->
+
         <td>
-            @Html.ActionLink("View", "Edit", new { id=Model.BatchId })  &nbsp;|&nbsp;
+            @Html.ActionLink("View", "Details", "Measurement", new { id=measurement.MeasurementId }, null)  &nbsp;|&nbsp;
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditMeasurment", new { id=measurement.MeasurementId })  &nbsp;|&nbsp;
+            @Html.ActionLink("Edit", "Edit", "Measurement", new { id=measurement.MeasurementId }, null)  &nbsp;|&nbsp;
         </td>
         <td>
-            @Html.ActionLink("Delete", "DeleteMesurment", new { id=measurement.MeasurementId  })  &nbsp;|&nbsp;&nbsp;
+            @Html.ActionLink("Delete", "Delete", "Measurement", new { id=measurement.MeasurementId }, null)  &nbsp;|&nbsp;&nbsp;
         </td>
         <td>
             <b>@Html.DisplayFor(modelItem => measurement.Name)</b>
