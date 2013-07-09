@@ -164,7 +164,7 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestViewBacthActions()
         {
-
+            Assert.Fail();
         }
 
     }

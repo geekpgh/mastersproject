@@ -297,6 +297,14 @@
     <Compile Include="Migrations\201307072318277_action-type-fix.Designer.cs">
       <DependentUpon>201307072318277_action-type-fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307090004482_batch-action-required.cs" />
+    <Compile Include="Migrations\201307090004482_batch-action-required.Designer.cs">
+      <DependentUpon>201307090004482_batch-action-required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307090015173_container-type-enum-fix.cs" />
+    <Compile Include="Migrations\201307090015173_container-type-enum-fix.Designer.cs">
+      <DependentUpon>201307090015173_container-type-enum-fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs" />
     <Compile Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.Designer.cs">
       <DependentUpon>201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs</DependentUpon>
@@ -586,6 +594,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.resx">
       <DependentUpon>201307081510496_UpdateForeignKeyRelationsForRepositoryChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307090004482_batch-action-required.resx">
+      <DependentUpon>201307090004482_batch-action-required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307090015173_container-type-enum-fix.resx">
+      <DependentUpon>201307090015173_container-type-enum-fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
