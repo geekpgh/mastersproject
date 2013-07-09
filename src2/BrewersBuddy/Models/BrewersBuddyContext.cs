@@ -26,7 +26,14 @@ namespace BrewersBuddy.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+			base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+			modelBuilder.Entity<Ingredient>()
+				.HasMany(c => c.Recipes)
+				.WithMany(i => i.Ingredients)
+				.Map(t => t.MapLeftKey("IngredientID")
+					.MapRightKey("RecipeID")
+					.ToTable("IngredientRecipe"));
         }
 
     }

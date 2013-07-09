@@ -18,30 +18,11 @@ namespace BrewersBuddy.Migrations
 						OwnerId = c.Int(nullable:false),
 						HowtoMakeit = c.String(),
                     })
-                .PrimaryKey(t => t.RecipeId);
-            
-            CreateTable(
-                "dbo.RecipeIngredient",
-                c => new
-                    {
-						Ingredient_IngredientId = c.Int(nullable: false),
-						Recipe_RecipeId = c.Int(nullable: false),                        
-                    })
-				.PrimaryKey(t => new { t.Recipe_RecipeId, t.Ingredient_IngredientId })
-                .ForeignKey("dbo.Recipe", t => t.Recipe_RecipeId, cascadeDelete: true)
-                .ForeignKey("dbo.Ingredient", t => t.Ingredient_IngredientId, cascadeDelete: true)
-                .Index(t => t.Recipe_RecipeId)
-                .Index(t => t.Ingredient_IngredientId);
-            
+                .PrimaryKey(t => t.RecipeId);         
         }
         
         public override void Down()
         {
-            DropIndex("dbo.RecipeIngredient", new[] { "Ingredient_IngredientId" });
-            DropIndex("dbo.RecipeIngredient", new[] { "Recipe_RecipeId" });
-            DropForeignKey("dbo.RecipeIngredient", "Ingredient_IngredientId", "dbo.Ingredient");
-            DropForeignKey("dbo.RecipeIngredient", "Recipe_RecipeId", "dbo.Recipe");
-            DropTable("dbo.RecipeIngredient");
             DropTable("dbo.Recipe");
         }
     }
