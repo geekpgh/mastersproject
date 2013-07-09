@@ -16,8 +16,23 @@ namespace BrewersBuddy.Models
         public string Name { get; set; }
         public double Volume { get; set; }
         public ContainerVolumeUnits Unit { get; set; }
-        public ContainerType Type { get; set; }
+        
         public Batch Batch { get; set; }
+
+        [Required]
+        public int  ContainerTypeValue { get; set; }
+
+        public ContainerType Type
+        {
+            get
+            {
+                return (ContainerType)Enum.ToObject(typeof(ContainerType), ContainerTypeValue);
+            }
+            set
+            {
+                ContainerTypeValue = (int)value;
+            }
+        }
     }
 
 }

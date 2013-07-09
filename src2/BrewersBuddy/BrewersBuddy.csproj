@@ -289,6 +289,10 @@
     <Compile Include="Migrations\201307090004482_batch-action-required.Designer.cs">
       <DependentUpon>201307090004482_batch-action-required.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307090015173_container-type-enum-fix.cs" />
+    <Compile Include="Migrations\201307090015173_container-type-enum-fix.Designer.cs">
+      <DependentUpon>201307090015173_container-type-enum-fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -560,6 +564,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307090004482_batch-action-required.resx">
       <DependentUpon>201307090004482_batch-action-required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307090015173_container-type-enum-fix.resx">
+      <DependentUpon>201307090015173_container-type-enum-fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
