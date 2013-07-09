@@ -107,6 +107,25 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batchComment;
         }
 
+        public static BatchAction createBatchAction(Batch batch, UserProfile user, string title, string description, 
+                                                    ActionType type)
+        {
+            BrewersBuddyContext db = new BrewersBuddyContext();
+
+            BatchAction batchAction = new BatchAction();
+            batchAction.Batch = batch;
+            batchAction.PerformerId = user.UserId;
+            batchAction.Title = title;
+            batchAction.Description = description;
+            batchAction.Type = type;
+            batchAction.ActionDate = DateTime.Now;
+
+            db.BatchActions.Add(batchAction);
+            db.SaveChanges();
+
+            return batchAction;
+        }
+
         public static ICollection<Batch> createBatches(int number, UserProfile owner)
         {
             List<Batch> batches = new List<Batch>();

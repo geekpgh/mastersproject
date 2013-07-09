@@ -10,12 +10,19 @@ namespace BrewersBuddy.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ActionId { get; set; }
+        [Required]
+
         public string Title { get; set; }
         public DateTime ActionDate { get; set; }
+
+        [Required]
         public string Description { get; set; }
+
         [Required]
         public int ActionTypeValue { get; set; }
+
         public Batch Batch { get; set; }
+
         public int PerformerId { get; set; }
 
         public ActionType Type
