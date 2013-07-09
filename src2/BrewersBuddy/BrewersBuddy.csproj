@@ -313,6 +313,10 @@
     <Compile Include="Migrations\201307090133392_FixForMergeIssues.Designer.cs">
       <DependentUpon>201307090133392_FixForMergeIssues.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307092355091_FixForRecentChanges.cs" />
+    <Compile Include="Migrations\201307092355091_FixForRecentChanges.Designer.cs">
+      <DependentUpon>201307092355091_FixForRecentChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -607,6 +611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307090133392_FixForMergeIssues.resx">
       <DependentUpon>201307090133392_FixForMergeIssues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307092355091_FixForRecentChanges.resx">
+      <DependentUpon>201307092355091_FixForRecentChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
