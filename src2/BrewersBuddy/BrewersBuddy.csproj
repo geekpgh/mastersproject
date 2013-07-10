@@ -317,6 +317,10 @@
     <Compile Include="Migrations\201307092355091_FixForRecentChanges.Designer.cs">
       <DependentUpon>201307092355091_FixForRecentChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307100027233_container-units-enum.cs" />
+    <Compile Include="Migrations\201307100027233_container-units-enum.Designer.cs">
+      <DependentUpon>201307100027233_container-units-enum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -614,6 +618,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307092355091_FixForRecentChanges.resx">
       <DependentUpon>201307092355091_FixForRecentChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307100027233_container-units-enum.resx">
+      <DependentUpon>201307100027233_container-units-enum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

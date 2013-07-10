@@ -15,9 +15,9 @@ namespace BrewersBuddy.Models
         public int ContainerId { get; set; }
         public string Name { get; set; }
         public double Volume { get; set; }
-        public ContainerVolumeUnits Unit { get; set; }
-        
-        public Batch Batch { get; set; }
+        public int UnitValue { get; set; }
+
+        public int BatchId { get; set; }
 
         [Required]
         public int  ContainerTypeValue { get; set; }
@@ -33,6 +33,22 @@ namespace BrewersBuddy.Models
                 ContainerTypeValue = (int)value;
             }
         }
+
+
+        public ContainerVolumeUnits Units
+        {
+            get
+            {
+                return (ContainerVolumeUnits)Enum.ToObject(typeof(ContainerVolumeUnits), UnitValue);
+            }
+            set
+            {
+                UnitValue = (int)value;
+            }
+        }
+
+        [ForeignKey("BatchId")]
+        public virtual Batch Batch { get; set; }
     }
 
 }
