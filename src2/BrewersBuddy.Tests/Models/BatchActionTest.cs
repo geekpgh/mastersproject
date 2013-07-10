@@ -28,7 +28,7 @@ namespace BrewersBuddy.Tests.Models
             Assert.AreEqual("my action", action.Title);
             Assert.AreEqual(ActionType.Bottle, action.Type);
             Assert.AreEqual("This is an action", action.Description);
-            Assert.AreEqual(batch.BatchId, action.Batch);
+            Assert.AreEqual(batch.BatchId, action.Batch.BatchId);
         }
 
         [Test]

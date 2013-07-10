@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 
 namespace BrewersBuddy.Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class MeasurementTest
     {
-        [TestMethod]
+        [Test]
         public void TestAddMeasurement()
         {
             UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");

@@ -70,7 +70,9 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
 
+            context.Measurements.Remove(measurement);
             batch.Measurements.Remove(measurement);
+            
             context.SaveChanges();
 
             Assert.IsFalse(batch.Measurements.Contains(measurement));
