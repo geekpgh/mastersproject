@@ -45,43 +45,6 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void Login_TEST()
-        {
-            // Arrange
-            AccountController controller = new AccountController();
-
-            // Act
-            LoginModel loginModel = new LoginModel();
-            loginModel.UserName = "NUNIT_Test";
-            loginModel.Password = "123456";
-            ViewResult result = controller.Login(loginModel, "URL") as ViewResult;
-
-            // Assert
-            var membership = System.Web.Security.Membership.GetUser();
-            Assert.AreEqual("Logged in username is NUNIT_Test", result.ViewBag.Message);
-        }
-
-
-        [Test]
-        public void LogOff_TEST()
-        {
-            // Arrange
-            AccountController controller = new AccountController();
-
-            // Act
-            LoginModel loginModel = new LoginModel();
-            loginModel.UserName = "NUNIT_Test";
-            loginModel.Password = "123456";
-            controller.Login(loginModel, "URL");
-            ViewResult result = controller.LogOff() as ViewResult;
-
-            // Assert
-            // Find the global user for this instance and make sure the user is not NUNIT_Test
-            Assert.AreEqual("NUNIT_Test is logged off", result.ViewBag.Message);
-        }
-
-
-       [Test]
         public void UserCanEditAccountInformation_TEST()
         {
             // Act
