@@ -143,7 +143,7 @@ namespace BrewersBuddy.Tests.Models
             container.Batch = batch;
             container.Name = "Test container";
             container.Type = ContainerType.Bottle;
-            container.Unit = ContainerVolumeUnits.Milliliter;
+            container.Units = ContainerVolumeUnits.Milliliter;
             container.Volume = 750;
 
             context.Containers.Add(container);
