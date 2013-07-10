@@ -338,12 +338,12 @@ namespace BrewersBuddy.Controllers
             UserProfile user1 = db.UserProfiles.Find(user.UserId);
 
             // Remove all user batches
-            var owndedBatches = from batch in db.Batches
+            var ownedBatches = from batch in db.Batches
                                 where (batch.OwnerId == user.UserId)
                                 select batch;
-            if (owndedBatches != null)
+            if (ownedBatches != null)
             {
-                var list = owndedBatches.ToList();
+                var list = ownedBatches.ToList();
                 for (int i = 0; i < list.Count; i++)
                 {
                     db.Batches.Remove(list[i]);
@@ -359,23 +359,39 @@ namespace BrewersBuddy.Controllers
 
         #endregion Delete Account
         
-		#region Search Accounts
-		public ActionResult SearchIndex(string searchString)
-		{
+        #region Search Accounts
+        public ActionResult SearchIndex(string username, 
+            string firstname, string lastname, string zip)
+        {
 			var users = from u in db.UserProfiles
 						select u;
 
-			if (!String.IsNullOrEmpty(searchString))
+            TempData["FirstLoad"] = false;
+            if (!String.IsNullOrEmpty(username))
 			{
-				TempData["FirstLoad"] = false;
-				users = users.Where(s => s.Zip == searchString && s.UserName != User.Identity.Name);
+                TempData["Criteria"] = "1";
+                users = users.Where(s => s.UserName == username && s.UserName != User.Identity.Name);
 			}
-			else
+            else if (!String.IsNullOrEmpty(firstname))
+			{
+                TempData["Criteria"] = "2";
+                users = users.Where(s => s.FirstName == firstname && s.UserName != User.Identity.Name);
+			}
+            else if (!String.IsNullOrEmpty(lastname))
+            {
+                TempData["Criteria"] = "3";
+                users = users.Where(s => s.LastName == lastname && s.UserName != User.Identity.Name);
+            }
+            else if (!String.IsNullOrEmpty(zip))
+            {
+                TempData["Criteria"] = "4";
+                users = users.Where(s => s.Zip == zip && s.UserName != User.Identity.Name);
+            }
+            else
 			{
 				TempData["FirstLoad"] = true;
-				users = users.Where(s => s.Zip == "-1");
+                users = users.Where(s => s.Zip == "-1");
 			}
-
 			return View(users);
 		}
 

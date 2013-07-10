@@ -4,18 +4,53 @@
     ViewBag.Title = "SearchIndex";
 }
 
-<b> <p style="color:blue;font-size:larger">Enter Zip Code to search for brewer's in that area.</p> </b>
+<p style="color:blue;font-size:x-large"><b>Enter one of the following search criteria.</b><br></p>
 
-<p> 
-    @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get)){    
-         <p> Zip Code: @Html.TextBox("SearchString") <br />   
-         <input type="submit" value="Filter" /></p> 
-        } 
-</p>
+@if ((!(bool)TempData["FirstLoad"]) & !(Model.Any()))
+        {
+            <div class="firstLoad">
+                <p style="color:red;font-size:x-large"> No Results Found. </p>
+            </div>
+        }
+
+    @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
+    {    
+        <p>
+              Username: @Html.TextBox("username", "") <br>   
+              First Name: @Html.TextBox("firstname", "") <br>   
+              Last Name: @Html.TextBox("lastname", "") <br>   
+              Zip Code: @Html.TextBox("zip", "") <br>   
+              <input type="submit" value="Search"  />
+        </p>
+    } 
 
 @if(Model.Any())
     {
-        <h2>Search Results</h2>
+        <br>
+        switch ((string)TempData["Criteria"])
+        {
+            case ("1"):
+                {
+                    <h2>Username Search Results</h2>
+                    break;
+                }
+            case ("2"):
+                {
+                    <h2>First Name Search Results</h2>
+                    break;
+                }
+            case ("3"):
+                {
+                    <h2>Last Name Search Results</h2>
+                    break;
+                }
+            case ("4"):
+                {
+                    <h2>Zip Code Search Results</h2>
+                    break;
+                }
+        }
+
     }
 
 <table>
@@ -27,11 +62,21 @@
         </th>
         <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th></th>
+        <th>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayNameFor(model => model.Email)
         </th>
         <th></th>
     </tr>
@@ -44,22 +89,27 @@
         </td>
         <td></td>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>        
         <td></td>
         <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>        
+        <td></td>
+        <td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DisplayFor(modelItem => item.Email)
         </td>
-        
     </tr>
 }
 </table>
 
-@if (!(bool)TempData["FirstLoad"] && !Model.Any())
-        {
-            <div class="firstLoad">
-                <p style="color:red;font-size:x-large"> No Results Found. </p>
-            </div>
-        }
 
-
+<br><p>
+     @Html.ActionLink("Back", "..")
+</p>
