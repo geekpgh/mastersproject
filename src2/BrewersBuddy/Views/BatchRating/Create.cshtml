@@ -1,7 +1,7 @@
 ﻿@model BrewersBuddy.Models.BatchRating
 
 @{
-    ViewBag.Title = "Rate " + Model.Batch.Name;
+    ViewBag.Title = "Rate";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -14,7 +14,7 @@
         <legend>Rating</legend>
 
         <div class="editor-field">
-            @Html.DropDownList("Ratings")
+            @Html.DropDownListFor(model => model.Rating, (IEnumerable<SelectListItem>)ViewBag.Ratings)
             @Html.ValidationMessageFor(model => model.Rating)
         </div>
 
@@ -27,14 +27,14 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" class="btn btn-primary" value="Create" />
         </p>
     </fieldset>
     
 }
 
 <div>
-    @Html.ActionLink("Back to Batch", "Details", "Batch", new { id = Model.BatchId }, null)
+    @Html.ActionLink("Back to Batch", "Details", "Batch", new { id = Request.Params["BatchId"] }, null)
 </div>
 
 @section Scripts {

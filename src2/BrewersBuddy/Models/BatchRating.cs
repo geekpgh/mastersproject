@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace BrewersBuddy.Models
 {
@@ -13,16 +10,21 @@ namespace BrewersBuddy.Models
         [Key, Column(Order = 0)]
         [Required]
         public int BatchId { get; set; }
+
         [Key, Column(Order = 1)]
         [Required]
         public int UserId { get; set; }
 
-        [Range(0,100)]
+        [Range(0, 100)]
         public int Rating { get; set; }
+
         [MaxLength(Int32.MaxValue)]
         public string Comment { get; set; }
 
+        [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
+
+        [ForeignKey("UserId")]
         public virtual UserProfile User { get; set; }
     }
 }

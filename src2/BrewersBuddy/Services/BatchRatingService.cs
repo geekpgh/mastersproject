@@ -1,5 +1,4 @@
 ﻿using BrewersBuddy.Models;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,7 +11,8 @@ namespace BrewersBuddy.Services
 
         public void Create(BatchRating @object)
         {
-            throw new NotImplementedException();
+            db.BatchRatings.Add(@object);
+            db.SaveChanges();
         }
 
         public void Delete(BatchRating @object)

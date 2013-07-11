@@ -32,7 +32,7 @@ namespace BrewersBuddy.Controllers
 
         //
         // GET: /BatchRating/Create
-        public ActionResult Create(int batchId = 0)
+        public ActionResult Create(int batchId)
         {
             int currentUserId = _userService.GetCurrentUserId();
             Batch batch = _batchService.Get(batchId);
@@ -53,12 +53,6 @@ namespace BrewersBuddy.Controllers
                 HttpNotFound();
             }
 
-            BatchRating rating = new BatchRating()
-            {
-                BatchId = batchId,
-                Batch = batch
-            };
-
             // Create a list from 0 - 100 for all possible rating values
             ViewBag.Ratings = Enumerable.Range(0, 101)
                 .Select(num => new SelectListItem()
@@ -67,7 +61,7 @@ namespace BrewersBuddy.Controllers
                     Value = num.ToString()
                 });
 
-            return View(rating);
+            return View();
         }
 
         //
@@ -75,19 +69,19 @@ namespace BrewersBuddy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BatchRating rating)
+        public ActionResult Create(BatchRating userRating)
         {
             if (ModelState.IsValid)
             {
-                rating.UserId = _userService.GetCurrentUserId();
+                userRating.UserId = _userService.GetCurrentUserId();
 
-                _ratingService.Create(rating);
+                _ratingService.Create(userRating);
 
-                return RedirectToAction("Details", "Batch", new { id = rating.BatchId });
+                return RedirectToAction("Details", "Batch", new { id = userRating.BatchId });
             }
 
 
-            return View(rating);
+            return View(userRating);
         }
     }
 }
