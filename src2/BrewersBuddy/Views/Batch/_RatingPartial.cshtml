@@ -1,0 +1,27 @@
+﻿<h2>Rating</h2>
+
+@if (Model.Ratings.Count == 0)
+{ 
+    <p>No ratings have been added yet.</p>
+}
+else
+{ 
+    <div class="row">
+        <div class="span2 text-center">
+            <h3>@ViewBag.AverageRating</h3>
+            <span>Average Rating</span>
+        </div>
+        <div class="span2 text-center">
+            @if(ViewBag.UserRating != null) 
+            {
+                <h3>@ViewBag.UserRating.Rating</h3>
+                <span>Your Rating</span>
+            }
+        </div>
+    </div>
+}
+
+@if (ViewBag.UserRating == null)
+{
+    <p>@Html.ActionLink("Tell us what you think", "Create", "BatchRating", new { Model.BatchId }, null)</p>
+}

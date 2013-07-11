@@ -535,6 +535,8 @@
     <Content Include="Views\Measurement\Details.cshtml" />
     <Content Include="Views\Measurement\Edit.cshtml" />
     <Content Include="Views\Measurement\Delete.cshtml" />
+    <Content Include="Views\Batch\_RatingPartial.cshtml" />
+    <Content Include="Views\BatchRating\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

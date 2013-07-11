@@ -2,6 +2,7 @@
 using BrewersBuddy.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
@@ -54,6 +55,16 @@ namespace BrewersBuddy.Controllers
             {
                 return HttpNotFound();
             }
+
+            int currentUserId = _userService.GetCurrentUserId();
+
+            ViewBag.UserRating = _ratingService.GetUserRatingForBatch(id, currentUserId);
+
+            if (batch.Ratings.Count > 0)
+                ViewBag.AverageRating = batch.Ratings.Average(rating => rating.Rating);
+            else
+                ViewBag.AverageRating = 0;
+
             return View(batch);
         }
 

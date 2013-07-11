@@ -1,6 +1,7 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Services;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
@@ -29,6 +30,33 @@ namespace BrewersBuddy.Controllers
             _userService = userService;
         }
 
+        public ActionResult Create(int batchId = 0)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpStatusCodeResult(500);
+
+            // You can only rate once!
+            BatchRating previousRating = _ratingService.GetUserRatingForBatch(batchId, userId);
+            if (previousRating != null)
+                return new HttpNotFoundResult();
+
+            ViewBag.BatchId = batchId;
+            ViewBag.BatchName = batch.Name;
+            ViewBag.Ratings = Enumerable.Range(0, 101)
+                .Select(num => new SelectListItem()
+                {
+                    Text = num.ToString(),
+                    Value = num.ToString()
+                });
+
+            return View();
+        }
+
         //
         // POST: /BatchRating/Create
         [HttpPost]
@@ -45,7 +73,6 @@ namespace BrewersBuddy.Controllers
                 if (batch == null)
                     return new HttpStatusCodeResult(500);
 
-                // Make sure the user didn't rate the batch previously
                 BatchRating previousRating = _ratingService.GetUserRatingForBatch(userRating.BatchId, userId);
                 if (previousRating != null)
                     return new HttpNotFoundResult();
@@ -54,10 +81,10 @@ namespace BrewersBuddy.Controllers
 
                 _ratingService.Create(userRating);
 
-                return Json(userRating);
+                return RedirectToAction("Details", "Batch", new { id = userRating.BatchId });
             }
 
-            return new HttpStatusCodeResult(500);
+            return View(userRating);
         }
     }
 }

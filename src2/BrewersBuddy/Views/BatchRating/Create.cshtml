@@ -1,0 +1,42 @@
+﻿@model BrewersBuddy.Models.BatchRating
+
+@{
+    ViewBag.Title = "Rate " + ViewBag.BatchName;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rating)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Rating, (IEnumerable<SelectListItem>)ViewBag.Ratings)
+            @Html.ValidationMessageFor(model => model.Rating)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comment)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Comment", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Comment)
+        </div>
+
+        <p>
+            <input type="submit" class="btn btn-primary" value="Rate this batch" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Batch", "Details", "Batch", new { id = ViewBag.BatchId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
