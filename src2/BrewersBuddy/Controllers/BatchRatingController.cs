@@ -1,7 +1,6 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Services;
 using System;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
@@ -31,57 +30,34 @@ namespace BrewersBuddy.Controllers
         }
 
         //
-        // GET: /BatchRating/Create
-        public ActionResult Create(int batchId)
-        {
-            int currentUserId = _userService.GetCurrentUserId();
-            Batch batch = _batchService.Get(batchId);
-            BatchRating previousRating = _ratingService.GetUserRatingForBatch(batchId, currentUserId);
-
-            if (previousRating != null)
-            {
-                // You can only rate a batch once
-                // TODO - Do something nicer here... this is kind of jarring
-                // and no explanation is given in the UI as to why a user can't rate
-                return RedirectToAction("Details", "Batch", new { id = batchId });
-            }
-
-            if (batch == null)
-            {
-                // I'm not sure if this makes sense here, but keeping
-                // it for the time being - S. Platz
-                HttpNotFound();
-            }
-
-            // Create a list from 0 - 100 for all possible rating values
-            ViewBag.Ratings = Enumerable.Range(0, 101)
-                .Select(num => new SelectListItem()
-                {
-                    Text = num.ToString(),
-                    Value = num.ToString()
-                });
-
-            return View();
-        }
-
-        //
         // POST: /BatchRating/Create
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(BatchRating userRating)
         {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
             if (ModelState.IsValid)
             {
-                userRating.UserId = _userService.GetCurrentUserId();
+                Batch batch = _batchService.Get(userRating.BatchId);
+                if (batch == null)
+                    return new HttpStatusCodeResult(500);
+
+                // Make sure the user didn't rate the batch previously
+                BatchRating previousRating = _ratingService.GetUserRatingForBatch(userRating.BatchId, userId);
+                if (previousRating != null)
+                    return new HttpNotFoundResult();
+
+                userRating.UserId = userId;
 
                 _ratingService.Create(userRating);
 
-                return RedirectToAction("Details", "Batch", new { id = userRating.BatchId });
+                return Json(userRating);
             }
 
-
-            return View(userRating);
+            return new HttpStatusCodeResult(500);
         }
     }
 }
