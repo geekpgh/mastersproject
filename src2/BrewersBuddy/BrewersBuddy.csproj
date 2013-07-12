@@ -528,8 +528,6 @@
     <Content Include="Views\Batch\AddNote.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Batch\DeleteNote.cshtml" />
-    <Content Include="Views\Batch\EditNote.cshtml" />
     <Content Include="Views\Batch\AddMeasurement.cshtml" />
     <Content Include="Views\BatchNote\Details.cshtml" />
     <Content Include="Views\BatchNote\Edit.cshtml" />
@@ -540,6 +538,7 @@
     <Content Include="Views\Measurement\Delete.cshtml" />
     <Content Include="Views\Batch\_RatingPartial.cshtml" />
     <Content Include="Views\BatchRating\Create.cshtml" />
+    <Content Include="Views\BatchNote\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

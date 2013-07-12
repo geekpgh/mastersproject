@@ -1,7 +1,7 @@
 ﻿@model BrewersBuddy.Models.BatchNote
 
 @{
-    ViewBag.Title = "DeleteNote";
+    ViewBag.Title = "Delete";
 }
 
 <h2>DeleteNote</h2>
@@ -49,6 +49,6 @@
     @Html.AntiForgeryToken()
     <p>
         <input type="submit" value="Delete" /> <br><br>
-        @Html.ActionLink("Back to Batch", "Details/"+Session["CurrentBatchId"])
+    @Html.ActionLink("Back to Batch", "Details/"+Session["CurrentBatchId"], "Batch")
     </p>
 }
