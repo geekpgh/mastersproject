@@ -56,6 +56,6 @@
 </fieldset>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ActionId }) |
-    @Html.ActionLink("Back to Batch", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ActionId }) &nbsp;|&nbsp;
+    @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch")
 </p>
