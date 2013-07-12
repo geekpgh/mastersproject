@@ -66,7 +66,7 @@ namespace BrewersBuddy.Controllers
             {
                 batchAction.PerformerId = _userService.GetCurrentUserId();
                 _actionService.Create(batchAction);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + batchAction.BatchId, "Batch");
             }
 
             return View(batchAction);
@@ -95,7 +95,7 @@ namespace BrewersBuddy.Controllers
             if (ModelState.IsValid)
             {
                 _actionService.Update(batchAction);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + batchAction.BatchId, "Batch");
             }
             return View(batchAction);
         }
@@ -122,7 +122,7 @@ namespace BrewersBuddy.Controllers
         {
             BatchAction batchAction = _actionService.Get(id);
             _actionService.Delete(batchAction);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details/" + batchAction.BatchId, "Batch");
         }
     }
 }

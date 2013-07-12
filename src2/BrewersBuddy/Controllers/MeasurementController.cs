@@ -64,7 +64,7 @@ namespace BrewersBuddy.Controllers
             if (ModelState.IsValid)
             {
                 _measurementService.Update(measurement);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + measurement.BatchId, "Batch");
             }
             return View(measurement);
         }
@@ -91,7 +91,7 @@ namespace BrewersBuddy.Controllers
         {
             Measurement measurement = _measurementService.Get(id);
             _measurementService.Delete(measurement);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details/" + measurement.BatchId, "Batch");
         }
     }
 }
