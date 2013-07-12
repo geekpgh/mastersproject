@@ -4,112 +4,133 @@
     ViewBag.Title = "SearchIndex";
 }
 
-<p style="color:blue;font-size:x-large"><b>Enter one of the following search criteria.</b><br></p>
+<p style="color: blue; font-size: x-large"><b>Enter one of the following search criteria.</b><br>
+</p>
 
 @if ((!(bool)TempData["FirstLoad"]) & !(Model.Any()))
-        {
-            <div class="firstLoad">
-                <p style="color:red;font-size:x-large"> No Results Found. </p>
-            </div>
-        }
+{
+    <div class="firstLoad">
+        <p style="color: red; font-size: x-large">No Results Found. </p>
+    </div>
+}
 
-    @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
-    {    
-        <p>
-              Username: @Html.TextBox("username", "") <br>   
-              First Name: @Html.TextBox("firstname", "") <br>   
-              Last Name: @Html.TextBox("lastname", "") <br>   
-              Zip Code: @Html.TextBox("zip", "") <br>   
-              <input type="submit" value="Search"  />
-        </p>
-    } 
+@using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
+{    
+    <table>
+        <tr>
+            <th>
+                Username:
+            </th>
+            <td align="right">
+                @Html.TextBox("username", "") <br>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                First Name:
+            </th>
+            <td align="right">
+                @Html.TextBox("firstname", "") <br>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Last Name:
+            </th>
+            <td align="right">
+                @Html.TextBox("lastname", "") <br>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Zip Code:
+            </th>
+            <td align="right">
+                @Html.TextBox("zip", "") <br>
+            </td>
+        </tr>        
+    </table>
+    <input type="submit" value="Search" />        
+}
 
-@if(Model.Any())
+@if (Model.Any())
+{
+    <br>
+    switch ((string)TempData["Criteria"])
     {
-        <br>
-        switch ((string)TempData["Criteria"])
-        {
-            case ("1"):
-                {
-                    <h2>Username Search Results</h2>
-                    break;
-                }
-            case ("2"):
-                {
-                    <h2>First Name Search Results</h2>
-                    break;
-                }
-            case ("3"):
-                {
-                    <h2>Last Name Search Results</h2>
-                    break;
-                }
-            case ("4"):
-                {
-                    <h2>Zip Code Search Results</h2>
-                    break;
-                }
-        }
-
+        case ("1"):
+            {
+    <h2>Username Search Results</h2>
+                break;
+            }
+        case ("2"):
+            {
+    <h2>First Name Search Results</h2>
+                break;
+            }
+        case ("3"):
+            {
+    <h2>Last Name Search Results</h2>
+                break;
+            }
+        case ("4"):
+            {
+    <h2>Zip Code Search Results</h2>
+                break;
+            }
     }
+
+}
 
 <table>
-    @if(Model.Any())
+    @if (Model.Any())
     {
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th></th>
-        <th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th></th>
-        <th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th></th>
-        <th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th width="25%" bgcolor="#87cefa">
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#ffffff">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#87cefa">
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#ffffff">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
     }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td align="center">
+            @Html.ActionLink("Add Friend", "FriendsList", new { id=item })
         </td>
-        <td></td>
-        <td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>        
-        <td></td>
-        <td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>        
-        <td></td>
-        <td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-    </tr>
-}
+        </tr>
+    }
 </table>
 
 
-<br><p>
-     @Html.ActionLink("Back", "..")
+<br>
+<p>
+    @Html.ActionLink("Back", "..")
 </p>

@@ -370,28 +370,30 @@ namespace BrewersBuddy.Controllers
             if (!String.IsNullOrEmpty(username))
 			{
                 TempData["Criteria"] = "1";
-                users = users.Where(s => s.UserName == username && s.UserName != User.Identity.Name);
+                users = users.Where(s => s.UserName == username);
 			}
             else if (!String.IsNullOrEmpty(firstname))
 			{
                 TempData["Criteria"] = "2";
-                users = users.Where(s => s.FirstName == firstname && s.UserName != User.Identity.Name);
+				users = users.Where(s => s.FirstName == firstname);
 			}
             else if (!String.IsNullOrEmpty(lastname))
             {
                 TempData["Criteria"] = "3";
-                users = users.Where(s => s.LastName == lastname && s.UserName != User.Identity.Name);
+				users = users.Where(s => s.LastName == lastname);
             }
             else if (!String.IsNullOrEmpty(zip))
             {
                 TempData["Criteria"] = "4";
-                users = users.Where(s => s.Zip == zip && s.UserName != User.Identity.Name);
+				users = users.Where(s => s.Zip == zip);
             }
             else
 			{
 				TempData["FirstLoad"] = true;
                 users = users.Where(s => s.Zip == "-1");
 			}
+
+			users = users.Where(s => s.UserName != User.Identity.Name && !s.Friends.Any(item => item.UserId == s.UserId));
 			return View(users);
 		}
 
