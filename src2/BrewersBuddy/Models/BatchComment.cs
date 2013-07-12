@@ -13,15 +13,21 @@ namespace BrewersBuddy.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int BatchCommentId { get; set; }
+
         [Required]
         public int BatchId { get; set; }
+
         [Required]
         public int UserId { get; set; }
+
         [Required]
         [MaxLength(256)]
         public string Comment { get; set; }
 
+        [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
+
+        [ForeignKey("UserId")]
         public virtual UserProfile User { get; set; }
     }
 }
