@@ -10,24 +10,36 @@
 <fieldset>
     <legend>Recipe</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
+<table>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Name)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.AddDate)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.AddDate)
+            </div>
+        </td>
+    </tr>
+</table>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AddDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AddDate)
-    </div>
+<br>    
 </fieldset>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
+        <input type="submit" value="Delete" /> <br><br>
         @Html.ActionLink("Back to List", "Index")
     </p>
 }

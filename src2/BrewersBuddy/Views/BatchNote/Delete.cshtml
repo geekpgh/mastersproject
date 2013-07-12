@@ -49,6 +49,6 @@
     @Html.AntiForgeryToken()
     <p>
         <input type="submit" value="Delete" /> <br><br>
-    @Html.ActionLink("Back to Batch", "Details/"+Session["CurrentBatchId"], "Batch")
+    @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch")
     </p>
 }
