@@ -9,35 +9,53 @@
 <fieldset>
     <legend>BatchNote</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
+    <table>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Title)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Title)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.AuthorDate)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.AuthorDate)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Text)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Text)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.AuthorId)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.AuthorId)
+            </div>
+        </td>
+    </tr>
+</table>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AuthorDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AuthorDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Text)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Text)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AuthorId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AuthorId)
-    </div>
+<br>    
 </fieldset>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Batch", "Index")
 </p>

@@ -11,37 +11,31 @@
     <legend>Note</legend>
 
 <table>
-    <tr>
-        <td>
+    <tr><td>
             <div class="display-label">
             <b>@Html.DisplayNameFor(model => model.Title)</b>&nbsp;&nbsp;
             </div>
-        </td>
-        <td>
+        </td><td>
             <div class="display-field">
             @Html.DisplayFor(model => model.Title)
             </div>
         </td>
     </tr>
-    <tr>
-        <td>
+    <tr><td>
             <div class="display-label">
             <b>@Html.DisplayNameFor(model => model.AuthorDate)</b>&nbsp;&nbsp;
             </div>
-        </td>
-        <td>
+        </td><td>
             <div class="display-field">
             @Html.DisplayFor(model => model.AuthorDate)
             </div>
         </td>
     </tr>
-    <tr>
-        <td>
+    <tr><td>
             <div class="display-label">
             <b>@Html.DisplayNameFor(model => model.Text)</b>&nbsp;&nbsp;
             </div>
-        </td>
-        <td>
+        </td><td>
             <div class="display-field">
             @Html.DisplayFor(model => model.Text)
             </div>
@@ -50,7 +44,6 @@
 </table>
 
 <br>    
-    
 </fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()

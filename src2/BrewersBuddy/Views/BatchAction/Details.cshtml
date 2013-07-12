@@ -9,35 +9,53 @@
 <fieldset>
     <legend>BatchAction</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
+    <table>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Title)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Title)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.ActionDate)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.ActionDate)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Description)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Description)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.PerformerId)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.PerformerId)
+            </div>
+        </td>
+    </tr>
+</table>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ActionDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ActionDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.PerformerId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PerformerId)
-    </div>
+<br>    
 </fieldset>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.ActionId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Batch", "Index")
 </p>
