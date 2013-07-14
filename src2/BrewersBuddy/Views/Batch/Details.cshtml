@@ -173,6 +173,8 @@ else
         <tr>
             <th>Title</th>
             <th>Summary</th>
+            <th>Measured</th>
+            <th>Value</th>
             <th colspan="3">Actions</th>
         </tr>
     </thead>
@@ -183,6 +185,12 @@ else
         </td>
         <td>
             <b>@Html.DisplayFor(modelItem => measurement.SummaryText)</b>
+        </td>
+        <td>
+            <b>@Html.DisplayFor(modelItem => measurement.Measured)</b>
+        </td>
+        <td>
+            <b>@Html.DisplayFor(modelItem => measurement.Value)</b>
         </td>
         <td>
             @Html.ActionLink("View", "Details", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-primary" })
