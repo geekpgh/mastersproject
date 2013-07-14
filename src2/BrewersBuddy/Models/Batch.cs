@@ -14,10 +14,12 @@ namespace BrewersBuddy.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
         [Required]
         public int BatchTypeValue { get; set; }
         //The user id of the user
+        [Display(Name = "Owner")]
         public int OwnerId { get; set; }
 
         public BatchType Type
@@ -29,6 +31,15 @@ namespace BrewersBuddy.Models
             set
             {
                 BatchTypeValue = (int)value;
+            }
+        }
+
+        public virtual String SummaryText
+        {
+            get
+            {
+                return this.Description.Length > 200 ? this.Description.Substring(0, 200) + "..." :
+                       this.Description;
             }
         }
 

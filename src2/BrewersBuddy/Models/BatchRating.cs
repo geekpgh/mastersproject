@@ -26,5 +26,14 @@ namespace BrewersBuddy.Models
 
         [ForeignKey("UserId")]
         public virtual UserProfile User { get; set; }
+
+        public virtual String SummaryText
+        {
+            get
+            {
+                return this.Comment.Length > 200 ? this.Comment.Substring(0, 200) + "..." :
+                       this.Comment;
+            }
+        }
     }
 }

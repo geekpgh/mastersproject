@@ -14,6 +14,7 @@ namespace BrewersBuddy.Models
         [Required]
         public string Title { get; set; }
 
+        [Display(Name = "Date")]
         public DateTime ActionDate { get; set; }
 
         [Required]
@@ -22,8 +23,10 @@ namespace BrewersBuddy.Models
         [Required]
         public int ActionTypeValue { get; set; }
 
+        [Display(Name = "Performer")]
         public int PerformerId { get; set; }
 
+        [Display(Name = "Batch")]
         public int BatchId { get; set; }
 
         public ActionType Type
@@ -40,6 +43,15 @@ namespace BrewersBuddy.Models
 
         [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
+
+        public virtual String SummaryText
+        {
+            get
+            {
+                return this.Description.Length > 200 ? this.Description.Substring(0, 200) + "..." :
+                       this.Description;
+            }
+        }
     }
 
 }

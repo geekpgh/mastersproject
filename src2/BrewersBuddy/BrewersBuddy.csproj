@@ -324,6 +324,10 @@
     <Compile Include="Migrations\201307100027233_container-units-enum.Designer.cs">
       <DependentUpon>201307100027233_container-units-enum.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307142009410_display-labels.cs" />
+    <Compile Include="Migrations\201307142009410_display-labels.Designer.cs">
+      <DependentUpon>201307142009410_display-labels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -630,6 +634,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307100027233_container-units-enum.resx">
       <DependentUpon>201307100027233_container-units-enum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307142009410_display-labels.resx">
+      <DependentUpon>201307142009410_display-labels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
