@@ -393,7 +393,7 @@ namespace BrewersBuddy.Controllers
                 users = users.Where(s => s.Zip == "-1");
 			}
 
-			users = users.Where(s => s.UserName != User.Identity.Name && !s.Friends.Any(item => item.UserId == s.UserId));
+			//users = users.Where(s => s.UserName != User.Identity.Name && !s.Friends.Any(item => item.UserId == s.UserId));
 			return View(users);
 		}
 
