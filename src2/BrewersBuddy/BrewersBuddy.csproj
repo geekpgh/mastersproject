@@ -209,6 +209,8 @@
     <Compile Include="Controllers\BatchNoteController.cs" />
     <Compile Include="Controllers\BatchRatingController.cs" />
     <Compile Include="Controllers\BatchCommentController.cs" />
+    <Compile Include="Controllers\CellarController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeasurementController.cs" />
     <Compile Include="Controllers\RecipeController.cs">
@@ -539,6 +541,10 @@
     <Content Include="Views\Batch\_RatingPartial.cshtml" />
     <Content Include="Views\BatchRating\Create.cshtml" />
     <Content Include="Views\BatchNote\Delete.cshtml" />
+    <Content Include="Views\Help\FAQ.cshtml" />
+    <Content Include="Views\Cellar\Index.cshtml" />
+    <Content Include="Views\Shared\_HelpPartial.cshtml" />
+    <Content Include="Views\Help\Manual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
