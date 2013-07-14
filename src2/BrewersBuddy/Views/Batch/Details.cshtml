@@ -6,16 +6,17 @@
 
 <h2 class="display-label">@Html.DisplayFor(model => model.Name)</h2>
 
-<h3>Batch Options</h3>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Add Action", "AddAction", new { id=Model.BatchId }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Add Measurement", "AddMeasurement", new { id=Model.BatchId }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
 
-<fieldset>
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Information</h4>
+    </div>
+    <div class="span8" >
+        @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        @Html.ActionLink("Delete", "Delete", new { id=Model.BatchId }, new { @class = "btn btn btn-danger btn-small" })
+    </div>
+</div>
 
-    <legend>Information</legend>
 <table class="table table-striped">
     <tr>
         <td>
@@ -55,56 +56,80 @@
     </tr>
 </table>
 
+<br />
 
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Notes</h4>
+    </div>
+    <div class="span8" >
+        @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+    </div>
+</div>
 
-<br>
-<h2>Notes</h2>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Summary</th>
-            <th colspan="3">Actions</th>
-        </tr>
-    </thead>
-@foreach (var note in Model.Notes) {
+    @if(Model.Notes.Count > 0)
+    {
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Summary</th>
+                <th colspan="3">Actions</th>
+            </tr>
+        </thead>
+        @foreach (var note in Model.Notes) {
     
-        <tr>
-            <td>
-                <b>@Html.DisplayFor(modelItem => note.Title)</b>
-            </td>
-            <td>
-                <b>@Html.DisplayFor(modelItem => note.SummaryText)</b>
-            </td>
+            <tr>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => note.Title)</b>
+                </td>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => note.SummaryText)</b>
+                </td>
 
-            <td>
-                @Html.ActionLink("View", "Details", "BatchNote", new { id = note.NoteId }, new { @class = "btn btn-primary" })
+                <td>
+                    @Html.ActionLink("View", "Details", "BatchNote", new { id = note.NoteId }, new { @class = "btn btn-primary" })
 
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "BatchNote", new { id=note.NoteId }, new { @class = "btn btn-primary" })
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", "BatchNote", new { id=note.NoteId }, new { @class = "btn btn-danger" })
-            </td>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "BatchNote", new { id=note.NoteId }, new { @class = "btn" })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "BatchNote", new { id=note.NoteId }, new { @class = "btn btn-danger" })
+                </td>
             
-        </tr>   
-}
-</table>
+            </tr>
+        }   
+        </table>    
+    }
+    else
+    {
+        <p>None</p>
+    }
 
 
-<br>
-<h2>Actions</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Summary</th>
-            <th colspan="3">Actions</th>
-        </tr>
-    </thead>
-@foreach (var action in Model.Actions) {
+
+<br />
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Actions</h4>
+    </div>
+    <div class="span8" >
+        @Html.ActionLink("Add Action", "AddAction", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+    </div>
+</div>
+
+ @if(Model.Actions.Count > 0)
+   {
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Summary</th>
+                <th colspan="3">Actions</th>
+            </tr>
+        </thead>
+    @foreach (var action in Model.Actions) {
     
         <tr>
             <td>
@@ -117,18 +142,32 @@
                 @Html.ActionLink("View", "Details", "BatchAction", new { id=action.ActionId }, new { @class = "btn btn-primary" })
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "BatchAction", new { id=action.ActionId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Edit", "Edit", "BatchAction", new { id=action.ActionId }, new { @class = "btn" })
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", "BatchAction", new { id=action.ActionId }, new { @class = "btn btn-danger" }) 
             </td>
         </tr>
-}
-</table>
+    }
+    </table>
+ }
+else
+{
+     <p>None</p>
+ }
 
-   
-<br />
-<h2>Measurements</h2>
+<br />   
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Measurments</h4>
+    </div>
+    <div class="span8" >
+        @Html.ActionLink("Add Measurement", "AddMeasurement", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+    </div>
+</div>
+
+ @if(Model.Measurements.Count > 0)
+    {
 <table class="table table-striped">
     <thead>
         <tr>
@@ -137,7 +176,7 @@
             <th colspan="3">Actions</th>
         </tr>
     </thead>
-@foreach (var measurement in Model.Measurements) {
+    @foreach (var measurement in Model.Measurements) {
     <tr>
         <td>
             <b>@Html.DisplayFor(modelItem => measurement.Name)</b>
@@ -149,15 +188,20 @@
             @Html.ActionLink("View", "Details", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-primary" })
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Edit", "Edit", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn" })
         </td>
         <td>
             @Html.ActionLink("Delete", "Delete", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-danger" })
         </td>
         
     </tr>     
-}
-</table>
+    }
+    </table>
+ }
+else
+{
+     <p>None</p>
+ }
 
-</fieldset>
-
+<br />    
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
