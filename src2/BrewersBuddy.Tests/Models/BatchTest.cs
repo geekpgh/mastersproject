@@ -163,11 +163,5 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsTrue(cellar.Containers.Contains(container));
         }
 
-        [Test]
-        public void TestViewBacthActions()
-        {
-            Assert.Fail();
-        }
-
     }
 }

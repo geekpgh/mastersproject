@@ -103,12 +103,6 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.IsTrue(batchesList.Count == 2);
         }
 
-
-        [Test]
-        public void TestEditBatch()
-        {
-            Assert.Fail("Implement me");
-        }
-
+       
     }
 }
