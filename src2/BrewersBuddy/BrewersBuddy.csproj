@@ -216,6 +216,7 @@
     <Compile Include="Controllers\RecipeController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Filters\BatchAuthorizationFilter.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

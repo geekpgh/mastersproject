@@ -1,4 +1,5 @@
-﻿using BrewersBuddy.Models;
+﻿using BrewersBuddy.Filters;
+using BrewersBuddy.Models;
 using BrewersBuddy.Services;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,9 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Edit/5
         public ActionResult Edit(int id = 0)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
+
             if (batch == null)
             {
                 return HttpNotFound();
@@ -117,6 +120,8 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Batch batch)
         {
+            checkAuthorization(batch.BatchId);
+
             if (ModelState.IsValid)
             {
                 _batchService.Update(batch);
@@ -130,6 +135,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Delete/5
         public ActionResult Delete(int id = 0)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
             if (batch == null)
             {
@@ -145,6 +151,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
             _batchService.Delete(batch);
             return RedirectToAction("Index");
@@ -154,6 +161,7 @@ namespace BrewersBuddy.Controllers
         //Custom NON CRUD actions
         public ActionResult AddAction(int id = 0)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -170,6 +178,8 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddAction(BatchAction model)
         {
+            checkAuthorization(model.BatchId);
+
             if (ModelState.IsValid)
             {
                 //Add the date
@@ -190,6 +200,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult AddNote(int id = 0)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -206,6 +217,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddNote(BatchNote note)
         {
+            checkAuthorization(note.BatchId);
             if (ModelState.IsValid)
             {
                 //Add the date
@@ -226,6 +238,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult AddMeasurement(int id = 0)
         {
+            checkAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -242,6 +255,8 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddMeasurement(Measurement measurement)
         {
+            checkAuthorization(measurement.BatchId);
+
             if (ModelState.IsValid)
             {
                 //Add the date
@@ -267,6 +282,17 @@ namespace BrewersBuddy.Controllers
             IEnumerable<BatchRating> ratings = _ratingService.GetAllForBatch(id);
 
             return View(ratings);
+        }
+
+        private void checkAuthorization(int batchId)
+        {
+            int currentUser = _userService.GetCurrentUserId();
+            int batchOwner = _batchService.Get(batchId).OwnerId;
+
+            if (batchOwner != currentUser)
+            {
+                throw new UnauthorizedAccessException("Cannot alter data you do not own.");
+            }
         }
     }
 }
