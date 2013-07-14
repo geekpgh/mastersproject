@@ -65,6 +65,39 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.AreEqual("Test Title", note1.Title);
             Assert.AreEqual("I am a note!", note1.Text);
-        }  
+        }
+
+        [Test]
+        //Test that it isn't truncated if short
+        public void TestSummaryLengthShort()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+           
+            Assert.AreEqual(note.SummaryText, "I am a note!");
+        }
+
+        [Test]
+        //test that it is truncated
+        public void TestSummaryTruncate()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
+
+            while (longText.Length < 200)
+            {
+                longText += "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
+            }
+
+            //Make sure the string is setup correctly
+            Assert.True(longText.Length >= 200);
+
+            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", longText, bob);
+
+            //The 3 is for the ...
+            Assert.True(note.SummaryText.Length == 203);
+        }
     }
 }
