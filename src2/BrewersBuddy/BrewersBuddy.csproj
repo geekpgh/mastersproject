@@ -328,6 +328,10 @@
     <Compile Include="Migrations\201307142009410_display-labels.Designer.cs">
       <DependentUpon>201307142009410_display-labels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307152018447_SomethingMissing.cs" />
+    <Compile Include="Migrations\201307152018447_SomethingMissing.Designer.cs">
+      <DependentUpon>201307152018447_SomethingMissing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -637,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307142009410_display-labels.resx">
       <DependentUpon>201307142009410_display-labels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307152018447_SomethingMissing.resx">
+      <DependentUpon>201307152018447_SomethingMissing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
