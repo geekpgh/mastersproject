@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BrewersBuddy.Models.UserProfile>
+
+@{
+    ViewBag.Title = "FriendsList";
+}
+
+@if (Model.Any())
+{
+    <br>
+    <h2>Friends List</h2>
+}
+else
+{
+    <br>
+    <h4>You seem to be forever alone.  </h4>
+    <br>
+    <h4>Go search for @Html.ActionLink("Users", "SearchIndex") and add them as friends.</h4>
+}
+
+
+<table>
+    @if (Model.Any())
+    {
+        <tr>
+            <th width="25%" bgcolor="#87cefa">
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#ffffff">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#87cefa">
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th></th>
+            <th width="25%" bgcolor="#ffffff">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+    }
+
+    @foreach (var item in Model)
+    {       
+        <tr>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td></td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td align="center">
+            @Html.ActionLink("Remove Friend", "RemoveFriend",  new { ID = item.UserId })
+            </td>
+        </tr>       
+    }
+</table>
