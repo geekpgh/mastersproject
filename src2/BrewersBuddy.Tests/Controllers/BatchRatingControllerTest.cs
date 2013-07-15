@@ -165,7 +165,10 @@ namespace BrewersBuddy.Tests.Controllers
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            batchService.Get(1).Returns(new Batch());
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 1
+            });
 
             var ratingService = Substitute.For<IBatchRatingService>();
 
@@ -178,7 +181,7 @@ namespace BrewersBuddy.Tests.Controllers
                 Comment = "My comment"
             });
 
-            Assert.Fail("Implement test");
+            Assert.IsInstanceOf<JsonResult>(result);
         }
 
         [Test]

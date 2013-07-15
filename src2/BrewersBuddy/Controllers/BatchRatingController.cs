@@ -80,10 +80,10 @@ namespace BrewersBuddy.Controllers
 
                 _ratingService.Create(userRating);
 
-                return RedirectToAction("Details", "Batch", new { id = userRating.BatchId });
+                return Json(userRating);
             }
 
-            return View(userRating);
+            return new HttpStatusCodeResult(500);
         }
     }
 }
