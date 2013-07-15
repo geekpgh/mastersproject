@@ -103,7 +103,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -120,7 +120,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Batch batch)
         {
-            checkAuthorization(batch.BatchId);
+            CheckAuthorization(batch.BatchId);
 
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
             if (batch == null)
             {
@@ -151,7 +151,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
             _batchService.Delete(batch);
             return RedirectToAction("Index");
@@ -161,7 +161,7 @@ namespace BrewersBuddy.Controllers
         //Custom NON CRUD actions
         public ActionResult AddAction(int id = 0)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -178,7 +178,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddAction(BatchAction model)
         {
-            checkAuthorization(model.BatchId);
+            CheckAuthorization(model.BatchId);
 
             if (ModelState.IsValid)
             {
@@ -200,7 +200,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult AddNote(int id = 0)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -217,7 +217,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddNote(BatchNote note)
         {
-            checkAuthorization(note.BatchId);
+            CheckAuthorization(note.BatchId);
             if (ModelState.IsValid)
             {
                 //Add the date
@@ -238,7 +238,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult AddMeasurement(int id = 0)
         {
-            checkAuthorization(id);
+            CheckAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
@@ -255,7 +255,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddMeasurement(Measurement measurement)
         {
-            checkAuthorization(measurement.BatchId);
+            CheckAuthorization(measurement.BatchId);
 
             if (ModelState.IsValid)
             {
@@ -284,7 +284,7 @@ namespace BrewersBuddy.Controllers
             return View(ratings);
         }
 
-        private void checkAuthorization(int batchId)
+        private void CheckAuthorization(int batchId)
         {
             int currentUser = _userService.GetCurrentUserId();
             int batchOwner = _batchService.Get(batchId).OwnerId;
