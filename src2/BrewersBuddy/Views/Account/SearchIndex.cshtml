@@ -7,13 +7,6 @@
 <p style="color: blue; font-size: x-large"><b>Enter one of the following search criteria.</b><br>
 </p>
 
-@if ((!(bool)TempData["FirstLoad"]) & !(Model.Any()))
-{
-    <div class="firstLoad">
-        <p style="color: red; font-size: x-large">No Results Found. </p>
-    </div>
-}
-
 @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
 {    
     <table>
@@ -51,6 +44,13 @@
         </tr>        
     </table>
     <input type="submit" value="Search" />        
+}
+
+@if ((!(bool)TempData["FirstLoad"]) & !(Model.Any()))
+{
+    <div class="firstLoad">
+        <p style="color: red; font-size: x-large">No Results Found. </p>
+    </div>
 }
 
 @if (Model.Any())
