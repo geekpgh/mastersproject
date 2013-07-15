@@ -304,100 +304,143 @@ namespace BrewersBuddy.Controllers
 
 		#endregion Edit Account
 
-        #region Delete Account
-        //
-        // GET: /Account/Delete/
+		#region Delete Account
+		//
+		// GET: /Account/Delete/
 
 
-        public ActionResult Delete()
-        {
-            BrewersBuddyContext db = new BrewersBuddyContext();
+		public ActionResult Delete()
+		{
+			BrewersBuddyContext db = new BrewersBuddyContext();
 
-            var currentUser = User.Identity.Name;
-            UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == currentUser.ToLower());
+			var currentUser = User.Identity.Name;
+			UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == currentUser.ToLower());
 
-            if (user == null)
-            {
-                // Some problem occured
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-
-        //
-        // POST: /Account/Delete/
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(UserProfile user)
-        {
-            WebSecurity.Logout();
-            OAuthWebSecurity.DeleteAccount(user.UserName, user.UserId.ToString());
-
-            UserProfile user1 = db.UserProfiles.Find(user.UserId);
-
-            // Remove all user batches
-            var ownedBatches = from batch in db.Batches
-                                where (batch.OwnerId == user.UserId)
-                                select batch;
-            if (ownedBatches != null)
-            {
-                var list = ownedBatches.ToList();
-                for (int i = 0; i < list.Count; i++)
-                {
-                    db.Batches.Remove(list[i]);
-                }
-            }
-
-            // Remove user                            
-            db.UserProfiles.Remove(user1);
-            db.SaveChanges();
-
-            return RedirectToAction("..");
-        }
-
-        #endregion Delete Account
-        
-        #region Search Accounts
-        public ActionResult SearchIndex(string username, 
-            string firstname, string lastname, string zip)
-        {
-			var users = from u in db.UserProfiles
-						select u;
-
-            TempData["FirstLoad"] = false;
-            if (!String.IsNullOrEmpty(username))
+			if (user == null)
 			{
-                TempData["Criteria"] = "1";
-                users = users.Where(s => s.UserName == username);
+				// Some problem occured
+				return HttpNotFound();
 			}
-            else if (!String.IsNullOrEmpty(firstname))
+			return View(user);
+		}
+
+
+		//
+		// POST: /Account/Delete/
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(UserProfile user)
+		{
+			WebSecurity.Logout();
+			OAuthWebSecurity.DeleteAccount(user.UserName, user.UserId.ToString());
+
+			UserProfile user1 = db.UserProfiles.Find(user.UserId);
+
+			// Remove all user batches
+			var ownedBatches = from batch in db.Batches
+							   where (batch.OwnerId == user.UserId)
+							   select batch;
+			if (ownedBatches != null)
 			{
-                TempData["Criteria"] = "2";
-				users = users.Where(s => s.FirstName == firstname);
-			}
-            else if (!String.IsNullOrEmpty(lastname))
-            {
-                TempData["Criteria"] = "3";
-				users = users.Where(s => s.LastName == lastname);
-            }
-            else if (!String.IsNullOrEmpty(zip))
-            {
-                TempData["Criteria"] = "4";
-				users = users.Where(s => s.Zip == zip);
-            }
-            else
-			{
-				TempData["FirstLoad"] = true;
-                users = users.Where(s => s.Zip == "-1");
+				var list = ownedBatches.ToList();
+				for (int i = 0; i < list.Count; i++)
+				{
+					db.Batches.Remove(list[i]);
+				}
 			}
 
-			//users = users.Where(s => s.UserName != User.Identity.Name && !s.Friends.Any(item => item.UserId == s.UserId));
-			return View(users);
+			// Remove user                            
+			db.UserProfiles.Remove(user1);
+			db.SaveChanges();
+
+			return RedirectToAction("..");
+		}
+
+		#endregion Delete Account
+
+		#region Search Accounts
+		public ActionResult SearchIndex(string username,
+		string firstname, string lastname, string zip)
+		{
+			IEnumerable<UserProfile> users = from u in db.UserProfiles select u;
+			UserProfile currentUser = users.First(s => s.UserName == User.Identity.Name);
+
+			TempData["FirstLoad"] = false;
+			if (String.IsNullOrWhiteSpace(username) && String.IsNullOrWhiteSpace(firstname)
+			&& String.IsNullOrWhiteSpace(lastname) && String.IsNullOrWhiteSpace(zip))
+			{
+				users = users.Where(s => s.Zip == "-1");
+			}
+			else
+			{
+				if (!String.IsNullOrEmpty(username))
+				{
+					users = users.Where(s => s.UserName == username);
+				}
+				if (!String.IsNullOrEmpty(firstname))
+				{
+					users = users.Where(s => s.FirstName == firstname);
+				}
+				if (!String.IsNullOrEmpty(lastname))
+				{
+					users = users.Where(s => s.LastName == lastname);
+				}
+				if (!String.IsNullOrEmpty(zip))
+				{
+					users = users.Where(s => s.Zip == zip);
+				}
+			}
+
+			users = users.Where(s => s.UserName != currentUser.UserName);
+			foreach (UserProfile UP in users)
+			{
+				if (currentUser.Friends.Contains(UP))
+				{
+					users = users.Where(s => s.UserId != UP.UserId);
+				}
+			}
+			return View(users.ToList());
 		}
 
 		#endregion Search Accounts
+
+		#region Friends List Actions
+		public ActionResult FriendsList(int ID = 0)
+		{
+			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserName == User.Identity.Name);
+			if (ID > 0)
+			{
+				if (!main.Friends.Any(item => item.UserId == ID))
+				{
+					main.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == ID));
+					db.Entry(main).State = System.Data.EntityState.Modified;
+					db.SaveChanges();
+
+					return View(main.Friends);
+				}
+			}
+
+			return View(main.Friends);
+		}
+
+		public ActionResult RemoveFriend(int ID = 0)
+		{
+			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserName == User.Identity.Name);
+
+			if (main.Friends.Any(item => item.UserId == ID))
+			{
+				main.Friends.Remove((UserProfile)db.UserProfiles.First(p => p.UserId == ID));
+				db.Entry(main).State = System.Data.EntityState.Modified;
+				db.SaveChanges();
+
+				return RedirectToAction("FriendsList");
+			}
+
+			return RedirectToAction("FriendsList");
+		}
+
+		#endregion Friends List Actions
 
 		#region Manage
 		//

@@ -48,7 +48,7 @@ namespace BrewersBuddy.Tests.Models
             Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", longText, "PH", 7.0);
 
             //The 3 is for the ...
-            Assert.True(measurment.SummaryText.Length == 203);
+			Assert.True(measurment.SummaryText.Length == 203);
         }
     }
 }

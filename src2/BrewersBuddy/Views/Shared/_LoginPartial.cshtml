@@ -4,6 +4,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i>&nbsp;&nbsp;@User.Identity.Name <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a href="@(Url.Action("Edit", "Account"))" title="Account">Edit Profile</a></li>
+                <li><a href="@(Url.Action("FriendsList", "Account"))" title="Account">Friends</a></li>
                 <li>
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
                         @Html.AntiForgeryToken()
