@@ -40,10 +40,9 @@ namespace BrewersBuddy.Controllers
             if (batch == null)
                 return new HttpStatusCodeResult(500);
 
-            // You can only rate once!
-            BatchRating previousRating = _ratingService.GetUserRatingForBatch(batchId, userId);
-            if (previousRating != null)
-                return new HttpNotFoundResult();
+            bool canRate = batch.CanRate(userId);
+            if (!canRate)
+                return new HttpStatusCodeResult(403, "You can only rate a batch once");
 
             ViewBag.BatchId = batchId;
             ViewBag.BatchName = batch.Name;
@@ -71,11 +70,11 @@ namespace BrewersBuddy.Controllers
             {
                 Batch batch = _batchService.Get(userRating.BatchId);
                 if (batch == null)
-                    return new HttpStatusCodeResult(500);
-
-                BatchRating previousRating = _ratingService.GetUserRatingForBatch(userRating.BatchId, userId);
-                if (previousRating != null)
                     return new HttpNotFoundResult();
+
+                bool canRate = batch.CanRate(userId);
+                if (!canRate)
+                    return new HttpStatusCodeResult(403, "You can only rate a batch once");
 
                 userRating.UserId = userId;
 

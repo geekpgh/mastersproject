@@ -70,7 +70,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestPostPreviousRatingWillReturnNotFound()
+        public void TestPostPreviousRatingWillReturn403Error()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -89,11 +89,12 @@ namespace BrewersBuddy.Tests.Controllers
                 BatchId = 1
             });
 
-            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
+            Assert.AreEqual(403, ((HttpStatusCodeResult)result).StatusCode);
         }
 
         [Test]
-        public void TestGetPreviousRatingWillReturnNotFound()
+        public void TestGetPreviousRatingWillReturn403Error()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -109,11 +110,12 @@ namespace BrewersBuddy.Tests.Controllers
 
             ActionResult result = controller.Create(1);
 
-            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
+            Assert.AreEqual(403, ((HttpStatusCodeResult)result).StatusCode);
         }
 
         [Test]
-        public void TestPostNonExistingBatchRetuns500Error()
+        public void TestPostNonExistingBatchRetuns404Error()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -131,8 +133,8 @@ namespace BrewersBuddy.Tests.Controllers
                 BatchId = 1
             });
 
-            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
-            Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.AreEqual(404, ((HttpStatusCodeResult)result).StatusCode);
         }
 
         [Test]
@@ -156,7 +158,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void ValidInputRedirectsToBatchDetails()
+        public void ValidInputReturnsJson()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -176,13 +178,7 @@ namespace BrewersBuddy.Tests.Controllers
                 Comment = "My comment"
             });
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<RedirectToRouteResult>(result);
-
-            RedirectToRouteResult redirect = result as RedirectToRouteResult;
-
-            Assert.AreEqual("Batch", redirect.RouteValues["controller"]);
-            Assert.AreEqual("Details", redirect.RouteValues["action"]);
+            Assert.Fail("Implement test");
         }
 
         [Test]
@@ -195,6 +191,7 @@ namespace BrewersBuddy.Tests.Controllers
             var batchService = Substitute.For<IBatchService>();
             batchService.Get(1).Returns(new Batch()
             {
+                OwnerId = 1,
                 Name = "Batch name"
             });
 
