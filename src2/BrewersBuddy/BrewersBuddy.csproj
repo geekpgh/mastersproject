@@ -332,6 +332,10 @@
     <Compile Include="Migrations\201307152018447_SomethingMissing.Designer.cs">
       <DependentUpon>201307152018447_SomethingMissing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307161704570_FixForPendingError.cs" />
+    <Compile Include="Migrations\201307161704570_FixForPendingError.Designer.cs">
+      <DependentUpon>201307161704570_FixForPendingError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -643,6 +647,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307152018447_SomethingMissing.resx">
       <DependentUpon>201307152018447_SomethingMissing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307161704570_FixForPendingError.resx">
+      <DependentUpon>201307161704570_FixForPendingError.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
