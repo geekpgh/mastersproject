@@ -30,6 +30,15 @@ namespace BrewersBuddy.Services
             db.SaveChanges();
         }
 
+/*
+        public void AddToCellar(Batch batch, Container container)
+        {
+            db.Entry(container).State = EntityState.Added;
+            batch.Container.Add(container);
+            db.SaveChanges();
+        }
+ */ 
+ 
         public void Create(Batch @object)
         {
             db.Batches.Add(@object);

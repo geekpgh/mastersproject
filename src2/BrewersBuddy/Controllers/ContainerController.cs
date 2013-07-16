@@ -7,10 +7,11 @@ using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
 {
-    public class CellarController : Controller
+    [Authorize]
+    public class ContainerController : Controller
     {
         //
-        // GET: /Cellar/
+        // GET: /Container/
 
         public ActionResult Index()
         {

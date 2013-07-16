@@ -14,6 +14,7 @@
     <div class="span8" >
         @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
         @Html.ActionLink("Delete", "Delete", new { id=Model.BatchId }, new { @class = "btn btn btn-danger btn-small" })
+        @Html.ActionLink("Add to Cellar", "AddToCellar", new { id=Model.BatchId }, new { @class = "btn btn-warning btn-small" })
     </div>
 </div>
 
@@ -159,7 +160,7 @@ else
 <br />   
 <div class="row-fluid">
     <div class="span4">
-        <h4>Measurments</h4>
+        <h4>Measurements</h4>
     </div>
     <div class="span8" >
         @Html.ActionLink("Add Measurement", "AddMeasurement", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
