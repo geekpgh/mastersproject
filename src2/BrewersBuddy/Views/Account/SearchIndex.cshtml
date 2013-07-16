@@ -4,7 +4,7 @@
     ViewBag.Title = "SearchIndex";
 }
 
-<p style="color: blue; font-size: x-large"><b>Enter one of the following search criteria.</b><br>
+<p style="color: blue; font-size: x-large"><b>Enter the search criteria:</b><br>
 </p>
 
 @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
@@ -59,22 +59,19 @@
     <h2>Search Results</h2>
 }
 
-<table>
+<table border="1">
     @if (Model.Any())
     {
         <tr>
             <th width="25%" bgcolor="#87cefa">
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
-            <th></th>
             <th width="25%" bgcolor="#ffffff">
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
-            <th></th>
             <th width="25%" bgcolor="#87cefa">
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th></th>
             <th width="25%" bgcolor="#ffffff">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
@@ -87,15 +84,12 @@
             <td align="center" bgcolor="#87cefa">
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            <td></td>
             <td align="center">
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
-            <td></td>
             <td align="center" bgcolor="#87cefa">
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
-            <td></td>
             <td align="center">
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
