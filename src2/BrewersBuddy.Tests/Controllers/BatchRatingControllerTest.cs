@@ -64,10 +64,8 @@ namespace BrewersBuddy.Tests.Controllers
                 Comment = "Test comment"
             });
 
-            ViewResult view = result as ViewResult;
-
-            Assert.IsInstanceOf<BatchRating>(view.Model);
-            Assert.AreEqual("Test comment", ((BatchRating)view.Model).Comment);
+            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
+            Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
         }
 
         [Test]
@@ -139,7 +137,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestGetNonExistingBatchRetuns500Error()
+        public void TestGetNonExistingBatchRetuns404Error()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -154,8 +152,8 @@ namespace BrewersBuddy.Tests.Controllers
 
             ActionResult result = controller.Create(1);
 
-            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
-            Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.AreEqual(404, ((HttpNotFoundResult)result).StatusCode);
         }
 
         [Test]
@@ -265,6 +263,43 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.IsInstanceOf<JsonResult>(result);
 
             Assert.AreEqual(0, ((JsonResult)result).Data);
+        }
+
+        [Test]
+        public void TestAverageWithAnonymousUserWillThrowUnauthorized()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(0);
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+            var batchService = Substitute.For<IBatchService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Average(1);
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestAverageWithNonExistingBatchReturns404Error()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(null, null);
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Average(1);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.AreEqual(404, ((HttpNotFoundResult)result).StatusCode);
         }
     }
 }

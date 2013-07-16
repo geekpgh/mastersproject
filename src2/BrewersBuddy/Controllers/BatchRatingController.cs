@@ -38,7 +38,7 @@ namespace BrewersBuddy.Controllers
 
             Batch batch = _batchService.Get(batchId);
             if (batch == null)
-                return new HttpStatusCodeResult(500);
+                return new HttpNotFoundResult();
 
             double average = 0;
             if (batch.Ratings != null)
@@ -55,7 +55,7 @@ namespace BrewersBuddy.Controllers
 
             Batch batch = _batchService.Get(batchId);
             if (batch == null)
-                return new HttpStatusCodeResult(500);
+                return new HttpNotFoundResult();
 
             bool canRate = batch.CanRate(userId);
             if (!canRate)
