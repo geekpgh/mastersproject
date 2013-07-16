@@ -28,10 +28,9 @@ namespace BrewersBuddy.Tests.Controllers
                     new Batch()
                 });
 
-            var noteService = Substitute.For<IBatchNoteService>();
             var ratingService = Substitute.For<IBatchRatingService>();
 
-            BatchController controller = new BatchController(batchService, noteService, ratingService, userService);
+            BatchController controller = new BatchController(batchService, ratingService, userService);
 
             ViewResult result = (ViewResult)controller.Index();
             ViewDataDictionary data = result.ViewData;
@@ -69,7 +68,7 @@ namespace BrewersBuddy.Tests.Controllers
             var noteService = Substitute.For<IBatchNoteService>();
             var ratingService = Substitute.For<IBatchRatingService>();
 
-            BatchController controller = new BatchController(batchService, noteService, ratingService, userService);
+            BatchController controller = new BatchController(batchService, ratingService, userService);
 
             ViewResult result;
             ViewDataDictionary data;
