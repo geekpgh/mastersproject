@@ -375,19 +375,19 @@ namespace BrewersBuddy.Controllers
 			}
 			else
 			{
-				if (!String.IsNullOrEmpty(username))
+				if (!String.IsNullOrWhiteSpace(username))
 				{
 					users = users.Where(s => s.UserName == username);
 				}
-				if (!String.IsNullOrEmpty(firstname))
+				if (!String.IsNullOrWhiteSpace(firstname))
 				{
 					users = users.Where(s => s.FirstName == firstname);
 				}
-				if (!String.IsNullOrEmpty(lastname))
+				if (!String.IsNullOrWhiteSpace(lastname))
 				{
 					users = users.Where(s => s.LastName == lastname);
 				}
-				if (!String.IsNullOrEmpty(zip))
+				if (!String.IsNullOrWhiteSpace(zip))
 				{
 					users = users.Where(s => s.Zip == zip);
 				}
