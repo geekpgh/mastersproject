@@ -242,5 +242,29 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.AreEqual(41.4, ((JsonResult)result).Data);
         }
+
+        [Test]
+        public void TestAverageWithNoRatingsReturnsZero()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 1
+            });
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Average(1);
+
+            Assert.IsInstanceOf<JsonResult>(result);
+
+            Assert.AreEqual(0, ((JsonResult)result).Data);
+        }
     }
 }
