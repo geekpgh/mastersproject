@@ -368,8 +368,9 @@ namespace BrewersBuddy.Controllers
 
 			TempData["FirstLoad"] = false;
 			if (String.IsNullOrWhiteSpace(username) && String.IsNullOrWhiteSpace(firstname)
-			&& String.IsNullOrWhiteSpace(lastname) && String.IsNullOrWhiteSpace(zip))
+				&& String.IsNullOrWhiteSpace(lastname) && String.IsNullOrWhiteSpace(zip))
 			{
+				TempData["FirstLoad"] = true;
 				users = users.Where(s => s.Zip == "-1");
 			}
 			else
