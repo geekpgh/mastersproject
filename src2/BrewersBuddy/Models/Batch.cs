@@ -52,6 +52,7 @@ namespace BrewersBuddy.Models
         public virtual ICollection<UserProfile> Collaborators { get; set; }
         public virtual ICollection<BatchRating> Ratings { get; set; }
         public virtual ICollection<BatchComment> Comments { get; set; }
+        public virtual ICollection<Container> Containers { get; set; }
 
         /// <summary>
         /// Determines whether this instance can be rated by the user with the

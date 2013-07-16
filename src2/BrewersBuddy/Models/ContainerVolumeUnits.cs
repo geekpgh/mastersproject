@@ -5,6 +5,7 @@ namespace BrewersBuddy.Models
     {
         Milliliter,
         Liter,
+        Ounce,
         Gallon
     }
 

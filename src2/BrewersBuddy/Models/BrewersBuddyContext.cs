@@ -17,7 +17,6 @@ namespace BrewersBuddy.Models
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Container> Containers { get; set; }
-        public DbSet<Cellar> Cellars { get; set; }
         public DbSet<BatchRating> BatchRatings { get; set; }
         public DbSet<BatchComment> BatchComments { get; set; }
 

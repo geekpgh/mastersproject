@@ -16,8 +16,9 @@ namespace BrewersBuddy.Models
         public string Name { get; set; }
         public double Volume { get; set; }
         public int UnitValue { get; set; }
-
         public int BatchId { get; set; }
+        public int OwnerId { get; set; }
+        public int Quantity { get; set; }
 
         [Required]
         public int  ContainerTypeValue { get; set; }
