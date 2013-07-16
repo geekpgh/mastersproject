@@ -12,27 +12,22 @@ namespace BrewersBuddy.Controllers
     public class BatchController : Controller
     {
         private readonly IBatchService _batchService;
-        private readonly IBatchNoteService _noteService;
         private readonly IBatchRatingService _ratingService;
         private readonly IUserService _userService;
 
         public BatchController(
             IBatchService batchService,
-            IBatchNoteService noteService,
             IBatchRatingService ratingService,
             IUserService userService)
         {
             if (batchService == null)
                 throw new ArgumentNullException("batchService");
-            if (noteService == null)
-                throw new ArgumentNullException("noteService");
             if (ratingService == null)
                 throw new ArgumentNullException("ratingService");
             if (userService == null)
                 throw new ArgumentNullException("userService");
 
             _batchService = batchService;
-            _noteService = noteService;
             _ratingService = ratingService;
             _userService = userService;
         }
