@@ -8,6 +8,7 @@ namespace BrewersBuddy.Services
     public class BatchService : IBatchService
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
+        private BrewersBuddyContext db2 = new BrewersBuddyContext();
 
         public void AddAction(Batch batch, BatchAction action)
         {
@@ -65,8 +66,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Batch @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
-            db.SaveChanges();
+            db2.Entry(@object).State = EntityState.Modified;
+            db2.SaveChanges();
         }
 
         public void Dispose()
