@@ -4,6 +4,7 @@ using BrewersBuddy.Services;
 using NSubstitute;
 using NUnit.Framework;
 using System.Web.Mvc;
+using System.Collections.ObjectModel;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -209,6 +210,37 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.NotNull(view.ViewBag.Ratings);
             Assert.AreEqual(1, view.ViewBag.BatchId);
             Assert.NotNull("Batch name", view.ViewBag.BatchName);
+        }
+
+        [Test]
+        public void TestAverageReturnsAverage()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 1,
+                Ratings = new Collection<BatchRating>(new BatchRating[]{
+                    new BatchRating() { Rating = 2 },
+                    new BatchRating() { Rating = 5 },
+                    new BatchRating() { Rating = 100 },
+                    new BatchRating() { Rating = 30 },
+                    new BatchRating() { Rating = 70 },
+                })
+            });
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Average(1);
+
+            Assert.IsInstanceOf<JsonResult>(result);
+
+            Assert.AreEqual(41.4, ((JsonResult)result).Data);
         }
     }
 }

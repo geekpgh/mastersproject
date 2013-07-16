@@ -30,6 +30,23 @@ namespace BrewersBuddy.Controllers
             _userService = userService;
         }
 
+        public ActionResult Average(int batchId = 0)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpStatusCodeResult(500);
+
+            double average = 0;
+            if (batch.Ratings != null)
+                average = batch.Ratings.Average(rating => rating.Rating);
+
+            return Json(average);
+        }
+
         public ActionResult Create(int batchId = 0)
         {
             int userId = _userService.GetCurrentUserId();
