@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
+using System;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -300,6 +301,39 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.IsInstanceOf<HttpNotFoundResult>(result);
             Assert.AreEqual(404, ((HttpNotFoundResult)result).StatusCode);
+        }
+
+        [Test]
+        public void TestNullRatingServiceThrowsArgumentNullException()
+        {
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+                new BatchRatingController(null, batchService, userService)
+                );
+        }
+
+        [Test]
+        public void TestNullBatchServiceThrowsArgumentNullException()
+        {
+            var userService = Substitute.For<IUserService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+                new BatchRatingController(ratingService, null, userService)
+                );
+        }
+
+        [Test]
+        public void TestNullUserServiceThrowsArgumentNullException()
+        {
+            var batchService = Substitute.For<IBatchService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+                new BatchRatingController(ratingService, batchService, null)
+                );
         }
     }
 }
