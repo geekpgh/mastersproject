@@ -1,10 +1,10 @@
 ﻿@model BrewersBuddy.Models.BatchNote
 
 @{
-    ViewBag.Title = "View1";
+    ViewBag.Title = "Create";
 }
 
-<h2>View1</h2>
+<h2>Create</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -21,14 +21,13 @@
             @Html.ValidationMessageFor(model => model.Title)
         </div>
 
- 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Text)
+          @Html.LabelFor(model => model.Text)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Text", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Text)
-        </div>
+         @Html.TextArea("Text", new { rows=10, columns=40 })
+         @Html.ValidationMessageFor(model => model.Text)
+       </div>
 
         <p>
             <input type="submit" value="Create" />

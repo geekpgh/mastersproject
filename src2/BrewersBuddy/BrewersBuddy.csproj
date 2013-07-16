@@ -534,11 +534,8 @@
     <Content Include="Views\Recipe\Create.cshtml" />
     <Content Include="Views\Recipe\Details.cshtml" />
     <Content Include="Views\Recipe\Index.cshtml" />
-    <Content Include="Views\Batch\AddAction.cshtml" />
-    <Content Include="Views\Batch\AddNote.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Batch\AddMeasurement.cshtml" />
     <Content Include="Views\BatchNote\Details.cshtml" />
     <Content Include="Views\BatchNote\Edit.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
@@ -553,6 +550,8 @@
     <Content Include="Views\Cellar\Index.cshtml" />
     <Content Include="Views\Shared\_HelpPartial.cshtml" />
     <Content Include="Views\Help\Manual.cshtml" />
+    <Content Include="Views\BatchNote\Create.cshtml" />
+    <Content Include="Views\Measurement\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

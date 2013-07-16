@@ -11,17 +11,22 @@ namespace BrewersBuddy.Controllers
     {
         private readonly IBatchActionService _actionService;
         private readonly IUserService _userService;
+        private readonly IBatchService _batchService;
 
         public BatchActionController(
             IBatchActionService actionService,
+            IBatchService batchService,
             IUserService userService)
         {
             if (actionService == null)
                 throw new ArgumentNullException("actionService");
+            if (batchService == null)
+                throw new ArgumentNullException("batchService");
             if (userService == null)
                 throw new ArgumentNullException("userService");
 
             _actionService = actionService;
+            _batchService = batchService;
             _userService = userService;
         }
 
@@ -47,29 +52,44 @@ namespace BrewersBuddy.Controllers
             return View(batchaction);
         }
 
-        //
-        // GET: /BatchAction/Create
-
-        public ActionResult Create()
+        public ActionResult Create(int batchId = 0)
         {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpStatusCodeResult(500);
+
             return View();
         }
 
         //
-        // POST: /BatchAction/Create
-
+        // POST: /Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BatchAction batchAction)
+        public ActionResult Create(BatchAction created)
         {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
             if (ModelState.IsValid)
             {
-                batchAction.PerformerId = _userService.GetCurrentUserId();
-                _actionService.Create(batchAction);
-                return RedirectToAction("Details/" + batchAction.BatchId, "Batch");
+                Batch batch = _batchService.Get(created.BatchId);
+                if (batch == null)
+                    return new HttpStatusCodeResult(500);
+
+                created.PerformerId = userId;
+                created.ActionDate = DateTime.Now;
+
+                _actionService.Create(created);
+
+                return RedirectToAction("Details", "Batch", new { id = created.BatchId });
             }
 
-            return View(batchAction);
+            return View(created);
         }
 
         //

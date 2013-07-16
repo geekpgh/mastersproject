@@ -12,7 +12,8 @@ namespace BrewersBuddy.Services
 
         public void Create(Measurement @object)
         {
-            throw new NotImplementedException();
+            db.Measurements.Add(@object);
+            db.SaveChanges();
         }
 
         public void Delete(Measurement @object)

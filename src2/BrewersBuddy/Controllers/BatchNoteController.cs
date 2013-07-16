@@ -9,18 +9,64 @@ namespace BrewersBuddy.Controllers
     {
         private readonly IBatchService _batchService;
         private readonly IBatchNoteService _noteService;
+        private readonly IUserService _userService;
 
         public BatchNoteController(
             IBatchService batchService,
-            IBatchNoteService noteService)
+            IBatchNoteService noteService,
+            IUserService userService)
         {
             if (batchService == null)
                 throw new ArgumentNullException("batchService");
             if (noteService == null)
                 throw new ArgumentNullException("noteService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
 
             _batchService = batchService;
             _noteService = noteService;
+            _userService = userService;
+        }
+
+
+        public ActionResult Create(int batchId = 0)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpStatusCodeResult(500);
+
+            return View();
+        }
+
+        //
+        // POST: /BatchRating/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(BatchNote note)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            if (ModelState.IsValid)
+            {
+                Batch batch = _batchService.Get(note.BatchId);
+                if (batch == null)
+                    return new HttpStatusCodeResult(500);
+
+                note.AuthorId = userId;
+                note.AuthorDate = DateTime.Now;
+
+                _noteService.Create(note);
+
+                return RedirectToAction("Details", "Batch", new { id = note.BatchId });
+            }
+
+            return View(note);
         }
 
         //

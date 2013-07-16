@@ -10,13 +10,23 @@ namespace BrewersBuddy.Controllers
     public class MeasurementController : Controller
     {
         private readonly IMeasurementService _measurementService;
+        private readonly IUserService _userService;
+        private readonly IBatchService _batchService;
 
-        public MeasurementController(IMeasurementService measurementService)
+        public MeasurementController(IMeasurementService measurementService,
+                                     IUserService userService,
+                                     IBatchService batchService)
         {
             if (measurementService == null)
                 throw new ArgumentNullException("measurementService");
+            if (userService == null)
+                throw new ArgumentNullException("userService");
+            if (batchService == null)
+                throw new ArgumentNullException("batchService");
 
             _measurementService = measurementService;
+            _userService = userService;
+            _batchService = batchService;
         }
 
         //
@@ -26,6 +36,45 @@ namespace BrewersBuddy.Controllers
         {
             IEnumerable<Measurement> measurements = _measurementService.GetAllForBatch(batchId);
             return View(measurements);
+        }
+
+        public ActionResult Create(int batchId = 0)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpStatusCodeResult(500);
+
+            return View();
+        }
+
+        //
+        // POST: /BatchRating/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Measurement measurement)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            if (ModelState.IsValid)
+            {
+                Batch batch = _batchService.Get(measurement.BatchId);
+                if (batch == null)
+                    return new HttpStatusCodeResult(500);
+
+                measurement.MeasurementDate = DateTime.Now;
+
+                _measurementService.Create(measurement);
+
+                return RedirectToAction("Details", "Batch", new { id = measurement.BatchId });
+            }
+
+            return View(measurement);
         }
 
         //

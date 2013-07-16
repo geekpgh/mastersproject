@@ -63,7 +63,7 @@
         <h4>Notes</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Note", "AddNote", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        @Html.ActionLink("Add Note", "Create", "BatchNote", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
     </div>
 </div>
 
