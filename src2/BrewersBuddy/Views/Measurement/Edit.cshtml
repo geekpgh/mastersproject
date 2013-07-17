@@ -56,14 +56,11 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input class="btn btn-success" type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Details", "Batch", new { id = Model.BatchId }, new { @class = "btn btn-danger" })
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -116,7 +116,7 @@
         <h4>Actions</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Action", "AddAction", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        @Html.ActionLink("Add Action", "Create", "BatchAction", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
     </div>
 </div>
 
@@ -163,7 +163,7 @@ else
         <h4>Measurements</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Measurement", "AddMeasurement", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        @Html.ActionLink("Add Measurement", "Create", "Measurement", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
     </div>
 </div>
 

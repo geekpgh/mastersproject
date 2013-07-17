@@ -27,7 +27,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Cancel", "Details", "Batch", new { id = Model.BatchId }, new { @class = "btn btn-success" })
+        <input class="btn btn-danger" type="submit" value="Delete" />
     </p>
 }

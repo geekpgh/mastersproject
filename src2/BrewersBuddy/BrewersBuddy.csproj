@@ -340,6 +340,10 @@
     <Compile Include="Migrations\201307162017194_RemoveCellar.Designer.cs">
       <DependentUpon>201307162017194_RemoveCellar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307170123321_add-author.cs" />
+    <Compile Include="Migrations\201307170123321_add-author.Designer.cs">
+      <DependentUpon>201307170123321_add-author.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -655,6 +659,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307162017194_RemoveCellar.resx">
       <DependentUpon>201307162017194_RemoveCellar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307170123321_add-author.resx">
+      <DependentUpon>201307170123321_add-author.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

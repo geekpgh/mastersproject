@@ -9,7 +9,7 @@
 <fieldset>
     <legend>BatchNote</legend>
 
-    <table>
+    <table class="table table-striped">
     <tr><td>
             <div class="display-label">
             <b>@Html.DisplayNameFor(model => model.Title)</b>&nbsp;&nbsp;
@@ -36,17 +36,17 @@
             </div>
         </td><td>
             <div class="display-field">
-            @Html.DisplayFor(model => model.Text)
+            @Html.TextArea("Text", new { rows=10, columns=40 })
             </div>
         </td>
     </tr>
     <tr><td>
             <div class="display-label">
-            <b>@Html.DisplayNameFor(model => model.AuthorId)</b>&nbsp;&nbsp;
+            <b>@Html.DisplayNameFor(model => model.Author)</b>&nbsp;&nbsp;
             </div>
         </td><td>
             <div class="display-field">
-            @Html.DisplayFor(model => model.AuthorId)
+            @Html.DisplayFor(model => model.AuthorName)
             </div>
         </td>
     </tr>
@@ -56,6 +56,6 @@
 </fieldset>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }) &nbsp;|&nbsp;
-    @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch")
+    @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }, new { @class = "btn" })
 </p>

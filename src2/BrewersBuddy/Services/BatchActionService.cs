@@ -12,7 +12,8 @@ namespace BrewersBuddy.Services
 
         public void Create(BatchAction @object)
         {
-            throw new NotImplementedException();
+            db.BatchActions.Add(@object);
+            db.SaveChanges();
         }
 
         public void Delete(BatchAction @object)

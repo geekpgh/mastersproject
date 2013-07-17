@@ -44,6 +44,17 @@ namespace BrewersBuddy.Models
         [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
 
+        [ForeignKey("PerformerId")]
+        public virtual UserProfile Performer { get; set; }
+
+        public virtual String PerformerName
+        {
+            get
+            {
+                return this.Performer.FirstName + " " + this.Performer.LastName;
+            }
+        }
+
         public virtual String SummaryText
         {
             get
