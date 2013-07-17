@@ -26,6 +26,23 @@
     display: none;
 }
 
+.rating {
+    background-color: #e3e3e3;
+    padding: 7px;
+    text-align: center;
+    margin: 10px 0 0 5px;
+    width: 70px;
+}
+
+.rating-value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.rating-label {
+    font-size: 13px;
+}
+
 /*
  Bootstrap overrides 
 */

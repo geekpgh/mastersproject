@@ -54,12 +54,16 @@ namespace BrewersBuddy.Controllers
 
             int currentUserId = _userService.GetCurrentUserId();
 
-            ViewBag.UserRating = _ratingService.GetUserRatingForBatch(id, currentUserId);
+            BatchRating userRating = _ratingService.GetUserRatingForBatch(id, currentUserId);
+            if (userRating != null)
+                ViewBag.UserRating = userRating.Rating;
+            else
+                ViewBag.UserRating = "N/A";
 
             if (batch.Ratings.Count > 0)
                 ViewBag.AverageRating = batch.Ratings.Average(rating => rating.Rating);
             else
-                ViewBag.AverageRating = 0;
+                ViewBag.AverageRating = "N/A";
 
             return View(batch);
         }
