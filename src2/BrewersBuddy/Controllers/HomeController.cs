@@ -11,6 +11,14 @@ namespace BrewersBuddy.Controllers
     {
         public ActionResult Index()
         {
+			if (string.IsNullOrWhiteSpace(User.Identity.Name))
+			{
+				TempData["ShowButton"] = true;
+			}
+			else
+			{
+				TempData["ShowButton"] = false;
+			}
             return View();
         }
     }
