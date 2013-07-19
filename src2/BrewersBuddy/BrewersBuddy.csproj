@@ -391,7 +391,9 @@
     <Compile Include="Services\BatchRatingService.cs" />
     <Compile Include="Services\BatchActionService.cs" />
     <Compile Include="Services\BatchCommentService.cs" />
+    <Compile Include="Services\ContainerService.cs" />
     <Compile Include="Services\IBatchCommentService.cs" />
+    <Compile Include="Services\IContainerService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\RecipeService.cs" />
     <Compile Include="Services\IRecipeService.cs" />
@@ -561,8 +563,12 @@
     <Content Include="Views\Help\Manual.cshtml" />
     <Content Include="Views\BatchNote\Create.cshtml" />
     <Content Include="Views\Measurement\Create.cshtml" />
-    <Content Include="Views\Container\Index.cshtml" />
     <Content Include="Views\Account\FriendsList.cshtml" />
+    <Content Include="Views\Container\Create.cshtml" />
+    <Content Include="Views\Container\Delete.cshtml" />
+    <Content Include="Views\Container\Details.cshtml" />
+    <Content Include="Views\Container\Edit.cshtml" />
+    <Content Include="Views\Container\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
