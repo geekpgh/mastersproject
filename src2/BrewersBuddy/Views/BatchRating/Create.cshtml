@@ -4,8 +4,12 @@
     ViewBag.Title = "Rate " + ViewBag.BatchName;
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@ViewBag.Title</h3>
+</div>
 
+<div class="modal-body" id="rating-body">
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -26,17 +30,36 @@
             @Html.TextArea("Comment", new { rows=10, columns=40 })
             @Html.ValidationMessageFor(model => model.Comment)
         </div>
-
-        <p>
-            <input type="submit" class="btn btn-primary" value="Rate this batch" />
-        </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to Batch", "Details", "Batch", new { id = ViewBag.BatchId }, null)
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input id="rating-submit" type="submit" class="btn btn-primary" value="Rate this batch" />
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#rating-submit").click(function () {
+            var form = $("#rating-body form");
+            var action = form.attr("action");
+            $.post(action, form.serialize())
+                .done(function (data) {
+                    var rating = data.Rating;
+                    $("#my-rating").html(rating);
+
+                    var averageUri = $("#average-rating").attr("data-uri");
+                    $.get(averageUri)
+                        .done(function (data) {
+                            $("#average-rating").text(data);
+                        });
+
+                    $("#modal").modal("hide");
+                })
+                .fail(function (data) {
+                    alert("An error occurred");
+                });
+        });
+    });
+</script>

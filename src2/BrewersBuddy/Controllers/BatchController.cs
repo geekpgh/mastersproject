@@ -56,7 +56,7 @@ namespace BrewersBuddy.Controllers
 
             BatchRating userRating = _ratingService.GetUserRatingForBatch(id, currentUserId);
             if (userRating != null)
-                ViewBag.UserRating = userRating.Rating;
+                ViewBag.UserRating = userRating.Rating.ToString();
             else
                 ViewBag.UserRating = "N/A";
 

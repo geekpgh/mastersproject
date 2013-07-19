@@ -44,7 +44,7 @@ namespace BrewersBuddy.Controllers
             if (batch.Ratings != null)
                 average = batch.Ratings.Average(rating => rating.Rating);
 
-            return Json(average);
+            return Json(average, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create(int batchId = 0)
@@ -70,7 +70,7 @@ namespace BrewersBuddy.Controllers
                     Value = num.ToString()
                 });
 
-            return View();
+            return PartialView();
         }
 
         //

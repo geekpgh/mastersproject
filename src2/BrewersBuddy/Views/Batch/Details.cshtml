@@ -14,11 +14,11 @@
     </div>
     <div class="span4">
         <div class="rating pull-right">
-            <div class="rating-value">@ViewBag.UserRating</div>
+            <div id="my-rating" class="rating-value">@Html.ActionLink((string)ViewBag.UserRating, "Create", "BatchRating", new { BatchId = Model.BatchId }, null)</div>
             <div class="rating-label">Your Rating</div>
         </div>
         <div class="rating pull-right">
-            <div class="rating-value">@ViewBag.AverageRating</div>
+            <div id="average-rating" class="rating-value" data-uri="/BatchRating/Average?BatchId=@Model.BatchId">@ViewBag.AverageRating</div>
             <div class="rating-label">Avg Rating</div>
         </div>
     </div>
@@ -232,3 +232,6 @@ else
 
 <br />    
 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+
+
+<div id="modal" class="modal hide fade" role="dialog"></div>
