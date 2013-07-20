@@ -6,6 +6,21 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/application")
+
+    <script type="text/javascript">
+        $(function () {
+            var submit = $("#comment-form input[type=submit]");
+
+            $("#comment-form textarea").keyup(function () {
+                var val = $(this).val();
+
+                if (val.length > 0)
+                    submit.removeAttr("disabled");
+                else
+                    submit.attr("disabled", "disabled");
+            });
+        });
+    </script>
 }
 
 <div class="row-fluid">
@@ -220,6 +235,9 @@ else
 {
      <p>None</p>
  }
+<br />
+
+@Html.Partial("_CommentPartial", Model)
 
 <br />    
 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })

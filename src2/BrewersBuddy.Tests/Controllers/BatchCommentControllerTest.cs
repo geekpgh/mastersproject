@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Web.Mvc;
 using System;
+using System.Security.Principal;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -77,9 +78,15 @@ namespace BrewersBuddy.Tests.Controllers
         [Test]
         public void ValidInputReturnsJson()
         {
-            // Set up the controller
+            var identity = Substitute.For<IIdentity>();
+            identity.Name.Returns("user1");
+
+            var principal = Substitute.For<IPrincipal>();
+            principal.Identity.Returns(identity);
+
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
+            userService.GetCurrentUser().Returns(principal);
 
             var batchService = Substitute.For<IBatchService>();
             batchService.Get(1).Returns(new Batch()
@@ -100,10 +107,10 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.IsNotNull(result);
 
             JsonResult json = result as JsonResult;
-
-            Assert.IsInstanceOf<BatchComment>(json.Data);
-            Assert.AreEqual(1, ((BatchComment)json.Data).BatchId);
-            Assert.AreEqual("My comment", ((BatchComment)json.Data).Comment);
+            
+            dynamic data = json.Data;
+            Assert.AreEqual("My comment", data.Comment);
+            Assert.AreEqual("user1", data.UserName);
         }
 
         [Test]

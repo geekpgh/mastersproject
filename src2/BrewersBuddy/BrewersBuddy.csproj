@@ -572,6 +572,7 @@
     <Content Include="Views\Account\AddFriend.cshtml" />
     <Content Include="Views\Account\FriendsList.cshtml" />
     <Content Include="Views\BatchRating\Index.cshtml" />
+    <Content Include="Views\Batch\_CommentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

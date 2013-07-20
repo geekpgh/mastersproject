@@ -43,6 +43,12 @@
     font-size: 13px;
 }
 
+#batch-comments p {
+    background-color: #eee;
+    padding: 10px;
+    margin: 15px 0 2px 0;
+}
+
 /*
  Bootstrap overrides 
 */

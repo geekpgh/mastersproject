@@ -60,6 +60,7 @@ namespace BrewersBuddy.App_Start
             kernel.Bind<IRecipeService>().To<RecipeService>();
             kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IContainerService>().To<ContainerService>();
+            kernel.Bind<IBatchCommentService>().To<BatchCommentSerice>();
         }
     }
 }

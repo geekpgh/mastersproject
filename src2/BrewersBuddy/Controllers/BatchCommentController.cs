@@ -54,7 +54,11 @@ namespace BrewersBuddy.Controllers
 
                 _commentService.Create(userComment);
 
-                return Json(userComment);
+                return Json(new
+                {
+                    Comment = userComment.Comment,
+                    UserName = _userService.GetCurrentUser().Identity.Name
+                });
             }
 
             return new HttpStatusCodeResult(500);
