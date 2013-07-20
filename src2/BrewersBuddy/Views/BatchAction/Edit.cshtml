@@ -15,6 +15,8 @@
         <legend>BatchAction</legend>
 
         @Html.HiddenFor(model => model.ActionId)
+        @Html.HiddenFor(model => model.BatchId)
+        @Html.HiddenFor(model => model.PerformerId)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Title)

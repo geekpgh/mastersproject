@@ -1,0 +1,82 @@
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.Container
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <br /><br /><legend>Edit Inventory</legend>
+
+        @Html.HiddenFor(model => model.BatchId)
+        @Html.HiddenFor(model => model.OwnerId)
+        @Html.HiddenFor(model => model.ContainerId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)<br /><br />
+        </div>
+
+        <table>
+        <tr><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Type)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Quantity)
+            </div>
+        </td></tr>
+        <tr><td>
+            <div class="editor-field">
+                @Html.EnumDropDownListFor(model => model.Type)
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </td></tr>
+        </table><br /><br />            
+        
+        <table>
+        <tr><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Volume)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Units)
+            </div>
+        </td></tr>
+        <tr><td>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Volume)
+                @Html.ValidationMessageFor(model => model.Volume)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+                @Html.EnumDropDownListFor(model => model.Units)
+                @Html.ValidationMessageFor(model => model.Units)
+            </div>
+        </td></tr>
+        </table><br /><br />
+
+         <p>
+            <input class="btn btn-success" type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Details", "Container", new { id = Model.ContainerId }, new { @class = "btn btn-danger" })
+        </p>
+    </fieldset>    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

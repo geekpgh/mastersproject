@@ -414,15 +414,61 @@ namespace BrewersBuddy.Controllers
 			{
 				if (!main.Friends.Any(item => item.UserId == ID))
 				{
-					main.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == ID));
-					db.Entry(main).State = System.Data.EntityState.Modified;
-					db.SaveChanges();
-
+					//send email
+					var addFriendLink = "<a href='" + Url.Action("AddFriend", "Account", new { requestor = encrypt(main.UserId), friend = encrypt(ID) }, "http") + "'>Add Friend</a>";
+					string body = "<b>" + main.UserName + " has requested you as a friend</b><br/>";
+					body += "If you would like to ACCEPT this friend request click this link: " + addFriendLink + "</b><br/>";
+					try
+					{
+						SendEMail(((UserProfile)db.UserProfiles.First(p => p.UserId == ID)).Email, "Friend Request", body);
+						TempData["Message"] = "Freind request sent.  Waiting for reply.";
+					}
+					catch (Exception ex)
+					{
+						TempData["Message"] = "Error occured while sending email." + ex.Message;
+					}
+					
 					return View(main.Friends);
 				}
 			}
 
 			return View(main.Friends);
+		}
+
+		private string encrypt(int ID)
+		{
+			Guid guid = Guid.NewGuid();
+			var tmp = guid.ToString().Replace("-", "");
+			tmp = tmp.ToString() + ID.ToString();
+
+			return tmp;
+		}
+
+		[AllowAnonymous]
+		public ActionResult AddFriend(string requestor, string friend)
+		{
+			int tmpRequestor = int.Parse(requestor.Remove(0, 32));
+			int tmpFriend = int.Parse(friend.Remove(0, 32));
+			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserId == tmpRequestor);
+			UserProfile upFriend = (UserProfile)db.UserProfiles.First(q => q.UserId == tmpFriend);
+
+			if (!main.Friends.Contains(upFriend))
+			{
+				main.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == tmpFriend));
+				db.Entry(main).State = System.Data.EntityState.Modified;
+				db.SaveChanges();
+			}
+
+			if (!upFriend.Friends.Contains(main))
+			{
+				upFriend.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == tmpRequestor));
+				db.Entry(main).State = System.Data.EntityState.Modified;
+				db.SaveChanges();
+			}
+
+			TempData["Message"] = "Friend request accepted, you and " + main.UserName + " are now friends.";
+
+			return View();
 		}
 
 		public ActionResult RemoveFriend(int ID = 0)
@@ -434,8 +480,6 @@ namespace BrewersBuddy.Controllers
 				main.Friends.Remove((UserProfile)db.UserProfiles.First(p => p.UserId == ID));
 				db.Entry(main).State = System.Data.EntityState.Modified;
 				db.SaveChanges();
-
-				return RedirectToAction("FriendsList");
 			}
 
 			return RedirectToAction("FriendsList");
@@ -680,7 +724,7 @@ namespace BrewersBuddy.Controllers
 			{
 				if (validType == ValidType.UserName)
 				{
-					if (UP.UserName == model.UserName)
+					if (UP.UserName == model.UserName && UP.UserName != User.Identity.Name)
 					{
 						return false;
 					}

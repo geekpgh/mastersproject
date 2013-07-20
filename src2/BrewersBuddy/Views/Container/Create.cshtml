@@ -1,0 +1,78 @@
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.Container
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <br /><br /><legend>This is used to add your completed batches to your cellar inventory</legend><br />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)<br /><br />
+        </div>
+
+        <table>
+        <tr><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Type)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Quantity)
+            </div>
+        </td></tr>
+        <tr><td>
+            <div class="editor-field">
+                @Html.EnumDropDownListFor(model => model.Type)
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </td></tr>
+        </table><br /><br />            
+        
+        <table>
+        <tr><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Volume)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+            @Html.LabelFor(model => model.Units)
+            </div>
+        </td></tr>
+        <tr><td>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Volume)
+                @Html.ValidationMessageFor(model => model.Volume)
+            </div>
+        </td><td width="50"></td><td>
+            <div class="editor-field">
+                @Html.EnumDropDownListFor(model => model.Units)
+                @Html.ValidationMessageFor(model => model.Units)
+            </div>
+        </td></tr>
+        </table><br /><br />
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

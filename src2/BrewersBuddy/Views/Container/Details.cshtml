@@ -1,0 +1,64 @@
+﻿@model BrewersBuddy.Models.Container
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 class="display-label">@Html.DisplayFor(model => model.Name)</h2><br />
+
+<h4>Created from batch:&nbsp;&nbsp;<b>@Html.ActionLink(Model.Batch.Name, "Details", "Batch", new { id=Model.BatchId }, null)
+    </b></h4><br /><br />
+
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Information</h4>
+    </div>
+    <div class="span8" >
+        @Html.ActionLink("Edit", "Edit", new { id=Model.ContainerId }, new { @class = "btn btn-success btn-small" })
+        @Html.ActionLink("Delete", "Delete", new { id=Model.ContainerId }, new { @class = "btn btn btn-danger btn-small" })
+    </div>
+</div>
+
+<table class="table table-striped">
+    <tr>
+        <td WIDTH=150>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Type)</b>&nbsp;&nbsp;
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Type)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Volume)</b>&nbsp;&nbsp;
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Volume)&nbsp;
+            @Html.DisplayFor(model => model.Units)
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Quantity)</b>&nbsp;&nbsp;
+            </div>
+        </td>
+        <td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Quantity)
+            </div>
+        </td>
+    </tr>
+</table>
+
+<br />
+<br />    
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })

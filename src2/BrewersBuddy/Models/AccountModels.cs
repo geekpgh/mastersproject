@@ -105,11 +105,13 @@ namespace BrewersBuddy.Models
 
 		[MinLength(2)]
 		[MaxLengthAttribute(2)]
+		[StringLength(100, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 2)]
 		[Display(Name = "State")]
 		public string State { get; set; }
 
 		[MinLength(5)]
 		[MaxLengthAttribute(5)]
+		[StringLength(100, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 5)]
 		[Display(Name = "Zip")]
 		public string Zip { get; set; }
 
