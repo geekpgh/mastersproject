@@ -95,40 +95,5 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.IsNotNull(comment);
         }
-
-        [Test]
-        //Test that it isn't truncated if short
-        public void TestSummaryLengthShort()
-        {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchComment(batch, bob, "desc");
-
-            BatchComment comment = context.BatchComments.First();
-            Assert.AreEqual(comment.SummaryText, "desc");
-        }
-
-        [Test]
-        //test that it is truncated
-        public void TestSummaryTruncate()
-        {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
-
-            while (longText.Length < 200)
-            {
-                longText += "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
-            }
-
-            //Make sure the string is setup correctly
-            Assert.True(longText.Length >= 200);
-
-            TestUtils.createBatchComment(batch, bob, longText);
-
-            BatchComment comment = context.BatchComments.First();
-            //The 3 is for the ...
-            Assert.True(comment.SummaryText.Length == 203);
-        }
     }
 }

@@ -30,24 +30,8 @@ namespace BrewersBuddy.Controllers
             _userService = userService;
         }
 
-        public ActionResult Create(int batchId = 0)
-        {
-            int userId = _userService.GetCurrentUserId();
-            if (userId == 0)
-                return new HttpUnauthorizedResult();
-
-            Batch batch = _batchService.Get(batchId);
-            if (batch == null)
-                return new HttpStatusCodeResult(500);
-
-            ViewBag.BatchId = batchId;
-            ViewBag.BatchName = batch.Name;
-
-            return View();
-        }
-
         //
-        // POST: /BatchComment/Create
+        // POST: /BatchRating/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(BatchComment userComment)
@@ -60,16 +44,20 @@ namespace BrewersBuddy.Controllers
             {
                 Batch batch = _batchService.Get(userComment.BatchId);
                 if (batch == null)
-                    return new HttpStatusCodeResult(500);
+                    return new HttpNotFoundResult();
+
+                bool canRate = batch.CanView(userId);
+                if (!batch.CanView(userId))
+                    return new HttpUnauthorizedResult();
 
                 userComment.UserId = userId;
 
                 _commentService.Create(userComment);
 
-                return RedirectToAction("Details", "Batch", new { id = userComment.BatchId });
+                return Json(userComment);
             }
 
-            return View(userComment);
+            return new HttpStatusCodeResult(500);
         }
     }
 }
