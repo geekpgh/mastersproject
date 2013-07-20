@@ -563,6 +563,7 @@
     <Content Include="Views\Measurement\Create.cshtml" />
     <Content Include="Views\Container\Index.cshtml" />
     <Content Include="Views\Account\FriendsList.cshtml" />
+    <Content Include="Views\BatchRating\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

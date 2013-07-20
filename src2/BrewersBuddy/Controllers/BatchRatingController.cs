@@ -3,6 +3,7 @@ using BrewersBuddy.Services;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace BrewersBuddy.Controllers
 {
@@ -30,6 +31,26 @@ namespace BrewersBuddy.Controllers
             _userService = userService;
         }
 
+        public ActionResult Index(int batchId = 0)
+        {
+            int userId = _userService.GetCurrentUserId();
+            if (userId == 0)
+                return new HttpUnauthorizedResult();
+
+            Batch batch = _batchService.Get(batchId);
+            if (batch == null)
+                return new HttpNotFoundResult();
+
+            if (!batch.CanView(userId))
+                return new HttpUnauthorizedResult();
+
+            ViewBag.BatchName = batch.Name;
+
+            IEnumerable<BatchRating> ratings = _ratingService.GetAllForBatch(batchId);
+
+            return PartialView(ratings);
+        }
+
         public ActionResult Average(int batchId = 0)
         {
             int userId = _userService.GetCurrentUserId();
@@ -39,6 +60,9 @@ namespace BrewersBuddy.Controllers
             Batch batch = _batchService.Get(batchId);
             if (batch == null)
                 return new HttpNotFoundResult();
+
+            if (!batch.CanView(userId))
+                return new HttpUnauthorizedResult();
 
             double average = 0;
             if (batch.Ratings != null)

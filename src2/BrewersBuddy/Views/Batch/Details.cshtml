@@ -12,16 +12,7 @@
     <div class="span8">
         <h2 class="display-label">@Html.DisplayFor(model => model.Name)</h2>
     </div>
-    <div class="span4">
-        <div class="rating pull-right">
-            <div id="my-rating" class="rating-value">@Html.ActionLink((string)ViewBag.UserRating, "Create", "BatchRating", new { BatchId = Model.BatchId }, null)</div>
-            <div class="rating-label">Your Rating</div>
-        </div>
-        <div class="rating pull-right">
-            <div id="average-rating" class="rating-value" data-uri="/BatchRating/Average?BatchId=@Model.BatchId">@ViewBag.AverageRating</div>
-            <div class="rating-label">Avg Rating</div>
-        </div>
-    </div>
+    @Html.Partial("_RatingPartial")
 </div>
 
 

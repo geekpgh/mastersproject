@@ -66,22 +66,9 @@ namespace BrewersBuddy.Models
         public bool CanRate(int userId)
         {
             bool hasRated = HasRated(userId);
+            bool canView = CanView(userId);
 
-            if (OwnerId == userId)
-            {
-                if (!hasRated)
-                    return true;
-                else
-                    return false;
-            }
-
-            if (Collaborators != null)
-            {
-                IEnumerable<int> collaboratorIds = Collaborators.Select(u => u.UserId);
-                return collaboratorIds.Contains(userId) && !hasRated;
-            }
-
-            return false;
+            return canView && !hasRated;
         }
 
         /// <summary>
@@ -100,6 +87,20 @@ namespace BrewersBuddy.Models
             else
                 return Ratings.Where(r => r.UserId == userId)
                     .FirstOrDefault() != null;
+        }
+
+        public bool CanView(int userId)
+        {
+            if (OwnerId == userId)
+                return true;
+
+            if (Collaborators != null)
+            {
+                return Collaborators.Select(u => u.UserId)
+                    .Contains(userId);
+            }
+
+            return false;
         }
     }
 

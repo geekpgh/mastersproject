@@ -1,27 +1,24 @@
-﻿<h2>Rating</h2>
-
-@if (Model.Ratings.Count == 0)
-{ 
-    <p>No ratings have been added yet.</p>
-}
-else
-{ 
-    <div class="row">
-        <div class="span2 text-center">
-            <h3>@ViewBag.AverageRating</h3>
-            <span>Average Rating</span>
-        </div>
-        <div class="span2 text-center">
-            @if(ViewBag.UserRating != null) 
-            {
-                <h3>@ViewBag.UserRating.Rating</h3>
-                <span>Your Rating</span>
+﻿<div class="span4" id="ratings">
+    <div class="rating pull-right">
+        <div id="my-rating" class="rating-value">
+            @if(ViewBag.UserRating == "N/A") {
+                @Html.ActionLink((string)ViewBag.UserRating, "Create", "BatchRating", new { BatchId = Model.BatchId }, null)
+            }
+            else {
+                @ViewBag.UserRating
             }
         </div>
+        <div class="rating-label">Your Rating</div>
     </div>
-}
-
-@if (ViewBag.UserRating == null)
-{
-    <p>@Html.ActionLink("Tell us what you think", "Create", "BatchRating", new { Model.BatchId }, null)</p>
-}
+    <div class="rating pull-right">
+        <div id="average-rating" class="rating-value" data-uri="/BatchRating/Average?BatchId=@Model.BatchId">
+            @if (ViewBag.AverageRating == "N/A") {
+                @ViewBag.AverageRating
+            }
+            else { 
+                @Html.ActionLink((string)ViewBag.AverageRating, "Index", "BatchRating", new { BatchId = Model.BatchId }, null)
+            }
+        </div>
+        <div class="rating-label">Avg Rating</div>
+    </div>
+</div>

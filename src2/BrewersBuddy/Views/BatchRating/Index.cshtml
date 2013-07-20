@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BrewersBuddy.Models.BatchRating>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">All Ratings for @ViewBag.BatchName</h3>
+</div>
+
+<div class="modal-body">
+@foreach (BrewersBuddy.Models.BatchRating rating in Model) { 
+    <div class="row">
+        <div class="span1">
+            @if(@rating.Rating >= 75) {
+                <span class="label label-success">@rating.Rating</span>
+            }
+            else if(@rating.Rating >= 50 && @rating.Rating < 75) {
+                <span class="label label-warning">@rating.Rating</span>
+            }
+            else {
+                <span class="label label-important">@rating.Rating</span>
+            }
+        </div>
+        <div class="span3">
+            <strong>@rating.User.UserName</strong><br />
+            @if(String.IsNullOrEmpty(@rating.Comment)) {
+                @Html.Raw("No comments")
+            }
+            else {
+                @rating.Comment
+            }
+        </div>
+    </div>
+}
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>

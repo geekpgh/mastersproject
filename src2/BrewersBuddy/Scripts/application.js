@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $("#my-rating a").click(function () {
+    $("#ratings a").click(function () {
         var href = $(this).attr("href");
         $.get(href)
             .done(function(data) {

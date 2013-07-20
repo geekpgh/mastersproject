@@ -6,6 +6,8 @@ using NUnit.Framework;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -204,7 +206,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             ActionResult result = controller.Create(1);
 
-            ViewResult view = result as ViewResult;
+            PartialViewResult view = result as PartialViewResult;
 
             Assert.NotNull(view.ViewBag.Ratings);
             Assert.AreEqual(1, view.ViewBag.BatchId);
@@ -334,6 +336,115 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.Throws<ArgumentNullException>(() =>
                 new BatchRatingController(ratingService, batchService, null)
                 );
+        }
+
+        [Test]
+        public void TestAverageUserCantViewReturnsHttpUnauthorized()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 2
+            });
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Average(1);
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestIndexUserCantViewReturnsHttpUnauthorized()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 2
+            });
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Index(1);
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestIndexWithAnonymousUserWillThrowUnauthorized()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(0);
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+            var batchService = Substitute.For<IBatchService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Index(1);
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestIndexWithNonExistingBatchReturns404Error()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(null, null);
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            ActionResult result = controller.Index(1);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            Assert.AreEqual(404, ((HttpNotFoundResult)result).StatusCode);
+        }
+
+        [Test]
+        public void TestIndexReturnsAllRatings()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+                {
+                    OwnerId = 1
+                });
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+            ratingService.GetAllForBatch(1).Returns(new BatchRating[] {
+                new BatchRating() { Rating = 1, Comment = "My comment"},
+                new BatchRating() { Rating = 100, Comment = "Awesome" },
+                new BatchRating() { Rating = 50, Comment = "Meh" }
+            });
+
+            BatchRatingController controller = new BatchRatingController(ratingService, batchService, userService);
+
+            PartialViewResult result = controller.Index(1) as PartialViewResult;
+
+            Assert.IsInstanceOf<IEnumerable<BatchRating>>(result.Model);
+            Assert.AreEqual(3, ((IEnumerable<BatchRating>)result.Model).Count());
         }
     }
 }
