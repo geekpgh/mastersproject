@@ -569,6 +569,7 @@
     <Content Include="Views\Container\Details.cshtml" />
     <Content Include="Views\Container\Edit.cshtml" />
     <Content Include="Views\Container\Index.cshtml" />
+    <Content Include="Views\Account\AddFriend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

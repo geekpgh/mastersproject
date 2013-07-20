@@ -4,17 +4,24 @@
     ViewBag.Title = "FriendsList";
 }
 
-@if (Model.Any())
+@if (!string.IsNullOrWhiteSpace((string)TempData["Message"]))
 {
-    <br>
-    <h2>Friends List</h2>
+    <h4 style="color: red;">@TempData["Message"]</h4>
 }
 else
 {
-    <br>
-    <h4>You seem to be forever alone.  </h4>
-    <br>
-    <h4>Go search for @Html.ActionLink("Users", "SearchIndex") and add them as friends.</h4>
+    if (Model.Any())
+    {
+        <br>
+        <h2>Friends List</h2>
+    }
+    else
+    {
+        <br>
+        <h4>You seem to be forever alone.  </h4>
+        <br>
+        <h4>Go search for @Html.ActionLink("Users", "SearchIndex") and add them as friends.</h4>
+    }
 }
 
 
@@ -46,14 +53,14 @@ else
             <td align="center">
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
-            <td align="center"  bgcolor="#87cefa">
+            <td align="center" bgcolor="#87cefa">
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td align="center">
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td align="center">
-            @Html.ActionLink("Remove Friend", "RemoveFriend",  new { ID = item.UserId })
+                @Html.ActionLink("Remove Friend", "RemoveFriend", new { ID = item.UserId })
             </td>
         </tr>       
     }
