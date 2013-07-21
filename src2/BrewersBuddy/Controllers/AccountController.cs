@@ -421,7 +421,7 @@ namespace BrewersBuddy.Controllers
 					try
 					{
 						SendEMail(((UserProfile)db.UserProfiles.First(p => p.UserId == ID)).Email, "Friend Request", body);
-						TempData["Message"] = "Freind request sent.  Waiting for reply.";
+						TempData["Message"] = "Friend request sent.  Waiting for reply.";
 					}
 					catch (Exception ex)
 					{

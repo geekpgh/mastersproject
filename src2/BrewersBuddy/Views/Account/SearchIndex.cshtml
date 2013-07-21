@@ -4,7 +4,8 @@
     ViewBag.Title = "SearchIndex";
 }
 
-<p style="color: blue; font-size: x-large"><b>Enter the search criteria:</b><br>
+<br />
+<p style="color: blue; font-size: x-large"><b>Enter  search criteria:</b><br>
 </p>
 
 @using (Html.BeginForm("SearchIndex", "Account", FormMethod.Get))
@@ -42,7 +43,7 @@
                 @Html.TextBox("zip", "") <br>
             </td>
         </tr>        
-    </table>
+    </table><br />
     <input type="submit" value="Search" />        
 }
 
