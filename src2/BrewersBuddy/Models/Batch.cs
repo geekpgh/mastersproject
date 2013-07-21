@@ -100,8 +100,32 @@ namespace BrewersBuddy.Models
                     .Contains(userId);
             }
 
+            //The friends of a batch owner may view it
+            foreach (UserProfile friend in Owner.Friends)
+            {
+                if (friend.UserId == userId)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
+
+
+        public bool CanEdit(int userId)
+        {
+            //The collaborators of a batch owner may edit it
+            foreach (UserProfile collaborator in this.Collaborators)
+            {
+                if (collaborator.UserId == userId)
+                {
+                    return true;
+                }
+            }
+            return Owner.UserId == userId;
+        }
+
     }
 
 }

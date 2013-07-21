@@ -57,5 +57,8 @@
 
 <p>
     @Html.ActionLink("Back to Batch", "Details/"+Model.BatchId, "Batch", null, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }, new { @class = "btn" })
+    @if(ViewBag.CanEdit)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.NoteId }, new { @class = "btn" })
+    }
 </p>

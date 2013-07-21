@@ -31,6 +31,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create(int batchId = 0)
         {
+            //no authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -48,6 +49,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BatchNote note)
         {
+            //No authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -74,12 +76,19 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            BatchNote batchnote = _noteService.Get(id);
-            if (batchnote == null)
+            CheckViewAuthorization(id);
+            BatchNote batchNote = _noteService.Get(id);
+            if (batchNote == null)
             {
                 return HttpNotFound();
             }
-            return View(batchnote);
+
+            //See if they can edit so we can disable things if this is read only
+            //This removed all buttons from the view that require edit privs.
+            int currentUserId = _userService.GetCurrentUserId();
+            ViewBag.CanEdit = batchNote.CanEdit(currentUserId);
+
+            return View(batchNote);
         }
 
         //
@@ -87,6 +96,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            CheckEditAuthorization(id);
             BatchNote note = _noteService.Get(id);
             if (note == null)
             {
@@ -103,6 +113,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BatchNote note)
         {
+            CheckEditAuthorization(note.NoteId);
             if (ModelState.IsValid)
             {
                 _noteService.Update(note);
@@ -116,7 +127,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Delete/5
         public ActionResult Delete(int id = 0)
         {
-
+            CheckEditAuthorization(id);
             BatchNote note = _noteService.Get(id);
             if (note == null)
             {
@@ -131,9 +142,32 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteNoteConfirmed(int id = 0)
         {
+            CheckEditAuthorization(id);
             BatchNote note = _noteService.Get(id);
             _noteService.Delete(note);
             return RedirectToAction("Details/" + note.BatchId, "Batch");
+        }
+
+        private void CheckViewAuthorization(int noteId)
+        {
+            BatchNote note = _noteService.Get(noteId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!note.CanView(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot view this data.");
+            }
+        }
+
+        private void CheckEditAuthorization(int noteId)
+        {
+            BatchNote note = _noteService.Get(noteId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!note.CanEdit(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot edit data you do not own.");
+            }
         }
     }
 }

@@ -40,6 +40,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Create(int batchId = 0)
         {
+            //No Authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -57,6 +58,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Measurement measurement)
         {
+            //No Authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -82,11 +84,18 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            CheckViewAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
             }
+
+            //See if they can edit so we can disable things if this is read only
+            //This removed all buttons from the view that require edit privs.
+            int currentUserId = _userService.GetCurrentUserId();
+            ViewBag.CanEdit = measurement.CanEdit(currentUserId);
+
             return View(measurement);
         }
 
@@ -95,6 +104,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            CheckEditAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
@@ -110,6 +120,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Measurement measurement)
         {
+            CheckEditAuthorization(measurement.MeasurementId);
             if (ModelState.IsValid)
             {
                 _measurementService.Update(measurement);
@@ -123,6 +134,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            CheckEditAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
@@ -138,9 +150,32 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            CheckEditAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             _measurementService.Delete(measurement);
             return RedirectToAction("Details/" + measurement.BatchId, "Batch");
+        }
+
+        private void CheckViewAuthorization(int measurementId)
+        {
+            Measurement measurement = _measurementService.Get(measurementId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!measurement.CanView(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot view this data.");
+            }
+        }
+
+        private void CheckEditAuthorization(int measurementId)
+        {
+            Measurement measurement = _measurementService.Get(measurementId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!measurement.CanEdit(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot edit data you do not own.");
+            }
         }
     }
 }

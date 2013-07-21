@@ -63,6 +63,19 @@ namespace BrewersBuddy.Models
                        this.Description;
             }
         }
+
+        public bool CanView(int userId)
+        {
+            Batch batch = this.Batch;
+            return batch.CanView(userId);
+        }
+
+
+        public bool CanEdit(int userId)
+        {
+            Batch batch = this.Batch;
+            return batch.CanEdit(userId);
+        }
     }
 
 }

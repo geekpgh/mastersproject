@@ -109,5 +109,86 @@ namespace BrewersBuddy.Tests.Models
             //The 3 is for the ...
             Assert.True(action.SummaryText.Length == 203);
         }
+
+        [Test]
+        public void TestCanViewOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            //Verify the owner can view
+            Assert.IsTrue(action.CanView(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanEditOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            //Verify the collaborator can edit
+            Assert.IsTrue(action.CanEdit(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanViewCollaborator()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(action.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanEditCollaborator()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            Assert.IsTrue(action.CanEdit(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanViewFriend()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(action.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCannotEditFriend()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the owner can view
+            Assert.IsFalse(action.CanEdit(fred.UserId));
+        }
     }
 }

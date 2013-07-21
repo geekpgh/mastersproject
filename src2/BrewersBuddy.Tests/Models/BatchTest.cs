@@ -130,6 +130,81 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsFalse(batch.Actions.Contains(action));
         }
 
+        [Test]
+        public void TestCanViewOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            //Verify the owner can view
+            Assert.IsTrue(batch.CanView(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanEditOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            //Verify the collaborator can edit
+            Assert.IsTrue(batch.CanEdit(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanViewCollaborator()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(batch.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanEditCollaborator()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            Assert.IsTrue(batch.CanEdit(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanViewFriend()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(batch.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCannotEditFriend()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the owner can view
+            Assert.IsFalse(batch.CanEdit(fred.UserId));
+        }
+
 		//[Test]
 		//public void TestAddToInvetory()
 		//{

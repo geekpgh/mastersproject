@@ -6,7 +6,7 @@ using BrewersBuddy.Tests.TestUtilities;
 namespace BrewersBuddy.Tests.Models
 {
     [TestFixture]
-    public class MeasurementTest
+    public class MeasurementTest : DbTestBase
     {
         [Test]
         public void TestAddMeasurement()
@@ -49,6 +49,87 @@ namespace BrewersBuddy.Tests.Models
 
             //The 3 is for the ...
 			Assert.True(measurment.SummaryText.Length == 203);
+        }
+
+        [Test]
+        public void TestCanViewOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            //Verify the owner can view
+            Assert.IsTrue(measurment.CanView(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanEditOwned()
+        {
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            //Verify the collaborator can edit
+            Assert.IsTrue(measurment.CanEdit(bob.UserId));
+        }
+
+        [Test]
+        public void TestCanViewCollaborator()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(measurment.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanEditCollaborator()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            batch.Collaborators.Add(fred);
+            context.SaveChanges();
+
+            Assert.IsTrue(measurment.CanEdit(fred.UserId));
+        }
+
+        [Test]
+        public void TestCanViewFriend()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the collaborator can view
+            Assert.IsTrue(measurment.CanView(fred.UserId));
+        }
+
+        [Test]
+        public void TestCannotEditFriend()
+        {
+            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            Measurement measurment = TestUtils.createMeasurement(batch, "Test Measurement", "measurement", "PH", 7.0);
+
+            bob.Friends.Add(fred);
+            context.SaveChanges();
+
+            //Verify the owner can view
+            Assert.IsFalse(measurment.CanEdit(fred.UserId));
         }
     }
 }

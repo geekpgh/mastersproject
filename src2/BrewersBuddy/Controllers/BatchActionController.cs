@@ -44,16 +44,24 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            CheckViewAuthorization(id);
             BatchAction batchaction = _actionService.Get(id);
             if (batchaction == null)
             {
                 return HttpNotFound();
             }
+
+            //See if they can edit so we can disable things if this is read only
+            //This removed all buttons from the view that require edit privs.
+            int currentUserId = _userService.GetCurrentUserId();
+            ViewBag.CanEdit = batchaction.CanEdit(currentUserId);
+
             return View(batchaction);
         }
 
         public ActionResult Create(int batchId = 0)
         {
+            //No authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -71,6 +79,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BatchAction created)
         {
+            //not authorization needed here
             int userId = _userService.GetCurrentUserId();
             if (userId == 0)
                 return new HttpUnauthorizedResult();
@@ -97,6 +106,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            CheckEditAuthorization(id);
             BatchAction batchAction = _actionService.Get(id);
             if (batchAction == null)
             {
@@ -112,6 +122,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BatchAction batchAction)
         {
+            CheckEditAuthorization(batchAction.ActionId);
             if (ModelState.IsValid)
             {
                 _actionService.Update(batchAction);
@@ -125,6 +136,7 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            CheckEditAuthorization(id);
             BatchAction batchaction = _actionService.Get(id);
             if (batchaction == null)
             {
@@ -140,9 +152,32 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            CheckEditAuthorization(id);
             BatchAction batchAction = _actionService.Get(id);
             _actionService.Delete(batchAction);
             return RedirectToAction("Details/" + batchAction.BatchId, "Batch");
+        }
+
+        private void CheckViewAuthorization(int actionId)
+        {
+            BatchAction action = _actionService.Get(actionId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!action.CanView(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot view this data.");
+            }
+        }
+
+        private void CheckEditAuthorization(int actionId)
+        {
+            BatchAction action = _actionService.Get(actionId);
+            int currentUser = _userService.GetCurrentUserId();
+
+            if (!action.CanEdit(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot edit data you do not own.");
+            }
         }
     }
 }

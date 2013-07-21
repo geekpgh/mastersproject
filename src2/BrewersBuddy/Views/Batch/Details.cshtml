@@ -36,10 +36,13 @@
         <h4>Information</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
-        @Html.ActionLink("Delete", "Delete", new { id=Model.BatchId }, new { @class = "btn btn btn-danger btn-small" })
-        @Html.ActionLink("Add to Cellar", "Create", "Container", new { batchid=Model.BatchId }, new { @class = "btn btn-warning btn-small" })
-    </div>
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+            @Html.ActionLink("Delete", "Delete", new { id=Model.BatchId }, new { @class = "btn btn btn-danger btn-small" })
+            @Html.ActionLink("Add to Cellar", "Create", "Container", new { batchid=Model.BatchId }, new { @class = "btn btn-warning btn-small" })
+        }
+            </div>
 </div>
 
 <table class="table table-striped">
@@ -88,8 +91,11 @@
         <h4>Notes</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Note", "Create", "BatchNote", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
-    </div>
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Add Note", "Create", "BatchNote", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        } 
+   </div>
 </div>
 
     @if(Model.Notes.Count > 0)
@@ -116,12 +122,16 @@
                     @Html.ActionLink("View", "Details", "BatchNote", new { id = note.NoteId }, new { @class = "btn btn-primary" })
 
                 </td>
+                @if(ViewBag.CanEdit)
+                {
+          
                 <td>
                     @Html.ActionLink("Edit", "Edit", "BatchNote", new { id=note.NoteId }, new { @class = "btn" })
                 </td>
                 <td>
                     @Html.ActionLink("Delete", "Delete", "BatchNote", new { id=note.NoteId }, new { @class = "btn btn-danger" })
                 </td>
+                }
             
             </tr>
         }   
@@ -140,8 +150,11 @@
         <h4>Actions</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Action", "Create", "BatchAction", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
-    </div>
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Add Action", "Create", "BatchAction", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        }
+        </div>
 </div>
 
  @if(Model.Actions.Count > 0)
@@ -166,12 +179,15 @@
             <td>
                 @Html.ActionLink("View", "Details", "BatchAction", new { id=action.ActionId }, new { @class = "btn btn-primary" })
             </td>
+            @if(ViewBag.CanEdit)
+            {
             <td>
                 @Html.ActionLink("Edit", "Edit", "BatchAction", new { id=action.ActionId }, new { @class = "btn" })
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", "BatchAction", new { id=action.ActionId }, new { @class = "btn btn-danger" }) 
             </td>
+            }
         </tr>
     }
     </table>
@@ -187,8 +203,11 @@ else
         <h4>Measurements</h4>
     </div>
     <div class="span8" >
-        @Html.ActionLink("Add Measurement", "Create", "Measurement", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
-    </div>
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Add Measurement", "Create", "Measurement", new { batchId=Model.BatchId }, new { @class = "btn btn-success btn-small" })
+        }
+        </div>
 </div>
 
  @if(Model.Measurements.Count > 0)
@@ -220,13 +239,15 @@ else
         <td>
             @Html.ActionLink("View", "Details", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-primary" })
         </td>
+        @if(ViewBag.CanEdit)
+        {
         <td>
             @Html.ActionLink("Edit", "Edit", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn" })
         </td>
         <td>
             @Html.ActionLink("Delete", "Delete", "Measurement", new { id=measurement.MeasurementId }, new { @class = "btn btn-danger" })
         </td>
-        
+        }
     </tr>     
     }
     </table>
