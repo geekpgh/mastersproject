@@ -115,6 +115,12 @@ namespace BrewersBuddy.Models
 
         public bool CanEdit(int userId)
         {
+            //First see if they are the owner
+            if(Owner.UserId == userId)
+            {
+                return true;
+            }
+
             //The collaborators of a batch owner may edit it
             foreach (UserProfile collaborator in this.Collaborators)
             {
@@ -123,7 +129,8 @@ namespace BrewersBuddy.Models
                     return true;
                 }
             }
-            return Owner.UserId == userId;
+
+            return false;
         }
 
     }

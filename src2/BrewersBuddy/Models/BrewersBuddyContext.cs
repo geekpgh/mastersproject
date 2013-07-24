@@ -34,10 +34,25 @@ namespace BrewersBuddy.Models
 					.MapRightKey("RecipeID")
 					.ToTable("IngredientRecipe"));
 
-			//modelBuilder.Entity<UserProfile>()
-		    //	.HasRequired(t => t.BatchRatings)
-			//	.WithOptional()
-			//	.WillCascadeOnDelete(false);
+            modelBuilder.Entity<BatchRating>()
+                .HasRequired(t => t.User)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BatchComment>()
+                .HasRequired(t => t.User)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BatchNote>()
+                .HasRequired(t => t.Author)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BatchAction>()
+                .HasRequired(t => t.Performer)
+                .WithMany()
+                .WillCascadeOnDelete(false);
 		}
 
 	}

@@ -348,6 +348,10 @@
     <Compile Include="Migrations\201307232309523_fix-ratings.Designer.cs">
       <DependentUpon>201307232309523_fix-ratings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307240045086_fix-cascades.cs" />
+    <Compile Include="Migrations\201307240045086_fix-cascades.Designer.cs">
+      <DependentUpon>201307240045086_fix-cascades.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -680,6 +684,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307232309523_fix-ratings.resx">
       <DependentUpon>201307232309523_fix-ratings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307240045086_fix-cascades.resx">
+      <DependentUpon>201307240045086_fix-cascades.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
