@@ -104,7 +104,7 @@ namespace BrewersBuddy.Tests.Models
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
             TestUtils.createBatchRating(batch, bob, 100, null);
 
-            BatchRating rating = context.BatchRatings.Find(bob.UserId, batch.BatchId);
+            BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
             Assert.IsNotNull(rating);
             Assert.AreEqual(null, rating.Comment);
