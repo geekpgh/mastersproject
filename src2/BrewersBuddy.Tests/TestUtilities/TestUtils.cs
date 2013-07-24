@@ -31,7 +31,6 @@ namespace BrewersBuddy.Tests.TestUtilities
             batch.Name = name;
             batch.Type = type;
             batch.OwnerId = owner.UserId;
-            batch.Owner = owner;
             batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);
@@ -82,8 +81,8 @@ namespace BrewersBuddy.Tests.TestUtilities
             BrewersBuddyContext db = new BrewersBuddyContext();
 
             BatchRating batchRating = new BatchRating();
-            batchRating.Batch = batch;
-            batchRating.User = user;
+            batchRating.BatchId = batch.BatchId;
+            batchRating.UserId = user.UserId;
             batchRating.Rating = rating;
             batchRating.Comment = comment;
 
