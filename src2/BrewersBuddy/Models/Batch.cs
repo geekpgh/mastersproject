@@ -19,8 +19,7 @@ namespace BrewersBuddy.Models
         public DateTime StartDate { get; set; }
         [Required]
         public int BatchTypeValue { get; set; }
-        //The user id of the user
-        [Display(Name = "Owner")]
+        
         public int OwnerId { get; set; }
 
         public Batch()

@@ -6,10 +6,10 @@ namespace BrewersBuddy.Tests.TestUtilities
 {
     class TestUtils
     {
+        private static BrewersBuddyContext db = new BrewersBuddyContext();
+
         public static UserProfile createUser(int userId, String firstName, String lastName)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             UserProfile user = new UserProfile();
             user.UserId = userId;
             user.FirstName = firstName;
@@ -19,22 +19,19 @@ namespace BrewersBuddy.Tests.TestUtilities
             db.UserProfiles.Add(user);
             db.SaveChanges();
 
-
             return user;
         }
 
         public static Batch createBatch(String name, BatchType type, UserProfile owner)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Batch batch = new Batch();
             batch.Name = name;
             batch.Type = type;
-            batch.OwnerId = owner.UserId;
+            batch.Owner = owner;
             batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);
-
+            
             db.SaveChanges();
 
             return batch;
@@ -42,13 +39,10 @@ namespace BrewersBuddy.Tests.TestUtilities
 
         public static BatchNote createBatchNote(Batch batch, String title, String text, UserProfile user)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             BatchNote note = new BatchNote();
             note.Batch = batch;
             note.Text = text;
             note.Title = title;
-            note.AuthorId = user.UserId;
             note.Author = user;
             note.AuthorDate = DateTime.Now;
 
@@ -60,8 +54,6 @@ namespace BrewersBuddy.Tests.TestUtilities
 
         public static Measurement createMeasurement(Batch batch, String name, String description, String measured, Double value)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             Measurement measurment = new Measurement();
             measurment.Batch = batch;
             measurment.Name = name;
@@ -78,11 +70,9 @@ namespace BrewersBuddy.Tests.TestUtilities
 
         public static BatchRating createBatchRating(Batch batch, UserProfile user, int rating, string comment)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             BatchRating batchRating = new BatchRating();
-            batchRating.BatchId = batch.BatchId;
-            batchRating.UserId = user.UserId;
+            batchRating.Batch = batch;
+            batchRating.User = user;
             batchRating.Rating = rating;
             batchRating.Comment = comment;
 
@@ -95,8 +85,6 @@ namespace BrewersBuddy.Tests.TestUtilities
 
         public static BatchComment createBatchComment(Batch batch, UserProfile user, string comment)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             BatchComment batchComment = new BatchComment();
             batchComment.Batch = batch;
             batchComment.User = user;
@@ -112,8 +100,6 @@ namespace BrewersBuddy.Tests.TestUtilities
         public static BatchAction createBatchAction(Batch batch, UserProfile user, string title, string description, 
                                                     ActionType type)
         {
-            BrewersBuddyContext db = new BrewersBuddyContext();
-
             BatchAction batchAction = new BatchAction();
             batchAction.Batch = batch;
             batchAction.PerformerId = user.UserId;
