@@ -14,7 +14,6 @@ namespace BrewersBuddy.Tests.Models
     public class BatchRatingTest : DbTestBase
     {
         [Test]
-        [ExpectedException(typeof(DbUpdateException))]
         public void TestBatchAndUserMustBeUnique()
         {
             UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
@@ -25,7 +24,7 @@ namespace BrewersBuddy.Tests.Models
 
             // Create the second rating with the user + batch combination
             // This should fail with DbUpdateException because of a duplicate key
-            TestUtils.createBatchRating(batch, bob, 90, "");
+            Assert.Throws<InvalidOperationException>(() => TestUtils.createBatchRating(batch, bob, 90, ""));
         }
 
         [Test]
