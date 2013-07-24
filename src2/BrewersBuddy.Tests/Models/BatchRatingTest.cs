@@ -46,7 +46,7 @@ namespace BrewersBuddy.Tests.Models
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
             TestUtils.createBatchRating(batch, bob, 100, "");
 
-            BatchRating rating = context.BatchRatings.Find(bob.UserId, batch.BatchId);
+            BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
             Assert.IsNotNull(rating.User);
             Assert.AreEqual(bob.UserId, rating.User.UserId);
@@ -62,7 +62,7 @@ namespace BrewersBuddy.Tests.Models
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
             Assert.IsNotNull(rating.Batch);
-            Assert.AreEqual(batch.BatchId, rating.BatchId);
+            Assert.AreEqual(batch.BatchId, rating.Batch.BatchId);
         }
 
         [Test]
