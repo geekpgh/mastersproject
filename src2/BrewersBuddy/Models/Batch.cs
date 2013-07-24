@@ -23,6 +23,18 @@ namespace BrewersBuddy.Models
         [Display(Name = "Owner")]
         public int OwnerId { get; set; }
 
+        public Batch()
+        {
+            this.Measurements = new List<Measurement>();
+            this.Notes = new List<BatchNote>();
+            this.Actions = new List<BatchAction>();
+            this.Collaborators = new List<UserProfile>();
+            this.Ratings = new List<BatchRating>();
+            this.Comments = new List<BatchComment>();
+            this.Containers = new List<Container>();
+        }
+
+
         public BatchType Type
         {
             get 
@@ -94,22 +106,21 @@ namespace BrewersBuddy.Models
             if (OwnerId == userId)
                 return true;
 
+            bool isCollaborator = false;
+            bool isFriend = false;
+
             if (Collaborators != null)
             {
-                return Collaborators.Select(u => u.UserId)
-                    .Contains(userId);
+                isCollaborator = Collaborators.Select(u => u.UserId).Contains(userId);
             }
 
             //The friends of a batch owner may view it
-            foreach (UserProfile friend in Owner.Friends)
+            if (Owner.Friends != null)
             {
-                if (friend.UserId == userId)
-                {
-                    return true;
-                }
+                isFriend = Owner.Friends.Select(u => u.UserId).Contains(userId);
             }
 
-            return false;
+            return isFriend || isCollaborator;
         }
 
 

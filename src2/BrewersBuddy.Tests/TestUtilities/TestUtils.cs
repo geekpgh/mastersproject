@@ -19,6 +19,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             db.UserProfiles.Add(user);
             db.SaveChanges();
 
+
             return user;
         }
 
@@ -30,6 +31,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             batch.Name = name;
             batch.Type = type;
             batch.OwnerId = owner.UserId;
+            batch.Owner = owner;
             batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);
@@ -48,6 +50,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             note.Text = text;
             note.Title = title;
             note.AuthorId = user.UserId;
+            note.Author = user;
             note.AuthorDate = DateTime.Now;
 
             db.BatchNotes.Add(note);
@@ -115,6 +118,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             BatchAction batchAction = new BatchAction();
             batchAction.Batch = batch;
             batchAction.PerformerId = user.UserId;
+            batchAction.Performer = user;
             batchAction.Title = title;
             batchAction.Description = description;
             batchAction.Type = type;
