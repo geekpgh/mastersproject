@@ -9,27 +9,28 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
+        <th width="25%">
             @Html.DisplayNameFor(model => model.AddDate)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td align="center">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td align="center">
             @Html.DisplayFor(modelItem => item.AddDate)
         </td>
-        <td>
+        <td align="center">
             @Html.ActionLink("Details", "Details", new { id=item.RecipeId }) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.RecipeId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.RecipeId })
         </td>
     </tr>

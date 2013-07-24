@@ -75,7 +75,42 @@ namespace BrewersBuddy.Controllers
             return View(recipe);
         }
 
-        //
+		//
+		// GET: /Account/Edit/
+
+		public ActionResult Edit(int id = 0)
+		{
+			TempData["Success"] = string.Empty;
+			foreach (Recipe recipe in _recipeService.GetAllForUser(_userService.GetCurrentUserId()))
+			{
+				if (recipe.RecipeId == id)
+				{
+					return View(recipe);
+				}
+			}
+
+			return HttpNotFound();
+		}
+
+		//
+		// GET: /Account/Edit/5
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(Recipe recipe)
+		{
+			if (ModelState.IsValid)
+			{
+				_recipeService.Update(recipe);
+				TempData["Success"] = "Save Successful";
+				return View(recipe);
+			}
+
+			ModelState.AddModelError("", "Error saving changes to recipe.");
+			return View(recipe);
+		}
+
+		//
         // GET: /Recipe/Delete/5
         public ActionResult Delete(int id = 0)
         {
