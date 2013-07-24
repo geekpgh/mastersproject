@@ -106,19 +106,12 @@ namespace BrewersBuddy.Models
             if (OwnerId == userId)
                 return true;
 
-            bool isCollaborator = false;
-            bool isFriend = false;
+            bool isCollaborator = Collaborators.Select(u => u.UserId)
+                .Contains(userId);
 
-            if (Collaborators != null)
-            {
-                isCollaborator = Collaborators.Select(u => u.UserId).Contains(userId);
-            }
-
-            //The friends of a batch owner may view it
-            if (Owner.Friends != null)
-            {
-                isFriend = Owner.Friends.Select(u => u.UserId).Contains(userId);
-            }
+            // The friends of a batch owner may view it
+            bool isFriend = Owner.Friends.Select(u => u.UserId)
+                .Contains(userId);
 
             return isFriend || isCollaborator;
         }
@@ -126,22 +119,12 @@ namespace BrewersBuddy.Models
 
         public bool CanEdit(int userId)
         {
-            //First see if they are the owner
             if(Owner.UserId == userId)
-            {
                 return true;
-            }
 
-            //The collaborators of a batch owner may edit it
-            foreach (UserProfile collaborator in this.Collaborators)
-            {
-                if (collaborator.UserId == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            // The collaborators of a batch may edit it
+            return Collaborators.Select(u => u.UserId)
+                .Contains(userId);
         }
 
     }
