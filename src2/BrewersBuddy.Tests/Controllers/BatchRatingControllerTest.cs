@@ -375,7 +375,8 @@ namespace BrewersBuddy.Tests.Controllers
             var batchService = Substitute.For<IBatchService>();
             batchService.Get(1).Returns(new Batch()
             {
-                OwnerId = 2
+                OwnerId = 2,
+                Owner = new UserProfile() { UserId = 2 }
             });
 
             var ratingService = Substitute.For<IBatchRatingService>();
