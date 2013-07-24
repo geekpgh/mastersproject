@@ -59,10 +59,10 @@ namespace BrewersBuddy.Tests.Models
             Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
             TestUtils.createBatchRating(batch, bob, 100, "");
 
-            BatchRating rating = context.BatchRatings.Find(bob.UserId, batch.BatchId);
+            BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
             Assert.IsNotNull(rating.Batch);
-            Assert.AreEqual(batch.BatchId, rating.Batch.BatchId);
+            Assert.AreEqual(batch.BatchId, rating.BatchId);
         }
 
         [Test]
@@ -108,39 +108,6 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.IsNotNull(rating);
             Assert.AreEqual(null, rating.Comment);
-        }
-
-        [Test]
-        //Test that it isn't truncated if short
-        public void TestSummaryLengthShort()
-        {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchRating rating = TestUtils.createBatchRating(batch, bob, 100, "rating");
-
-            Assert.AreEqual(rating.SummaryText, "rating");
-        }
-
-        [Test]
-        //test that it is truncated
-        public void TestSummaryTruncate()
-        {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
-
-            while (longText.Length < 200)
-            {
-                longText += "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
-            }
-
-            //Make sure the string is setup correctly
-            Assert.True(longText.Length >= 200);
-
-            BatchRating rating = TestUtils.createBatchRating(batch, bob, 100, longText);
-
-            //The 3 is for the ...
-            Assert.True(rating.SummaryText.Length == 203);
         }
     }
 }
