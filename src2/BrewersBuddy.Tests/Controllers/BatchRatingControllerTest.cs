@@ -79,7 +79,11 @@ namespace BrewersBuddy.Tests.Controllers
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            batchService.Get(1).Returns(new Batch());
+            batchService.Get(1).Returns(new Batch()
+                {
+                    OwnerId = 2,
+                    Owner = new UserProfile() { UserId = 2 }
+                });
 
             var ratingService = Substitute.For<IBatchRatingService>();
             ratingService.GetUserRatingForBatch(1, 1).Returns(new BatchRating());
