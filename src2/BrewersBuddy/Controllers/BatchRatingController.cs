@@ -65,7 +65,7 @@ namespace BrewersBuddy.Controllers
                 return new HttpUnauthorizedResult();
 
             double average = 0;
-            if (batch.Ratings != null)
+            if (batch.Ratings != null && batch.Ratings.Count > 0)
                 average = batch.Ratings.Average(rating => rating.Rating);
 
             return Json(average, JsonRequestBehavior.AllowGet);
