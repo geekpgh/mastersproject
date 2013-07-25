@@ -58,6 +58,8 @@ namespace BrewersBuddy.Controllers
             //See if they can edit so we can disable things if this is read only
             //This removed all buttons from the view that require edit privs.
             ViewBag.CanEdit = batch.CanEdit(currentUserId);
+            //If they aren't the owner remove the add collaborator links
+            ViewBag.IsOwner = batch.IsOwner(currentUserId);
 
             BatchRating userRating = _ratingService.GetUserRatingForBatch(id, currentUserId);
             if (userRating != null)
@@ -116,6 +118,7 @@ namespace BrewersBuddy.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(batch);
         }
 
@@ -174,6 +177,19 @@ namespace BrewersBuddy.Controllers
             return View(ratings);
         }
 
+
+        private void CheckOwnerAuthorization(int batchId)
+        {
+            int currentUser = _userService.GetCurrentUserId();
+            Batch batch = _batchService.Get(batchId);
+
+            if (!batch.IsOwner(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot alter data in this way because you do not own it.");
+            }
+        }
+
+
         private void CheckViewAuthorization(int batchId)
         {
             int currentUser = _userService.GetCurrentUserId();
@@ -184,6 +200,7 @@ namespace BrewersBuddy.Controllers
                 throw new UnauthorizedAccessException("Cannot view this data.");
             }
         }
+
 
         private void CheckEditAuthorization(int batchId)
         {
