@@ -113,6 +113,20 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batchAction;
         }
 
+        public static Container createContainer(BrewersBuddyContext db, Batch batch, ContainerType type, UserProfile user)
+        {
+            Container container = new Container();
+            container.Batch = batch;
+            container.Type = type;
+            container.OwnerId = user.UserId;
+
+            db.Containers.Add(container);
+
+            db.SaveChanges();
+
+            return container;
+        }
+        
         public static ICollection<Batch> createBatches(BrewersBuddyContext db, int number, UserProfile owner)
         {
             List<Batch> batches = new List<Batch>();
