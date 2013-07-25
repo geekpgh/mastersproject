@@ -16,23 +16,23 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestBatchAndUserMustBeUnique()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             // Create the first rating with user + batch combination
-            TestUtils.createBatchRating(batch, bob, 100, "");
+            TestUtils.createBatchRating(context, batch, bob, 100, "");
 
             // Create the second rating with the user + batch combination
             // This should fail with DbUpdateException because of a duplicate key
-            Assert.Throws<InvalidOperationException>(() => TestUtils.createBatchRating(batch, bob, 90, ""));
+            Assert.Throws<InvalidOperationException>(() => TestUtils.createBatchRating(context, batch, bob, 90, ""));
         }
 
         [Test]
         public void TestCreateBatchRating()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchRating(batch, bob, 100, "");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchRating(context, batch, bob, 100, "");
 
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
@@ -42,9 +42,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanRetrieveAssociatedUser()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchRating(batch, bob, 100, "");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchRating(context, batch, bob, 100, "");
 
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
@@ -55,9 +55,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanRetrieveAssociatedBatch()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchRating(batch, bob, 100, "");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchRating(context, batch, bob, 100, "");
 
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
@@ -68,14 +68,14 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestUserCanHaveMultipleRatings()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
 
             // Create 10 ratings and assign them to bob
             List<Batch> batches = new List<Batch>();
             for (int i = 0; i < 10; i++)
             {
-                Batch batch = TestUtils.createBatch("Test" + i, BatchType.Beer, bob);
-                TestUtils.createBatchRating(batch, bob, 50, "");
+                Batch batch = TestUtils.createBatch(context, "Test" + i, BatchType.Beer, bob);
+                TestUtils.createBatchRating(context, batch, bob, 50, "");
             }
 
             IEnumerable<BatchRating> ratingsForBob = context.BatchRatings
@@ -87,9 +87,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRatingCanHaveComment()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchRating(batch, bob, 100, "this is a comment");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchRating(context, batch, bob, 100, "this is a comment");
 
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 
@@ -100,9 +100,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRatingCanHaveNullComment()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchRating(batch, bob, 100, null);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchRating(context, batch, bob, 100, null);
 
             BatchRating rating = context.BatchRatings.Find(batch.BatchId, bob.UserId);
 

@@ -11,9 +11,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestAddBatchNotes()
         {
-            UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Beer, jon);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", jon);
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", jon);
 
             Assert.IsTrue(batch.Notes.Contains(note));
         }
@@ -21,9 +21,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRemoveBatchNotes()
         {
-            UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Beer, jon);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", jon);
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", jon);
 
             Assert.IsTrue(batch.Notes.Contains(note));
 
@@ -36,9 +36,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestEditBatchNotes()
         {
-            UserProfile jon = TestUtils.createUser(111, "Jon", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Beer, jon);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", jon);
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", jon);
 
             BrewersBuddyContext db = new BrewersBuddyContext();
 
@@ -71,9 +71,9 @@ namespace BrewersBuddy.Tests.Models
         //Test that it isn't truncated if short
         public void TestSummaryLengthShort()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
            
             Assert.AreEqual(note.SummaryText, "I am a note!");
         }
@@ -82,8 +82,8 @@ namespace BrewersBuddy.Tests.Models
         //test that it is truncated
         public void TestSummaryTruncate()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
             string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
 
             while (longText.Length < 200)
@@ -94,7 +94,7 @@ namespace BrewersBuddy.Tests.Models
             //Make sure the string is setup correctly
             Assert.True(longText.Length >= 200);
 
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", longText, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", longText, bob);
 
             //The 3 is for the ...
             Assert.True(note.SummaryText.Length == 203);
@@ -103,9 +103,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             //Verify the owner can view
             Assert.IsTrue(note.CanView(bob.UserId));
@@ -114,9 +114,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             //Verify the collaborator can edit
             Assert.IsTrue(note.CanEdit(bob.UserId));
@@ -125,10 +125,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewCollaborator()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -140,10 +140,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditCollaborator()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -154,10 +154,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewFriend()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             bob.Friends.Add(fred);
             context.SaveChanges();
@@ -169,10 +169,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCannotEditFriend()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(batch, "Test Note", "I am a note!", bob);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
 
             bob.Friends.Add(fred);
             context.SaveChanges();

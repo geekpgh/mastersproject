@@ -18,9 +18,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCreateBatchAction()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchAction(batch, bob, "my action", "This is an action", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchAction(context, batch, bob, "my action", "This is an action", ActionType.Bottle);
 
             BatchAction action = context.BatchActions.First();
 
@@ -35,26 +35,26 @@ namespace BrewersBuddy.Tests.Models
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestTitleCannotBeEmpty()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "", "desc", ActionType.Bottle);
         }
 
         [Test]
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestDescriptionCannotBeEmpty()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "title", "", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "title", "", ActionType.Bottle);
         }
 
         [Test]
         public void TestCanRetrieveAssociatedUser()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             BatchAction action = context.BatchActions.First();
 
@@ -65,9 +65,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanRetrieveAssociatedBatch()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             BatchAction action = context.BatchActions.First();
 
@@ -79,9 +79,9 @@ namespace BrewersBuddy.Tests.Models
         //Test that it isn't truncated if short
         public void TestSummaryLengthShort()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             BatchAction action = context.BatchActions.First();
             Assert.AreEqual(action.SummaryText, "desc");
@@ -91,8 +91,8 @@ namespace BrewersBuddy.Tests.Models
         //test that it is truncated
         public void TestSummaryTruncate()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
             string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
 
             while (longText.Length < 200)
@@ -103,7 +103,7 @@ namespace BrewersBuddy.Tests.Models
             //Make sure the string is setup correctly
             Assert.True(longText.Length >= 200);
 
-            TestUtils.createBatchAction(batch, bob, "my action", longText, ActionType.Bottle);
+            TestUtils.createBatchAction(context, batch, bob, "my action", longText, ActionType.Bottle);
 
             BatchAction action = context.BatchActions.First();
             //The 3 is for the ...
@@ -113,9 +113,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             //Verify the owner can view
             Assert.IsTrue(action.CanView(bob.UserId));
@@ -124,9 +124,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             //Verify the collaborator can edit
             Assert.IsTrue(action.CanEdit(bob.UserId));
@@ -135,10 +135,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewCollaborator()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -150,10 +150,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditCollaborator()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -164,10 +164,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewFriend()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             bob.Friends.Add(fred);
             context.SaveChanges();
@@ -179,10 +179,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCannotEditFriend()
         {
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchAction action = TestUtils.createBatchAction(batch, bob, "my action", "desc", ActionType.Bottle);
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
 
             bob.Friends.Add(fred);
             context.SaveChanges();

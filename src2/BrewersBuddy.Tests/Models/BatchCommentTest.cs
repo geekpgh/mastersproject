@@ -17,9 +17,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCreateBatchComment()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchComment(batch, bob, "my comment");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchComment(context, batch, bob, "my comment");
 
             BatchComment comment = context.BatchComments.First();
 
@@ -31,9 +31,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanRetrieveAssociatedUser()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchComment(batch, bob, "my comment");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchComment(context, batch, bob, "my comment");
 
             BatchComment comment = context.BatchComments.First();
 
@@ -44,9 +44,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanRetrieveAssociatedBatch()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            TestUtils.createBatchComment(batch, bob, "my comment");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            TestUtils.createBatchComment(context, batch, bob, "my comment");
 
             BatchComment comment = context.BatchComments.First();
 
@@ -58,17 +58,17 @@ namespace BrewersBuddy.Tests.Models
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestCommentCannotBeEmpty()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
-            BatchComment comment = TestUtils.createBatchComment(batch, bob, "");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            BatchComment comment = TestUtils.createBatchComment(context, batch, bob, "");
         }
 
         [Test]
         [ExpectedException(typeof(DbEntityValidationException))]
         public void TestCommentCannotBeLongerThan256Characters()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= 256; i++)
@@ -76,14 +76,14 @@ namespace BrewersBuddy.Tests.Models
                 sb.Append("a");
             }
 
-            BatchComment comment = TestUtils.createBatchComment(batch, bob, sb.ToString());
+            BatchComment comment = TestUtils.createBatchComment(context, batch, bob, sb.ToString());
         }
 
         [Test]
         public void TestCommentCanBeExactly256Characters()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 256; i++)
@@ -91,7 +91,7 @@ namespace BrewersBuddy.Tests.Models
                 sb.Append("a");
             }
 
-            BatchComment comment = TestUtils.createBatchComment(batch, bob, sb.ToString());
+            BatchComment comment = TestUtils.createBatchComment(context, batch, bob, sb.ToString());
 
             Assert.IsNotNull(comment);
         }

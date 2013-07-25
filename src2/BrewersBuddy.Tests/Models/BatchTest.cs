@@ -14,8 +14,8 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCreateBatch()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             DbSet<Batch> batches = context.Batches;
             Batch foundBatch = batches.Find(batch.BatchId);
@@ -133,8 +133,8 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             //Verify the owner can view
             Assert.IsTrue(batch.CanView(bob.UserId));
@@ -143,8 +143,8 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditOwned()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             //Verify the collaborator can edit
             Assert.IsTrue(batch.CanEdit(bob.UserId));
@@ -153,9 +153,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewCollaborator()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -167,9 +167,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanEditCollaborator()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             batch.Collaborators.Add(fred);
             context.SaveChanges();
@@ -180,9 +180,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCanViewFriend()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             bob.Friends.Add(fred);
             context.SaveChanges();
@@ -194,9 +194,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestCannotEditFriend()
         {
-            UserProfile bob = TestUtils.createUser(999, "Bob", "Smith");
-            UserProfile fred = TestUtils.createUser(1111, "Fred", "Smith");
-            Batch batch = TestUtils.createBatch("Test", BatchType.Mead, bob);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
             bob.Friends.Add(fred);
             context.SaveChanges();
