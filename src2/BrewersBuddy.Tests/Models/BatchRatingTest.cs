@@ -24,7 +24,7 @@ namespace BrewersBuddy.Tests.Models
 
             // Create the second rating with the user + batch combination
             // This should fail with DbUpdateException because of a duplicate key
-            Assert.Throws<InvalidOperationException>(() => TestUtils.createBatchRating(context, batch, bob, 90, ""));
+            Assert.Throws<DbUpdateException>(() => TestUtils.createBatchRating(context, batch, bob, 90, ""));
         }
 
         [Test]
