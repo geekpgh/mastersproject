@@ -21,6 +21,8 @@ namespace BrewersBuddy.Tests.Models
 
             //Verify it was properly created
             Assert.AreEqual(container.ContainerId, foundContainer.ContainerId);
+
+
         }
 
         [Test]
