@@ -9,6 +9,7 @@ namespace BrewersBuddy.Services
     public class MeasurementService : IMeasurementService
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
+        private BrewersBuddyContext db2 = new BrewersBuddyContext();
 
         public void Create(Measurement @object)
         {
@@ -34,8 +35,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Measurement @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
-            db.SaveChanges();
+            db2.Entry(@object).State = EntityState.Modified;
+            db2.SaveChanges();
         }
 
         public void Dispose()

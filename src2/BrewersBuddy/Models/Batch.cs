@@ -100,6 +100,13 @@ namespace BrewersBuddy.Models
                     .FirstOrDefault() != null;
         }
 
+
+        public bool IsOwner(int userId)
+        {
+            return OwnerId == userId;
+        }
+
+
         public bool CanView(int userId)
         {
             if (OwnerId == userId)
