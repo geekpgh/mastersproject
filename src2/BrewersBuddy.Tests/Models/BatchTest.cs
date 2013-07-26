@@ -5,6 +5,7 @@ using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
 using BrewersBuddy.Tests.Utilities;
+using System.Data.Entity.Infrastructure;
 
 namespace BrewersBuddy.Tests.Models
 {
@@ -205,37 +206,81 @@ namespace BrewersBuddy.Tests.Models
             Assert.IsFalse(batch.CanEdit(fred.UserId));
         }
 
-		//[Test]
-		//public void TestAddToInvetory()
-		//{
-		//	Batch batch = new Batch();
-		//	batch.Name = "Test";
-		//	batch.Type = BatchType.Beer;
-		//	batch.StartDate = DateTime.Now;
+        [Test]
+        public void TestCanHaveMultipleCollaborators()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile bill = TestUtils.createUser(context, "Bill", "Smith");
+            UserProfile ben = TestUtils.createUser(context, "Ben", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
-		//	context.Batches.Add(batch);
-		//	context.SaveChanges();
+            batch.Collaborators.Add(bill);
+            context.SaveChanges();
 
-		//	Container container = new Container();
-		//	container.Batch = batch;
-		//	container.Name = "Test container";
-		//	container.Type = ContainerType.Bottle;
-		//	container.Units = ContainerVolumeUnits.Milliliter;
-		//	container.Volume = 750;
+            Assert.AreEqual(1, batch.Collaborators.Count);
 
-		//	context.Containers.Add(container);
-		//	context.SaveChanges();
+            batch.Collaborators.Add(ben);
+            context.SaveChanges();
 
-		//	Cellar cellar = new Cellar();
-		//	cellar.Name = "test cellar";
-		//	cellar.Description = "My stash";
-		//	cellar.Containers = new List<Container>();
-		//	cellar.Containers.Add(container);
+            Assert.AreEqual(2, batch.Collaborators.Count);
+        }
 
-		//	context.Cellars.Add(cellar);
-		//	context.SaveChanges();
+        [Test]
+        public void TestCanOnlyAddSameCollaboratorOnce()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile bill = TestUtils.createUser(context, "Bill", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
-		//	Assert.IsTrue(cellar.Containers.Contains(container));
+            batch.Collaborators.Add(bill);
+            context.SaveChanges();
+
+            Assert.AreEqual(1, batch.Collaborators.Count);
+
+            batch.Collaborators.Add(bill);
+            context.SaveChanges();
+
+            // For whatever reason, the list will always increment
+            // and the current context will show the collaborator
+            // count as 2. However, if a new context is created, and
+            // the database is requieried, then the expected number
+            // is returned
+            BrewersBuddyContext context2 = new BrewersBuddyContext();
+            batch = context2.Batches.Find(batch.BatchId);
+            Assert.AreEqual(1, batch.Collaborators.Count);
+        }
+
+        //[Test]
+        //public void TestAddToInvetory()
+        //{
+        //	Batch batch = new Batch();
+        //	batch.Name = "Test";
+        //	batch.Type = BatchType.Beer;
+        //	batch.StartDate = DateTime.Now;
+
+        //	context.Batches.Add(batch);
+        //	context.SaveChanges();
+
+        //	Container container = new Container();
+        //	container.Batch = batch;
+        //	container.Name = "Test container";
+        //	container.Type = ContainerType.Bottle;
+        //	container.Units = ContainerVolumeUnits.Milliliter;
+        //	container.Volume = 750;
+
+        //	context.Containers.Add(container);
+        //	context.SaveChanges();
+
+        //	Cellar cellar = new Cellar();
+        //	cellar.Name = "test cellar";
+        //	cellar.Description = "My stash";
+        //	cellar.Containers = new List<Container>();
+        //	cellar.Containers.Add(container);
+
+        //	context.Cellars.Add(cellar);
+        //	context.SaveChanges();
+
+        //	Assert.IsTrue(cellar.Containers.Contains(container));
         //}
 
     }
