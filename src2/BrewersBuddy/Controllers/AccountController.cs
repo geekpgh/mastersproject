@@ -350,6 +350,19 @@ namespace BrewersBuddy.Controllers
 				}
 			}
 
+			// Remove all user friends
+			var userFriends = from friend in db.Friends
+							  where (friend.UserId == user.UserId)
+							  select friend;
+			if (userFriends != null)
+			{
+				var list = userFriends.ToList();
+				for (int i = 0; i < list.Count; i++)
+				{
+					db.Friends.Remove(list[i]);
+				}
+			}
+
 			// Remove user                            
 			db.UserProfiles.Remove(user1);
 			db.SaveChanges();
@@ -396,7 +409,7 @@ namespace BrewersBuddy.Controllers
 			users = users.Where(s => s.UserName != currentUser.UserName);
 			foreach (UserProfile UP in users)
 			{
-				if (currentUser.Friends.Contains(UP))
+				if (currentUser.Friends.Any(f => f.FriendUserId == UP.UserId))
 				{
 					users = users.Where(s => s.UserId != UP.UserId);
 				}
@@ -412,7 +425,7 @@ namespace BrewersBuddy.Controllers
 			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserName == User.Identity.Name);
 			if (ID > 0)
 			{
-				if (!main.Friends.Any(item => item.UserId == ID))
+				if (!main.Friends.Any(item => item.FriendUserId == ID))
 				{
 					//send email
 					var addFriendLink = "<a href='" + Url.Action("AddFriend", "Account", new { requestor = encrypt(main.UserId), friend = encrypt(ID) }, "http") + "'>Add Friend</a>";
@@ -426,13 +439,20 @@ namespace BrewersBuddy.Controllers
 					catch (Exception ex)
 					{
 						TempData["Message"] = "Error occured while sending email." + ex.Message;
-					}
-					
-					return View(main.Friends);
+					}					
+				}
+			}
+			
+			List<UserProfile> mainFriends = new List<UserProfile>();
+			if (main.Friends.Count > 0)
+			{
+				foreach (Friend fr in main.Friends)
+				{
+					mainFriends.Add((UserProfile)db.UserProfiles.First(t => t.UserId == fr.FriendUserId));
 				}
 			}
 
-			return View(main.Friends);
+			return View(mainFriends);
 		}
 
 		private string encrypt(int ID)
@@ -451,18 +471,28 @@ namespace BrewersBuddy.Controllers
 			int tmpFriend = int.Parse(friend.Remove(0, 32));
 			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserId == tmpRequestor);
 			UserProfile upFriend = (UserProfile)db.UserProfiles.First(q => q.UserId == tmpFriend);
-
-			if (!main.Friends.Contains(upFriend))
+			
+			if (!main.Friends.Any(f => f.FriendUserId == upFriend.UserId))
 			{
-				main.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == tmpFriend));
+				Friend newFriend = new Friend();
+				newFriend.UserId = main.UserId;
+				newFriend.FriendUserId = upFriend.UserId;
+				newFriend.User = main;
+
+				main.Friends.Add(newFriend);
 				db.Entry(main).State = System.Data.EntityState.Modified;
 				db.SaveChanges();
 			}
 
-			if (!upFriend.Friends.Contains(main))
+			if (!upFriend.Friends.Any(f => f.FriendUserId == main.UserId))
 			{
-				upFriend.Friends.Add((UserProfile)db.UserProfiles.First(p => p.UserId == tmpRequestor));
-				db.Entry(main).State = System.Data.EntityState.Modified;
+				Friend newFriend = new Friend();
+				newFriend.UserId = upFriend.UserId;
+				newFriend.FriendUserId = main.UserId;
+				newFriend.User = upFriend;
+
+				upFriend.Friends.Add(newFriend);
+				db.Entry(upFriend).State = System.Data.EntityState.Modified;
 				db.SaveChanges();
 			}
 
@@ -475,10 +505,16 @@ namespace BrewersBuddy.Controllers
 		{
 			UserProfile main = (UserProfile)db.UserProfiles.First(q => q.UserName == User.Identity.Name);
 
-			if (main.Friends.Any(item => item.UserId == ID))
+			if (main.Friends.Any(item => item.FriendUserId == ID))
 			{
-				main.Friends.Remove((UserProfile)db.UserProfiles.First(p => p.UserId == ID));
-				db.Entry(main).State = System.Data.EntityState.Modified;
+				Friend friend = (Friend)db.Friends.First(f => f.FriendUserId == ID && f.UserId == main.UserId);
+				UserProfile UserFriend = (UserProfile)db.UserProfiles.First(q => q.UserId == friend.FriendUserId);
+				Friend friend2 = (Friend)db.Friends.First(f => f.FriendUserId == main.UserId && f.UserId == UserFriend.UserId);
+
+				db.Friends.Remove(friend);
+				db.SaveChanges();
+
+				db.Friends.Remove(friend2);
 				db.SaveChanges();
 			}
 

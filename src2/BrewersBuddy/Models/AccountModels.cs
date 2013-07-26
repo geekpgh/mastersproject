@@ -21,12 +21,12 @@ namespace BrewersBuddy.Models
 
         public virtual ICollection<BatchRating> BatchRatings { get; set; }
         public virtual ICollection<BatchComment> BatchComments { get; set; }
-		public virtual ICollection<UserProfile> Friends { get; set; }
+		public virtual ICollection<Friend> Friends { get; set; }
 
-        public UserProfile()
-        {
-            this.Friends = new List<UserProfile>();
-        }
+		//public UserProfile()
+		//{
+		//	this.Friends = new List<UserProfile>();
+		//}
     }
 
     public class RegisterExternalLoginModel

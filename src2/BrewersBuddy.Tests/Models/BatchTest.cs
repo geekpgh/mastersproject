@@ -184,7 +184,12 @@ namespace BrewersBuddy.Tests.Models
             UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
-            bob.Friends.Add(fred);
+			Friend newFriend = new Friend();
+			newFriend.UserId = bob.UserId;
+			newFriend.FriendUserId = fred.UserId;
+			newFriend.User = bob;
+
+			bob.Friends.Add(newFriend);
             context.SaveChanges();
 
             //Verify the collaborator can view
@@ -198,7 +203,12 @@ namespace BrewersBuddy.Tests.Models
             UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
 
-            bob.Friends.Add(fred);
+			Friend newFriend = new Friend();
+			newFriend.UserId = bob.UserId;
+			newFriend.FriendUserId = fred.UserId;
+			newFriend.User = bob;
+
+			bob.Friends.Add(newFriend);
             context.SaveChanges();
 
             //Verify the owner can view

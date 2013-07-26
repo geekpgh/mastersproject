@@ -20,6 +20,7 @@ namespace BrewersBuddy.Models
 		public DbSet<BatchRating> BatchRatings { get; set; }
 		public DbSet<BatchComment> BatchComments { get; set; }
 
+		public DbSet<Friend> Friends { get; set; }
 		public DbSet<UserProfile> UserProfiles { get; set; }
 		public DbSet<webpages_Membership> webpages_Memberships { get; set; }
 
