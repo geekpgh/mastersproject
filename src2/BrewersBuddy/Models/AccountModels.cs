@@ -26,7 +26,7 @@ namespace BrewersBuddy.Models
 
         public UserProfile()
         {
-            this.Friends = new List<UserProfile>();
+			this.Friends = new List<Friend>();
         }
     }
 

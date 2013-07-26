@@ -110,7 +110,12 @@ namespace BrewersBuddy.Tests.Models
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
             Measurement measurment = TestUtils.createMeasurement(context, batch, "Test Measurement", "measurement", "PH", 7.0);
 
-            bob.Friends.Add(fred);
+			Friend newFriend = new Friend();
+			newFriend.UserId = bob.UserId;
+			newFriend.FriendUserId = fred.UserId;
+			newFriend.User = bob;
+
+			bob.Friends.Add(newFriend);
             context.SaveChanges();
 
             //Verify the collaborator can view
@@ -125,7 +130,12 @@ namespace BrewersBuddy.Tests.Models
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
             Measurement measurment = TestUtils.createMeasurement(context, batch, "Test Measurement", "measurement", "PH", 7.0);
 
-            bob.Friends.Add(fred);
+			Friend newFriend = new Friend();
+			newFriend.UserId = bob.UserId;
+			newFriend.FriendUserId = fred.UserId;
+			newFriend.User = bob;
+
+			bob.Friends.Add(newFriend);
             context.SaveChanges();
 
             //Verify the owner can view

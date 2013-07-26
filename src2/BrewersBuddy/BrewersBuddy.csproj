@@ -391,6 +391,7 @@
     <Compile Include="Models\ContainerVolumeUnits.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Friend.cs" />
     <Compile Include="Models\Ingredient.cs">
       <SubType>Code</SubType>
     </Compile>

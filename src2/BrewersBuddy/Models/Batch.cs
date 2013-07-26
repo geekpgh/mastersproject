@@ -116,7 +116,7 @@ namespace BrewersBuddy.Models
                 .Contains(userId);
 
             // The friends of a batch owner may view it
-            bool isFriend = Owner.Friends.Select(u => u.UserId)
+            bool isFriend = Owner.Friends.Select(u => u.FriendUserId)
                 .Contains(userId);
 
             return isFriend || isCollaborator;
