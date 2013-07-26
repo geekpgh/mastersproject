@@ -360,6 +360,10 @@
     <Compile Include="Migrations\201307260100352_CreateBatchCollaborators.Designer.cs">
       <DependentUpon>201307260100352_CreateBatchCollaborators.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307262325295_CreateRecipeIngredients.cs" />
+    <Compile Include="Migrations\201307262325295_CreateRecipeIngredients.Designer.cs">
+      <DependentUpon>201307262325295_CreateRecipeIngredients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -703,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307260100352_CreateBatchCollaborators.resx">
       <DependentUpon>201307260100352_CreateBatchCollaborators.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307262325295_CreateRecipeIngredients.resx">
+      <DependentUpon>201307262325295_CreateRecipeIngredients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
