@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Collections;
 using System.Web.Mvc;
+using System;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -102,6 +103,159 @@ namespace BrewersBuddy.Tests.Controllers
             containerList = result.ViewData.Model as IList;
 
             Assert.IsTrue(containerList.Count == 2);
+        }
+
+        [Test]
+        public void TestCreateWithAnonymousUserWillThrowUnauthorizedPost()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(0);
+
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            ActionResult result = controller.Create(new Container());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestNullBatchWillReturn500ErrorPost()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
+            var batchService = Substitute.For<IBatchService>();
+
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            ActionResult result = controller.Create(new Container());
+
+            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
+            Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
+        }
+
+        [Test]
+        public void TestCreateContainerPost()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(999);
+
+            var batchService = Substitute.For<IBatchService>();
+            Batch testBatch = new Batch();
+            batchService.Get(999).Returns(testBatch);
+
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            Container container = new Container();
+            container.BatchId = 999;
+            ActionResult result = controller.Create(container);
+
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.AreEqual(3, ((RedirectToRouteResult)result).RouteValues.Values.Count);
+        }
+
+        [Test]
+        public void TestCreateContainer()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(999);
+
+            var batchService = Substitute.For<IBatchService>();
+            Batch testBatch = new Batch();
+            batchService.Get(999).Returns(testBatch);
+
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            Container container = new Container();
+            container.BatchId = 999;
+            ActionResult result = controller.Create(999);
+
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void TestCreateWithAnonymousUserWillThrowUnauthorized()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(0);
+
+            var batchService = Substitute.For<IBatchService>();
+            Batch testBatch = new Batch();
+            batchService.Get(999).Returns(testBatch);
+
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            Container container = new Container();
+            container.BatchId = 999;
+            ActionResult result = controller.Create(999);
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        public void TestNullBatchWillReturn500Error()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(999);
+
+            var batchService = Substitute.For<IBatchService>();
+
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            ActionResult result = controller.Create(new Container());
+
+            Assert.IsInstanceOf<HttpStatusCodeResult>(result);
+            Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
+        }
+
+        [Test]
+        public void TestDetailsWithNonExistingContainerReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            ActionResult result = controller.Details(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
+        public void TestContainerDetails()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
+            containerService.Get(999).Returns(new Container());
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            ActionResult result = controller.Details(999);
+
+            Assert.IsInstanceOf<ViewResult>(result);
         }
     }
 }
