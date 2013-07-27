@@ -167,8 +167,5 @@ namespace BrewersBuddy.Controllers
                 throw new UnauthorizedAccessException("Cannot alter data you do not own.");
             }
         }
-
-
-
     }
 }

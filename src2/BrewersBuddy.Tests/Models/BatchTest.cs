@@ -310,39 +310,5 @@ namespace BrewersBuddy.Tests.Models
             batch = context2.Batches.Find(batch.BatchId);
             Assert.AreEqual(1, batch.Collaborators.Count);
         }
-
-        //[Test]
-        //public void TestAddToInvetory()
-        //{
-        //	Batch batch = new Batch();
-        //	batch.Name = "Test";
-        //	batch.Type = BatchType.Beer;
-        //	batch.StartDate = DateTime.Now;
-
-        //	context.Batches.Add(batch);
-        //	context.SaveChanges();
-
-        //	Container container = new Container();
-        //	container.Batch = batch;
-        //	container.Name = "Test container";
-        //	container.Type = ContainerType.Bottle;
-        //	container.Units = ContainerVolumeUnits.Milliliter;
-        //	container.Volume = 750;
-
-        //	context.Containers.Add(container);
-        //	context.SaveChanges();
-
-        //	Cellar cellar = new Cellar();
-        //	cellar.Name = "test cellar";
-        //	cellar.Description = "My stash";
-        //	cellar.Containers = new List<Container>();
-        //	cellar.Containers.Add(container);
-
-        //	context.Cellars.Add(cellar);
-        //	context.SaveChanges();
-
-        //	Assert.IsTrue(cellar.Containers.Contains(container));
-        //}
-
     }
 }
