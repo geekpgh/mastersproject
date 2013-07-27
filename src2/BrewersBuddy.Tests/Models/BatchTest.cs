@@ -29,10 +29,22 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestAddMeasurement()
         {
+            UserProfile userProfile = new UserProfile();
+            userProfile.UserName = "NUNIT_Test";
+            userProfile.Email = "NUNIT@Test.com";
+            userProfile.FirstName = "Nunit";
+            userProfile.LastName = "Test";
+            userProfile.City = "Brewery";
+            userProfile.State = "KS";
+            userProfile.Zip = "12345";
+            userProfile.UserId = 1;
+
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Wine;
             batch.StartDate = DateTime.Now;
+            batch.BatchId = 1;
+            batch.Owner = userProfile;
 
             context.Batches.Add(batch);
 
@@ -52,10 +64,22 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRemoveMeasurement()
         {
+            UserProfile userProfile = new UserProfile();
+            userProfile.UserName = "NUNIT_Test";
+            userProfile.Email = "NUNIT@Test.com";
+            userProfile.FirstName = "Nunit";
+            userProfile.LastName = "Test";
+            userProfile.City = "Brewery";
+            userProfile.State = "KS";
+            userProfile.Zip = "12345";
+            userProfile.UserId = 1;
+
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Wine;
             batch.StartDate = DateTime.Now;
+            batch.BatchId = 1;
+            batch.Owner = userProfile;
 
             context.Batches.Add(batch);
 
@@ -83,10 +107,22 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestAddBatchAction()
         {
+            UserProfile userProfile = new UserProfile();
+            userProfile.UserName = "NUNIT_Test";
+            userProfile.Email = "NUNIT@Test.com";
+            userProfile.FirstName = "Nunit";
+            userProfile.LastName = "Test";
+            userProfile.City = "Brewery";
+            userProfile.State = "KS";
+            userProfile.Zip = "12345";
+            userProfile.UserId = 1;
+
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Beer;
             batch.StartDate = DateTime.Now;
+            batch.BatchId = 1;
+            batch.Owner = userProfile;
 
             context.Batches.Add(batch);
 
@@ -96,6 +132,7 @@ namespace BrewersBuddy.Tests.Models
             action.Type = ActionType.Bottle;
             action.Title = "Bottles the beer";
             action.ActionDate = DateTime.Now;
+            action.Performer = userProfile;
 
             context.BatchActions.Add(action);
             context.SaveChanges();
@@ -106,10 +143,23 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRemoveBatchAction()
         {
+            UserProfile userProfile = new UserProfile();
+            userProfile.UserName = "NUNIT_Test";
+            userProfile.Email = "NUNIT@Test.com";
+            userProfile.FirstName = "Nunit";
+            userProfile.LastName = "Test";
+            userProfile.City = "Brewery";
+            userProfile.State = "KS";
+            userProfile.Zip = "12345";
+            userProfile.UserId = 1;
+
+            context.UserProfiles.Add(userProfile);
             Batch batch = new Batch();
             batch.Name = "Test";
             batch.Type = BatchType.Beer;
             batch.StartDate = DateTime.Now;
+            batch.BatchId = 1;
+            batch.OwnerId = 1;
 
             context.Batches.Add(batch);
 
@@ -119,6 +169,7 @@ namespace BrewersBuddy.Tests.Models
             action.Type = ActionType.Bottle;
             action.Title = "Bottles the beer";
             action.ActionDate = DateTime.Now;
+            action.Performer = userProfile;
 
             context.BatchActions.Add(action);
             context.SaveChanges();
