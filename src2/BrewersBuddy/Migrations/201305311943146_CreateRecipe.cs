@@ -17,9 +17,6 @@ namespace BrewersBuddy.Migrations
                         Cost = c.Double(nullable: false),
 						OwnerId = c.Int(nullable:false),
 						HowtoMakeit = c.String(),
-                        WhatIngredients = c.String(),
-                        HowLongtoFerment = c.String(),
-                        WhenCanIDrinkIt = c.String(),
                     })
                 .PrimaryKey(t => t.RecipeId);         
         }
