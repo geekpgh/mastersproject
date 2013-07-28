@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\BatchActionControllerTest.cs" />
     <Compile Include="Controllers\BatchControllerTest.cs" />
     <Compile Include="Controllers\BatchNoteControllerTest.cs" />
     <Compile Include="Controllers\BatchRatingControllerTest.cs" />

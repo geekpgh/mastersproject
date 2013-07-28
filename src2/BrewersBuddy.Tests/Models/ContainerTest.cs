@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;

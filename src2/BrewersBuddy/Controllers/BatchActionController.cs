@@ -97,7 +97,6 @@ namespace BrewersBuddy.Controllers
 
                 return RedirectToAction("Details", "Batch", new { id = created.BatchId });
             }
-
             return View(created);
         }
 

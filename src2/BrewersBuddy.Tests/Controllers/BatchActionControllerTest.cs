@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Web.Mvc;
 using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
@@ -10,27 +11,28 @@ using NUnit.Framework;
 namespace BrewersBuddy.Tests.Controllers
 {
     [TestFixture]
-    public class BatchNoteControllerTest : DbTestBase
+    public class BatchActionControllerTest : DbTestBase
     {
+       
         [Test]
-        public void TestNullBatchServiceThrowsArgumentNullException()
-        {
-            var userService = Substitute.For<IUserService>();
-            var batchNoteService = Substitute.For<IBatchNoteService>();
-
-            Assert.Throws<ArgumentNullException>(() =>
-                new BatchNoteController(null, batchNoteService, userService)
-                );
-        }
-
-        [Test]
-        public void TestNullBatchNoteServiceThrowsArgumentNullException()
+        public void TestNullBatchActionServiceThrowsArgumentNullException()
         {
             var userService = Substitute.For<IUserService>();
             var batchService = Substitute.For<IBatchService>();
 
             Assert.Throws<ArgumentNullException>(() =>
-                new BatchNoteController(batchService, null, userService)
+                new BatchActionController(null, batchService, userService)
+                );
+        }
+
+        [Test]
+        public void TestNullBatchServiceThrowsArgumentNullException()
+        {
+            var userService = Substitute.For<IUserService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+                new BatchActionController(batchActionService, null, userService)
                 );
         }
 
@@ -38,15 +40,47 @@ namespace BrewersBuddy.Tests.Controllers
         public void TestNullUserServiceThrowsArgumentNullException()
         {
             var batchService = Substitute.For<IBatchService>();
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             Assert.Throws<ArgumentNullException>(() =>
-                new BatchNoteController(batchService, batchNoteService, null)
+                new BatchActionController(batchActionService, batchService, null)
                 );
         }
 
         [Test]
-        public void TestCreateBatchNote()
+        public void TestBatchActionList()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.GetAllForUser(1).Returns(
+                new Batch[] {
+                    new Batch(),
+                });
+
+            var batchActionService = Substitute.For<IBatchActionService>();
+            batchActionService.GetAllForBatch(1).Returns(
+                new BatchAction[] {
+                    new BatchAction(),
+                    new BatchAction(),
+                    new BatchAction(),
+                    new BatchAction(),
+                    new BatchAction()
+                });
+
+            BatchActionController action = new BatchActionController(batchActionService, batchService, userService);
+
+            ViewResult result = (ViewResult)action.Index(1);
+            ViewDataDictionary data = result.ViewData;
+
+            IList batchActionList = result.ViewData.Model as IList;
+
+            Assert.IsTrue(batchActionList.Count == 5);
+        }
+ 
+        [Test]
+        public void TestCreateBatchAction()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -56,12 +90,12 @@ namespace BrewersBuddy.Tests.Controllers
             Batch batch = new Batch();
             batchService.Get(999).Returns(batch);
 
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            BatchNote note = new BatchNote();
-            note.BatchId = 999;
+            BatchAction action = new BatchAction();
+            action.BatchId = 999;
             ActionResult result = controller.Create(999);
 
             Assert.IsInstanceOf<ViewResult>(result);
@@ -75,9 +109,9 @@ namespace BrewersBuddy.Tests.Controllers
             userService.GetCurrentUserId().Returns(0);
 
             var batchService = Substitute.For<IBatchService>();
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             ActionResult result = controller.Create(999);
 
@@ -85,17 +119,16 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestNullBatchNoteWillReturn500Error()
+        public void TestNullBatchActionWillReturn500Error()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(999);
 
             var batchService = Substitute.For<IBatchService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            var batchNoteService = Substitute.For<IBatchNoteService>();
-
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             ActionResult result = controller.Create(999);
 
@@ -111,11 +144,11 @@ namespace BrewersBuddy.Tests.Controllers
             userService.GetCurrentUserId().Returns(0);
 
             var batchService = Substitute.For<IBatchService>();
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            ActionResult result = controller.Create(new BatchNote());
+            ActionResult result = controller.Create(new BatchAction());
 
             Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
         }
@@ -125,22 +158,21 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
-            userService.GetCurrentUserId().Returns(1);
+            userService.GetCurrentUserId().Returns(999);
 
             var batchService = Substitute.For<IBatchService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
-
-            ActionResult result = controller.Create(new BatchNote());
+            ActionResult result = controller.Create(new BatchAction());
 
             Assert.IsInstanceOf<HttpStatusCodeResult>(result);
             Assert.AreEqual(500, ((HttpStatusCodeResult)result).StatusCode);
         }
 
         [Test]
-        public void TestCreateContainerPost()
+        public void TestCreateBatchActionPost()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -150,20 +182,20 @@ namespace BrewersBuddy.Tests.Controllers
             Batch batch = new Batch();
             batchService.Get(999).Returns(batch);
 
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            BatchNote note = new BatchNote();
-            note.BatchId = 999;
-            ActionResult result = controller.Create(note);
+            BatchAction action = new BatchAction();
+            action.BatchId = 999;
+            ActionResult result = controller.Create(action);
 
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
             Assert.AreEqual(3, ((RedirectToRouteResult)result).RouteValues.Values.Count);
         }
 
         [Test]
-        public void TestCreateContainerModelInvalid()
+        public void TestCreateBatchActionModelInvalid()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -173,61 +205,61 @@ namespace BrewersBuddy.Tests.Controllers
             Batch batch = new Batch();
             batchService.Get(999).Returns(batch);
 
-            var batchNoteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
-            BatchNoteController controller = new BatchNoteController(batchService, batchNoteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            BatchNote note = new BatchNote();
-            note.BatchId = 999;
+            BatchAction action = new BatchAction();
+            action.BatchId = 999;
             controller.ModelState.AddModelError("key", "not valid");
 
-            ActionResult result = controller.Create(note);
+            ActionResult result = controller.Create(action);
 
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void TestBatchNoteDetails()
+        public void TestBatchActionDetails()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
             
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             ActionResult result = controller.Details(1);
             ViewResult view = result as ViewResult;
-            BatchNote returnedNote = (BatchNote)view.Model;
+            BatchAction returnedAction = (BatchAction)view.Model;
 
             Assert.NotNull(view.Model);
-            Assert.IsInstanceOf<BatchNote>(view.Model);
-            Assert.AreEqual(note.Text, returnedNote.Text);
+            Assert.IsInstanceOf<BatchAction>(view.Model);
+            Assert.AreEqual(action.Title, returnedAction.Title);
         }
 
         [Test]
-        public void TestBatchNoteUserCannotView()
+        public void TestBatchActionUserCannotView()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(0);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             var resultIs = "";
             try
@@ -242,47 +274,47 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestBatchNoteEdit()
+        public void TestBatchActionEdit()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             ActionResult result = controller.Edit(1);
             ViewResult view = result as ViewResult;
-            BatchNote returnedNote = (BatchNote)view.Model;
+            BatchAction returnedAction = (BatchAction)view.Model;
 
             Assert.NotNull(view.Model);
-            Assert.IsInstanceOf<BatchNote>(view.Model);
-            Assert.AreEqual(note.Text, returnedNote.Text);
+            Assert.IsInstanceOf<BatchAction>(view.Model);
+            Assert.AreEqual(action.Title, returnedAction.Title);
         }
 
         [Test]
-        public void TestBatchNoteUserCannotEdit()
+        public void TestBatchActionUserCannotEdit()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(0);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             var resultIs = "";
             try
@@ -297,23 +329,23 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestBatchNoteEditPost()
+        public void TestBatchActionEditPost()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            ActionResult result = controller.Edit(note);
+            ActionResult result = controller.Edit(action);
             RedirectToRouteResult view = result as RedirectToRouteResult;
 
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -322,72 +354,72 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestBatchNoteEditModelInvalid()
+        public void TestBatchActionEditModelInvalid()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
             controller.ModelState.AddModelError("key", "not valid");
 
-            ActionResult result = controller.Edit(note);
+            ActionResult result = controller.Edit(action);
 
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void TestBatchNoteDelete()
+        public void TestBatchActionDelete()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
             ActionResult result = controller.Delete(1);
             ViewResult view = result as ViewResult;
-            BatchNote returnedNote = (BatchNote)view.Model;
+            BatchAction returnedAction = (BatchAction)view.Model;
 
             Assert.NotNull(view.Model);
-            Assert.IsInstanceOf<BatchNote>(view.Model);
-            Assert.AreEqual(note.Text, returnedNote.Text);
+            Assert.IsInstanceOf<BatchAction>(view.Model);
+            Assert.AreEqual(action.Title, returnedAction.Title);
         }
 
         [Test]
-        public void TestBatchNoteDeleteNoteConfirmed()
+        public void TestBatchActionDeleteNoteConfirmed()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
             userService.GetCurrentUserId().Returns(1);
 
             var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
+            BatchAction action = TestUtils.createBatchAction(context, batch, bob, "my action", "desc", ActionType.Bottle);
+            batchActionService.Get(1).Returns(action);
 
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
 
-            ActionResult result = controller.DeleteNoteConfirmed(1);
+            ActionResult result = controller.DeleteConfirmed(1);
             RedirectToRouteResult view = result as RedirectToRouteResult;
 
             Assert.IsInstanceOf<RedirectToRouteResult>(result);

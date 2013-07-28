@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
-using BrewersBuddy.Tests.Utilities;
-using System.Data.Entity.Infrastructure;
-using NSubstitute;
 
 namespace BrewersBuddy.Tests.Models
 {
@@ -32,7 +27,8 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
-            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name", "This is a test!", "Gravity", 1.01);
+            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name",
+                "This is a test!", "Gravity", 1.01);
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
         }
@@ -42,7 +38,8 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
-            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name", "This is a test!", "Gravity", 1.01);
+            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name",
+                "This is a test!", "Gravity", 1.01);
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
 

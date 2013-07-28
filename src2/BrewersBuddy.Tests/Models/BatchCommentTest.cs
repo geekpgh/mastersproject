@@ -1,10 +1,6 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
