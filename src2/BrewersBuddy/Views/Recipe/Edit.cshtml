@@ -47,6 +47,18 @@
             @Html.TextAreaFor(model => model.HowtoMakeit, new { rows=10, columns=40 })
             @Html.ValidationMessageFor(model => model.HowtoMakeit)
         </div>  
+                <div class="editor-field">
+            @Html.TextAreaFor(model => model.WhatIngredients, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.WhatIngredients)
+        </div> 
+                <div class="editor-field">
+            @Html.TextAreaFor(model => model.HowLongtoFerment, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.HowLongtoFerment)
+        </div> 
+                <div class="editor-field">
+            @Html.TextAreaFor(model => model.WhenCanIDrinkIt, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.WhenCanIDrinkIt)
+        </div> 
         <p>
             <input type="submit" value="Save" />
             <br><br>
