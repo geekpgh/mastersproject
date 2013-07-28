@@ -190,5 +190,17 @@ namespace BrewersBuddy.Tests.Models
             //Verify the owner can view
             Assert.IsFalse(note.CanEdit(fred.UserId));
         }
+        [Test]
+        public void TestCanGetAuthorName()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, bob);
+            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
+
+            var firstName = bob.FirstName;
+            var lastName = bob.LastName;
+
+            Assert.AreEqual(note.AuthorName, firstName + " " + lastName);
+        }
     }
 }
