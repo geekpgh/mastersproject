@@ -139,6 +139,23 @@ namespace BrewersBuddy.Tests.TestUtilities
 
             return newFriend;
         }
+
+        public static Recipe createRecipe(BrewersBuddyContext db, String name, UserProfile owner)
+        {
+            Recipe recipe = new Recipe();
+            recipe.Name = name;
+            recipe.AddDate = DateTime.Now;
+            recipe.Cost = 1.00;
+            recipe.Description = "Easy Recipe";
+            recipe.HowtoMakeit = "I don't know";
+            recipe.OwnerId = owner.UserId;
+
+            db.Recipes.Add(recipe);
+
+            db.SaveChanges();
+
+            return recipe;
+        }
         
         public static ICollection<Batch> createBatches(BrewersBuddyContext db, int number, UserProfile owner)
         {

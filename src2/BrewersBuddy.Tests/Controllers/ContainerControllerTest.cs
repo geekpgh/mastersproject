@@ -14,7 +14,7 @@ namespace BrewersBuddy.Tests.Controllers
     public class ContainerControllerTest : DbTestBase
     {
         [Test]
-        public void TestNullRatingServiceThrowsArgumentNullException()
+        public void TestNullBatchServiceThrowsArgumentNullException()
         {
             var userService = Substitute.For<IUserService>();
             var containerService = Substitute.For<IContainerService>();
@@ -25,7 +25,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestNullBatchServiceThrowsArgumentNullException()
+        public void TestNullContainerServiceThrowsArgumentNullException()
         {
             var userService = Substitute.For<IUserService>();
             var batchService = Substitute.For<IBatchService>();

@@ -140,7 +140,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestCreateContainerPost()
+        public void TestCreateBatchNotePost()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -163,7 +163,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestCreateContainerModelInvalid()
+        public void TestCreateBatchNoteModelInvalid()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
