@@ -16,10 +16,10 @@ namespace BrewersBuddy.Models
         public DateTime AddDate { get; set; }
         public int OwnerId { get; set; }
         public string Cost { get; set; }
-        public string Preparation_Steps { get; set; }
-        public string Recipe_Ingredients { get; set; }
-        public string  Ferment_Time { get; set; }
-        public string Finish_Time { get; set; }
+        public string Preparation { get; set; }
+        public string Ingredient { get; set; }
+        public string  Ferment { get; set; }
+        public string Finish { get; set; }
 
 		public virtual ICollection<Ingredient> Ingredients { get; set; }
     }

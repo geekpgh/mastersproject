@@ -29,32 +29,32 @@
             @Html.ValidationMessageFor(model => model.Description)
         </div>
                 <div class="editor-label">
-            @Html.LabelFor(model => model.Preparation_Steps)
+            @Html.LabelFor(model => model.Preparation)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Preparation_Steps", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Preparation_Steps)
+            @Html.TextArea("Preparation", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Preparation)
         </div>
                         <div class="editor-label">
-            @Html.LabelFor(model => model.Recipe_Ingredients)
+            @Html.LabelFor(model => model.Ingredient)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Recipe_Ingredients", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Recipe_Ingredients)
+            @Html.TextArea("Ingredient", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Ingredient)
         </div>
                         <div class="editor-label">
-            @Html.LabelFor(model => model.Ferment_Time)
+            @Html.LabelFor(model => model.Ferment)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Ferment_Time", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Ferment_Time)
+            @Html.TextArea("Ferment", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Ferment)
         </div>
                         <div class="editor-label">
-            @Html.LabelFor(model => model.Finish_Time)
+            @Html.LabelFor(model => model.Finish)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Finish_Time", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Finish_Time)
+            @Html.TextArea("Finish", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Finish)
         </div>
                         <div class="editor-label">
             @Html.LabelFor(model => model.Cost)
