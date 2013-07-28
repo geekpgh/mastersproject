@@ -402,41 +402,5 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.NotNull(view.RouteValues);
             Assert.AreEqual("Details/1", view.RouteValues["action"]);
         }
-
-
-
-
-
-        /////////////////////////////
-        ////////////////////
-
-
-
-        /*
-        [Test]
-        public void TestBatchNoteDeleteModelInvalid()
-        {
-            // Set up the controller
-            var userService = Substitute.For<IUserService>();
-            userService.GetCurrentUserId().Returns(1);
-
-            var batchService = Substitute.For<IBatchService>();
-            var noteService = Substitute.For<IBatchNoteService>();
-
-            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "I am a note!", bob);
-            noteService.Get(1).Returns(note);
-
-            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
-            controller.ModelState.AddModelError("key", "not valid");
-
-            ActionResult result = controller.DeleteNoteConfirmed(1);
-
-            Assert.IsInstanceOf<ViewResult>(result);
-        }
-*/
-
-
     }
 }

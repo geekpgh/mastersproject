@@ -126,6 +126,19 @@ namespace BrewersBuddy.Tests.TestUtilities
 
             return container;
         }
+
+        public static Friend createFriend(BrewersBuddyContext db, UserProfile friend, UserProfile user)
+        {
+            Friend newFriend = new Friend();
+            newFriend.UserId = user.UserId;
+            newFriend.FriendUserId = friend.UserId;
+            newFriend.User = user;
+
+            db.Friends.Add(newFriend);
+            db.SaveChanges();
+
+            return newFriend;
+        }
         
         public static ICollection<Batch> createBatches(BrewersBuddyContext db, int number, UserProfile owner)
         {
@@ -138,6 +151,7 @@ namespace BrewersBuddy.Tests.TestUtilities
 
             return batches;
         }
+
 
     }
 }

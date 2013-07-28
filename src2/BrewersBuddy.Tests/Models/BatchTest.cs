@@ -6,6 +6,7 @@ using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
 using BrewersBuddy.Tests.Utilities;
 using System.Data.Entity.Infrastructure;
+using NSubstitute;
 
 namespace BrewersBuddy.Tests.Models
 {
@@ -29,34 +30,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestAddMeasurement()
         {
-            UserProfile userProfile = new UserProfile();
-            userProfile.UserName = "NUNIT_Test";
-            userProfile.Email = "NUNIT@Test.com";
-            userProfile.FirstName = "Nunit";
-            userProfile.LastName = "Test";
-            userProfile.City = "Brewery";
-            userProfile.State = "KS";
-            userProfile.Zip = "12345";
-            userProfile.UserId = 1;
-
-            Batch batch = new Batch();
-            batch.Name = "Test";
-            batch.Type = BatchType.Wine;
-            batch.StartDate = DateTime.Now;
-            batch.BatchId = 1;
-            batch.Owner = userProfile;
-
-            context.Batches.Add(batch);
-
-            Measurement measurement = new Measurement();
-            measurement.Batch = batch;
-            measurement.Description = "This is a test!";
-            measurement.Measured = "Gravity";
-            measurement.Value = 1.01;
-            measurement.MeasurementDate = DateTime.Now;
-
-            context.Measurements.Add(measurement);
-            context.SaveChanges();
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name", "This is a test!", "Gravity", 1.01);
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
         }
@@ -64,34 +40,9 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRemoveMeasurement()
         {
-            UserProfile userProfile = new UserProfile();
-            userProfile.UserName = "NUNIT_Test";
-            userProfile.Email = "NUNIT@Test.com";
-            userProfile.FirstName = "Nunit";
-            userProfile.LastName = "Test";
-            userProfile.City = "Brewery";
-            userProfile.State = "KS";
-            userProfile.Zip = "12345";
-            userProfile.UserId = 1;
-
-            Batch batch = new Batch();
-            batch.Name = "Test";
-            batch.Type = BatchType.Wine;
-            batch.StartDate = DateTime.Now;
-            batch.BatchId = 1;
-            batch.Owner = userProfile;
-
-            context.Batches.Add(batch);
-
-            Measurement measurement = new Measurement();
-            measurement.Batch = batch;
-            measurement.Description = "This is a test!";
-            measurement.Measured = "Gravity";
-            measurement.Value = 1.01;
-            measurement.MeasurementDate = DateTime.Now;
-
-            context.Measurements.Add(measurement);
-            context.SaveChanges();
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Name", "This is a test!", "Gravity", 1.01);
 
             Assert.IsTrue(batch.Measurements.Contains(measurement));
 
@@ -107,35 +58,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestAddBatchAction()
         {
-            UserProfile userProfile = new UserProfile();
-            userProfile.UserName = "NUNIT_Test";
-            userProfile.Email = "NUNIT@Test.com";
-            userProfile.FirstName = "Nunit";
-            userProfile.LastName = "Test";
-            userProfile.City = "Brewery";
-            userProfile.State = "KS";
-            userProfile.Zip = "12345";
-            userProfile.UserId = 1;
-
-            Batch batch = new Batch();
-            batch.Name = "Test";
-            batch.Type = BatchType.Beer;
-            batch.StartDate = DateTime.Now;
-            batch.BatchId = 1;
-            batch.Owner = userProfile;
-
-            context.Batches.Add(batch);
-
-            BatchAction action = new BatchAction();
-            action.Batch = batch;
-            action.Description = "99 bottles of beer on the wall!";
-            action.Type = ActionType.Bottle;
-            action.Title = "Bottles the beer";
-            action.ActionDate = DateTime.Now;
-            action.Performer = userProfile;
-
-            context.BatchActions.Add(action);
-            context.SaveChanges();
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            BatchAction action = TestUtils.createBatchAction(context, batch, jon, 
+                "Bottles the beer", "99 bottles of beer on the wall!", ActionType.Bottle);
 
             Assert.IsTrue(batch.Actions.Contains(action));
         }
@@ -143,36 +69,10 @@ namespace BrewersBuddy.Tests.Models
         [Test]
         public void TestRemoveBatchAction()
         {
-            UserProfile userProfile = new UserProfile();
-            userProfile.UserName = "NUNIT_Test";
-            userProfile.Email = "NUNIT@Test.com";
-            userProfile.FirstName = "Nunit";
-            userProfile.LastName = "Test";
-            userProfile.City = "Brewery";
-            userProfile.State = "KS";
-            userProfile.Zip = "12345";
-            userProfile.UserId = 1;
-
-            context.UserProfiles.Add(userProfile);
-            Batch batch = new Batch();
-            batch.Name = "Test";
-            batch.Type = BatchType.Beer;
-            batch.StartDate = DateTime.Now;
-            batch.BatchId = 1;
-            batch.OwnerId = 1;
-
-            context.Batches.Add(batch);
-
-            BatchAction action = new BatchAction();
-            action.Batch = batch;
-            action.Description = "99 bottles of beer on the wall!";
-            action.Type = ActionType.Bottle;
-            action.Title = "Bottles the beer";
-            action.ActionDate = DateTime.Now;
-            action.Performer = userProfile;
-
-            context.BatchActions.Add(action);
-            context.SaveChanges();
+            UserProfile jon = TestUtils.createUser(context, "Jon", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, jon);
+            BatchAction action = TestUtils.createBatchAction(context, batch, jon,
+                "Bottles the beer", "99 bottles of beer on the wall!", ActionType.Bottle);
 
             Assert.IsTrue(batch.Actions.Contains(action));
 
@@ -235,14 +135,7 @@ namespace BrewersBuddy.Tests.Models
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-
-			Friend newFriend = new Friend();
-			newFriend.UserId = bob.UserId;
-			newFriend.FriendUserId = fred.UserId;
-			newFriend.User = bob;
-
-			bob.Friends.Add(newFriend);
-            context.SaveChanges();
+            Friend newFriend = TestUtils.createFriend(context, fred, bob);
 
             //Verify the collaborator can view
             Assert.IsTrue(batch.CanView(fred.UserId));
@@ -254,14 +147,7 @@ namespace BrewersBuddy.Tests.Models
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-
-			Friend newFriend = new Friend();
-			newFriend.UserId = bob.UserId;
-			newFriend.FriendUserId = fred.UserId;
-			newFriend.User = bob;
-
-			bob.Friends.Add(newFriend);
-            context.SaveChanges();
+            Friend newFriend = TestUtils.createFriend(context, fred, bob);
 
             //Verify the owner can view
             Assert.IsFalse(batch.CanEdit(fred.UserId));
@@ -309,6 +195,110 @@ namespace BrewersBuddy.Tests.Models
             BrewersBuddyContext context2 = new BrewersBuddyContext();
             batch = context2.Batches.Find(batch.BatchId);
             Assert.AreEqual(1, batch.Collaborators.Count);
+        }
+
+        [Test]
+        //Test that it isn't truncated if short
+        public void TestSummaryLengthShort()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            batch.Description = "Description of a Batch";
+            context.SaveChanges();
+
+            Assert.AreEqual(batch.SummaryText, "Description of a Batch");
+        }
+
+        [Test]
+        //test that it is truncated
+        public void TestSummaryTruncate()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            string longText = "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
+
+            while (longText.Length < 200)
+            {
+                longText += "This is a very very very long string it is very long. This is a very very very long string it is very long. ";
+            }
+
+            //Make sure the string is setup correctly
+            Assert.True(longText.Length >= 200);
+
+            batch.Description = longText;
+            context.SaveChanges();
+
+            //The 3 is for the ...
+            Assert.True(batch.SummaryText.Length == 203);
+        }
+
+        [Test]
+        public void TestGetType()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Wine, bob);
+            batch.BatchTypeValue = 1;
+            context.SaveChanges();
+
+            Assert.AreEqual(batch.Type, BatchType.Mead);
+        }
+
+        [Test]
+        public void TestIsBatchOwner()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Wine, bob);
+
+            Assert.AreEqual(batch.IsOwner(bob.UserId), true);
+            Assert.AreNotEqual(batch.IsOwner(fred.UserId), true);
+        }
+
+        [Test]
+        public void TestHasRatedRatingsIsNull()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Wine, bob);
+
+            Assert.AreEqual(batch.HasRated(bob.UserId), false);
+        }
+
+        [Test]
+        public void TestHasRated()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Wine, bob);
+            BatchRating rating = TestUtils.createBatchRating(context, batch, bob, 92, 
+                "Great Beer!");
+
+            Assert.AreEqual(batch.HasRated(bob.UserId), true);
+            Assert.AreNotEqual(batch.HasRated(fred.UserId), true);
+        }
+
+        [Test]
+        public void TestCanRate()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            UserProfile fred = TestUtils.createUser(context, "Fred", "Smith");
+            Batch batch1 = TestUtils.createBatch(context, "Test", BatchType.Wine, bob);
+            Batch batch2 = TestUtils.createBatch(context, "Test", BatchType.Wine, fred);
+            BatchRating rating1 = TestUtils.createBatchRating(context, batch1, bob, 92,
+                "Great Beer!");
+            BatchRating rating2 = TestUtils.createBatchRating(context, batch2, bob, 98,
+                "Greatest Beer!");
+
+            // Should return False - canView(true) && !hasRated(true)
+            Assert.AreEqual(batch1.CanRate(bob.UserId), false);
+
+            // Should return False - canView(false) && !hasRated(false)
+            Assert.AreEqual(batch1.CanRate(fred.UserId), false);
+
+            // Should return True - canView(true) && !hasRated(false)
+            Assert.AreEqual(batch2.CanRate(fred.UserId), true);
+
+            // Should return False - canView(false) && !hasRated(true)
+            Assert.AreEqual(batch2.CanRate(bob.UserId), false);
         }
     }
 }
