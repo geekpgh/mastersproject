@@ -160,6 +160,7 @@
     <Compile Include="Controllers\BatchRatingControllerTest.cs" />
     <Compile Include="Controllers\BatchCommentControllerTest.cs" />
     <Compile Include="Controllers\ContainerControllerTest.cs" />
+    <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\MeasurementControllerTest.cs" />
     <Compile Include="Controllers\RecipeControllerTest.cs" />
     <Compile Include="Models\BatchActionTest.cs" />
