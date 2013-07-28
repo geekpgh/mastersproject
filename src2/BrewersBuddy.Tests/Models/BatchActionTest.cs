@@ -200,5 +200,21 @@ namespace BrewersBuddy.Tests.Models
             //Verify the owner can view
             Assert.IsFalse(action.CanEdit(fred.UserId));
         }
+
+        [Test]
+        public void TestCanGetPerformerName()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Beer, bob);
+            TestUtils.createBatchAction(context, batch, bob, "my action", "This is an action", ActionType.Bottle);
+
+            BatchAction action = context.BatchActions.First();
+
+            var firstName = bob.FirstName;
+            var lastName = bob.LastName;
+
+            Assert.AreEqual(action.PerformerName, firstName + " " + lastName);
+        }
+
     }
 }
