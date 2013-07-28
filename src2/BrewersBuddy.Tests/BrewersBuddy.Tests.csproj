@@ -155,9 +155,10 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Controllers\BatchControllerTest.cs" />
+    <Compile Include="Controllers\BatchNoteControllerTest.cs" />
     <Compile Include="Controllers\BatchRatingControllerTest.cs" />
     <Compile Include="Controllers\BatchCommentControllerTest.cs" />
-    <Compile Include="Controllers\ContainerController.cs" />
+    <Compile Include="Controllers\ContainerControllerTest.cs" />
     <Compile Include="Models\BatchActionTest.cs" />
     <Compile Include="Models\BatchRatingTest.cs" />
     <Compile Include="Models\BatchTest.cs" />
