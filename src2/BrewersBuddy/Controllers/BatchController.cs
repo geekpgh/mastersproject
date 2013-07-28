@@ -41,6 +41,30 @@ namespace BrewersBuddy.Controllers
             return View(batches);
         }
 
+        //
+        // GET: /Batch/
+        public ActionResult Shared()
+        {
+            int currentUserId = _userService.GetCurrentUserId();
+            ICollection<UserProfile> friendProfiles = _userService.FriendProfiles(currentUserId);
+            List<Batch> friendBatches = new List<Batch>();
+
+            foreach(UserProfile friendProfile in friendProfiles)
+            {
+                IEnumerable<Batch> baches = _batchService.GetAllForUser(friendProfile.UserId);
+
+                foreach (Batch batch in friendBatches)
+                {
+                    if (!friendBatches.Contains(batch))
+                    {
+                        friendBatches.Add(batch);
+                    }
+                }
+            }
+            
+            return View(friendBatches);
+        }
+
 
         //
         // GET: /Batch/Details/5

@@ -368,6 +368,10 @@
     <Compile Include="Migrations\201307271504422_fix-something.Designer.cs">
       <DependentUpon>201307271504422_fix-something.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307282355130_fis-something.cs" />
+    <Compile Include="Migrations\201307282355130_fis-something.Designer.cs">
+      <DependentUpon>201307282355130_fis-something.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -599,6 +603,7 @@
     <Content Include="Views\BatchRating\Index.cshtml" />
     <Content Include="Views\Batch\_CommentPartial.cshtml" />
     <Content Include="Views\Recipe\Edit.cshtml" />
+    <Content Include="Views\Batch\Shared.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -717,6 +722,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307271504422_fix-something.resx">
       <DependentUpon>201307271504422_fix-something.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307282355130_fis-something.resx">
+      <DependentUpon>201307282355130_fis-something.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
