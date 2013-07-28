@@ -368,10 +368,6 @@
     <Compile Include="Migrations\201307271504422_fix-something.Designer.cs">
       <DependentUpon>201307271504422_fix-something.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201307282322096_Update-Recipe-Content.cs" />
-    <Compile Include="Migrations\201307282322096_Update-Recipe-Content.Designer.cs">
-      <DependentUpon>201307282322096_Update-Recipe-Content.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -721,9 +717,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307271504422_fix-something.resx">
       <DependentUpon>201307271504422_fix-something.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307282322096_Update-Recipe-Content.resx">
-      <DependentUpon>201307282322096_Update-Recipe-Content.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
