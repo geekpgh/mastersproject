@@ -41,32 +41,32 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Preparation )
+            @Html.LabelFor(model => model.Preparation_Steps )
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Preparation, new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Preparation )
+            @Html.TextAreaFor(model => model.Preparation_Steps, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Preparation_Steps )
         </div>  
                 <div class="editor-label">
-            @Html.LabelFor(model => model.Ingredient)
+            @Html.LabelFor(model => model.Recipe_Ingredients)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Ingredient, new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Ingredient)
+            @Html.TextAreaFor(model => model.Recipe_Ingredients, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Recipe_Ingredients)
         </div>  
                 <div class="editor-label">
-            @Html.LabelFor(model => model.Ferment)
+            @Html.LabelFor(model => model.Ferment_Time)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Ferment, new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Ferment)
+            @Html.TextAreaFor(model => model.Ferment_Time, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Ferment_Time)
         </div>  
                 <div class="editor-label">
-            @Html.LabelFor(model => model.Finish)
+            @Html.LabelFor(model => model.Finish_Time)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Finish, new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Finish)
+            @Html.TextAreaFor(model => model.Finish_Time, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Finish_Time)
         </div>  
                 <div class="editor-label">
             @Html.LabelFor(model => model.Cost)
