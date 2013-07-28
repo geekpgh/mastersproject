@@ -32,29 +32,8 @@
             @Html.LabelFor(model => model.HowtoMakeit)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Overview of how to Make it", new { rows=10, columns=40 })
+            @Html.TextArea("HowtoMakeit", new { rows=10, columns=40 })
             @Html.ValidationMessageFor(model => model.HowtoMakeit)
-        </div>
-                        <div class="editor-label">
-            @Html.LabelFor(model => model.WhatIngredients)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("What Ingredients do I use?", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.WhatIngredients)
-        </div>
-                        <div class="editor-label">
-            @Html.LabelFor(model => model.HowLongtoFerment)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("How Long will it Take to Ferment?", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.HowLongtoFerment)
-        </div>
-                        <div class="editor-label">
-            @Html.LabelFor(model => model.WhenCanIDrinkIt)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("When Can I Drink it?", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.WhenCanIDrinkIt)
         </div>
         <p>
             <input type="submit" value="Create" />

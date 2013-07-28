@@ -17,9 +17,6 @@ namespace BrewersBuddy.Models
         public int OwnerId { get; set; }
         public double Cost { get; set; }
         public string HowtoMakeit { get; set; }
-        public string WhatIngredients { get; set; }
-        public string HowLongtoFerment { get; set; }
-        public string WhenCanIDrinkIt { get; set; }
 
 		public virtual ICollection<Ingredient> Ingredients { get; set; }
     }
