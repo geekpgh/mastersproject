@@ -168,7 +168,6 @@
     <Compile Include="Models\ContainerTest.cs" />
     <Compile Include="Models\MeasurementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="DbTestBase.cs" />
     <Compile Include="TestUtilities\TestUtils.cs" />
     <Compile Include="Utilities\CalculationsTest.cs" />
