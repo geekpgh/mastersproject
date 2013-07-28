@@ -15,8 +15,11 @@ namespace BrewersBuddy.Models
         public string Description { get; set; }
         public DateTime AddDate { get; set; }
         public int OwnerId { get; set; }
-        public double Cost { get; set; }
-        public string HowtoMakeit { get; set; }
+        public string Cost { get; set; }
+        public string Preparation_Steps { get; set; }
+        public string Recipe_Ingredients { get; set; }
+        public string  Ferment_Time { get; set; }
+        public string Finish_Time { get; set; }
 
 		public virtual ICollection<Ingredient> Ingredients { get; set; }
     }
