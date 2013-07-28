@@ -29,39 +29,11 @@
             @Html.ValidationMessageFor(model => model.Description)
         </div>
                 <div class="editor-label">
-            @Html.LabelFor(model => model.Preparation_Steps)
+            @Html.LabelFor(model => model.HowtoMakeit)
         </div>
         <div class="editor-field">
-            @Html.TextArea("Preparation_Steps", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Preparation_Steps)
-        </div>
-                       <div class="editor-label">
-            @Html.LabelFor(model => model.Recipe_Ingredients)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("Recipe_Ingredients", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Recipe_Ingredients)
-        </div>
-                       <div class="editor-label">
-            @Html.LabelFor(model => model.Ferment_Time)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("Ferment_Time", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Ferment_Time)
-        </div>
-                       <div class="editor-label">
-            @Html.LabelFor(model => model.Finish_Time)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("Finish_Time", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Finish_Time)
-        </div>
-                       <div class="editor-label">
-            @Html.LabelFor(model => model.Cost)
-        </div>
-        <div class="editor-field">
-            @Html.TextArea("Cost", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.Cost)
+            @Html.TextArea("HowtoMakeit", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.HowtoMakeit)
         </div>
         <p>
             <input type="submit" value="Create" />
