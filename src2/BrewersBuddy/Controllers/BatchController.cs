@@ -178,16 +178,16 @@ namespace BrewersBuddy.Controllers
         }
 
 
-        private void CheckOwnerAuthorization(int batchId)
-        {
-            int currentUser = _userService.GetCurrentUserId();
-            Batch batch = _batchService.Get(batchId);
-
-            if (!batch.IsOwner(currentUser))
-            {
-                throw new UnauthorizedAccessException("Cannot alter data in this way because you do not own it.");
-            }
-        }
+//        private void CheckOwnerAuthorization(int batchId)
+//        {
+//            int currentUser = _userService.GetCurrentUserId();
+//            Batch batch = _batchService.Get(batchId);
+//
+//            if (!batch.IsOwner(currentUser))
+//            {
+//                throw new UnauthorizedAccessException("Cannot alter data in this way because you do not own it.");
+//            }
+//        }
 
 
         private void CheckViewAuthorization(int batchId)
