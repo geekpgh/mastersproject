@@ -30,7 +30,7 @@ namespace BrewersBuddy.Controllers
         }
 
         //
-        // GET: /Measurment/
+        // GET: /Measurement/
 
         public ActionResult Index(int batchId)
         {
