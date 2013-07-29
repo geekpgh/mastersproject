@@ -39,12 +39,14 @@ namespace BrewersBuddy.Controllers
         // GET: /Recipe/Details/5
         public ActionResult Details(int id = 0)
         {
-            CheckViewAuthorization(id);
             Recipe Recipe = _recipeService.Get(id);
             if (Recipe == null)
             {
                 return HttpNotFound();
             }
+
+            CheckViewAuthorization(id);
+
             return View(Recipe);
         }
 
@@ -117,12 +119,15 @@ namespace BrewersBuddy.Controllers
         // GET: /Recipe/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            CheckEditAuthorization(id);
             Recipe Recipe = _recipeService.Get(id);
+            
             if (Recipe == null)
             {
                 return HttpNotFound();
             }
+
+            CheckEditAuthorization(id);
+
             return View(Recipe);
         }
 
