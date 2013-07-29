@@ -93,6 +93,8 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var recipeService = Substitute.For<IRecipeService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
@@ -135,6 +137,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Recipe recipe = TestUtils.createRecipe(context, "Awesome Recipe", bob);
+            recipeService.Get(1).Returns(recipe);
             recipeService.GetAllForUser(1).Returns(
                 new Recipe[] {
                     recipe,
@@ -169,7 +172,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             RecipeController controller = new RecipeController(recipeService, userService);
 
-            ActionResult result = controller.Details(0);
+            ActionResult result = controller.Edit(0);
 
             Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
@@ -179,10 +182,13 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var recipeService = Substitute.For<IRecipeService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Recipe recipe = TestUtils.createRecipe(context, "Awesome Recipe", bob);
+            recipeService.Get(1).Returns(recipe);
 
             RecipeController controller = new RecipeController(recipeService, userService);
 
@@ -200,10 +206,13 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var recipeService = Substitute.For<IRecipeService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Recipe recipe = TestUtils.createRecipe(context, "Awesome Recipe", bob);
+            recipeService.Get(1).Returns(recipe);
 
             RecipeController controller = new RecipeController(recipeService, userService);
             controller.ModelState.AddModelError("key", "not valid");
@@ -222,6 +231,8 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var recipeService = Substitute.For<IRecipeService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
@@ -258,6 +269,8 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var recipeService = Substitute.For<IRecipeService>();
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");

@@ -305,10 +305,15 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+
             var batchService = Substitute.For<IBatchService>();
             var containerService = Substitute.For<IContainerService>();
 
-            Container container = new Container();
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+
             container.Name = "Test Container";
             containerService.Get(999).Returns(container);
 
