@@ -17,10 +17,18 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th width="30%"class="display-label">
-            @Html.DisplayNameFor(model => model.HowtoMakeit)
+            @Html.DisplayNameFor(model => model.Prep)
         </th>
-        <th width="30%" class="display-label">
-            @Html.DisplayNameFor(model => model.AddDate)
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Process)
+        </th>
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Finishing)
+        </th>
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Costs)
+        </th>
+        <th width="30%" class="display-label"> @Html.DisplayNameFor(model => model.AddDate)
         </th>
     </tr>
 
@@ -32,7 +40,16 @@
             @Html.DisplayFor(model => model.Description)
         </td>
         <td align="center">
-            @Html.DisplayTextFor(model => model.HowtoMakeit)
+             @Html.DisplayNameFor(model => model.Prep)
+        </td>
+                <td align="center">
+             @Html.DisplayNameFor(model => model.Process)
+        </td>
+                <td align="center">
+             @Html.DisplayNameFor(model => model.Finishing)
+        </td>
+                <td align="center">
+             @Html.DisplayNameFor(model => model.Costs)
         </td>
         <td align="center">
             @Html.DisplayFor(model => model.AddDate)
