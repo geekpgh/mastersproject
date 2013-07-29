@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -716,17 +718,29 @@ namespace BrewersBuddy.Controllers
 
         private void SendEMail(string emailid, string subject, string body)
         {
-            var client = new SmtpClient("smtp.gmail.com", 587);
-            client.Credentials = new NetworkCredential("brewersbuddy@gmail.com", "sweng500");
-            client.EnableSsl = true;
+            NameValueCollection appSettings = ConfigurationManager.AppSettings;
 
-            MailMessage msg = new MailMessage("Noreply@BrewersBuddy.com", emailid);
+            var client = new SmtpClient()
+            {
+                Host = appSettings["EmailHost"],
+                Port = Convert.ToInt32(appSettings["EmailPort"]),
+                EnableSsl = Convert.ToBoolean(appSettings["EmailEnableSsl"]),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(appSettings["EmailUsername"], appSettings["EmailPassword"])
+            };
 
-            msg.Subject = subject;
-            msg.IsBodyHtml = true;
-            msg.Body = body + "<br/><br/>*** DO NOT REPLY TO THIS EMAIL.  THIS EMAIL IS NOT CHECKED. ***";
+            using (client)
+            {
+                using (var message = new MailMessage("noreply@brewersbuddy.com", emailid))
+                {
+                    message.Subject = subject;
+                    message.IsBodyHtml = true;
+                    message.Body = body + "<br/><br/>*** DO NOT REPLY TO THIS EMAIL.  THIS EMAIL IS NOT CHECKED. ***";
 
-            client.Send(msg);
+                    client.Send(message);
+                }
+            }
         }
 
         #endregion Manage
