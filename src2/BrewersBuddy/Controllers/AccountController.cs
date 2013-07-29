@@ -396,14 +396,14 @@ namespace BrewersBuddy.Controllers
             string username,
             string firstname, 
             string lastname, 
-            string zip)
+            string zipcode)
         {
             IEnumerable<UserProfile> users = _userService.Find(new UserSearchCriteria()
             {
                 UserName = username,
                 FirstName = firstname,
                 LastName = lastname,
-                Zipcode = zip
+				Zipcode = zipcode
             });
 
             return View(users);
