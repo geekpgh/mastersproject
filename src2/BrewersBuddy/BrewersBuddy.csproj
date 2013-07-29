@@ -372,6 +372,10 @@
     <Compile Include="Migrations\201307282355130_fis-something.Designer.cs">
       <DependentUpon>201307282355130_fis-something.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307290117266_New-Recipe-Columns.cs" />
+    <Compile Include="Migrations\201307290117266_New-Recipe-Columns.Designer.cs">
+      <DependentUpon>201307290117266_New-Recipe-Columns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -728,6 +732,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307282355130_fis-something.resx">
       <DependentUpon>201307282355130_fis-something.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307290117266_New-Recipe-Columns.resx">
+      <DependentUpon>201307290117266_New-Recipe-Columns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

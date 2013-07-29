@@ -41,12 +41,33 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.HowtoMakeit)
+            @Html.LabelFor(model => model.Prep)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.HowtoMakeit, new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.HowtoMakeit)
+            @Html.TextAreaFor(model => model.Prep, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Prep)
         </div>  
+                <div class="editor-label">
+            @Html.LabelFor(model => model.Process)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Process, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Process)
+        </div>  
+                <div class="editor-label">
+            @Html.LabelFor(model => model.Finishing)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Finishing, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Finishing)
+        </div>  
+                        <div class="editor-label">
+            @Html.LabelFor(model => model.Costs)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Costs, new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Costs)
+        </div> 
         <p>
             <input type="submit" value="Save" />
             <br><br>

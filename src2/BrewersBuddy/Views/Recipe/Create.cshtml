@@ -29,11 +29,33 @@
             @Html.ValidationMessageFor(model => model.Description)
         </div>
                 <div class="editor-label">
-            @Html.LabelFor(model => model.HowtoMakeit)
+            @Html.LabelFor(model => model.Prep)
         </div>
         <div class="editor-field">
-            @Html.TextArea("HowtoMakeit", new { rows=10, columns=40 })
-            @Html.ValidationMessageFor(model => model.HowtoMakeit)
+            @Html.TextArea("Prep", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Prep)
+        </div>
+
+                        <div class="editor-label">
+            @Html.LabelFor(model => model.Process)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Process", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Process)
+        </div>
+                        <div class="editor-label">
+            @Html.LabelFor(model => model.Finishing)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Finishing", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Finishing)
+        </div>
+                        <div class="editor-label">
+            @Html.LabelFor(model => model.Costs)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Costs", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Costs)
         </div>
         <p>
             <input type="submit" value="Create" />
