@@ -90,12 +90,14 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Details
         public ActionResult Details(int id = 0)
         {
-            CheckViewAuthorization(id);
             Container container = _containerService.Get(id);
             if (container == null)
             {
                 return HttpNotFound();
             }
+
+            CheckViewAuthorization(id);
+
             return View(container);
         }
 
@@ -104,13 +106,15 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Edit
         public ActionResult Edit(int id = 0)
         {
-            CheckEditAuthorization(id);
             Container container = _containerService.Get(id);
 
             if (container == null)
             {
                 return HttpNotFound();
             }
+
+            CheckEditAuthorization(id);
+
             return View(container);
         }
 
@@ -128,6 +132,7 @@ namespace BrewersBuddy.Controllers
                 _containerService.Update(container);
                 return RedirectToAction("Details/" + container.ContainerId);
             }
+
             return View(container);
         }
 
@@ -136,12 +141,14 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Delete
         public ActionResult Delete(int id = 0)
         {
-            CheckEditAuthorization(id);
             Container container = _containerService.Get(id);
             if (container == null)
             {
                 return HttpNotFound();
             }
+
+            CheckEditAuthorization(id);
+
             return View(container);
         }
 
