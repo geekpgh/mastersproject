@@ -30,7 +30,8 @@ namespace BrewersBuddy.Tests.Controllers
 			// Set up the controller
 			var userService = Substitute.For<IUserService>();
 			userService.GetCurrentUserId().Returns(1);
-			AccountController controller = new AccountController();
+
+			AccountController controller = new AccountController(userService);
 
 			LoginModel login = new LoginModel();
 			login.UserName = "NUNIT_Test";
@@ -71,7 +72,8 @@ namespace BrewersBuddy.Tests.Controllers
 			// Set up the controller
 			var userService = Substitute.For<IUserService>();
 			userService.GetCurrentUserId().Returns(1);
-			AccountController controller = new AccountController();
+
+			AccountController controller = new AccountController(userService);
 
 			RegisterModel regMod = new RegisterModel();
 			regMod.UserName = "NUNIT_Test";

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
 using WebMatrix.WebData;
+using System.Linq;
 
 namespace BrewersBuddy.Services
 {
@@ -25,12 +26,16 @@ namespace BrewersBuddy.Services
             return WebSecurity.GetUserId(currentUser.Identity.Name);
         }
 
-
-        public UserProfile getCurrentUser()
+        public IEnumerable<UserProfile> Find(UserSearchCriteria searchCriteria)
         {
-            return Get(GetCurrentUserId());
+            return from user in db.UserProfiles
+                        where 
+                            user.UserName.Equals(searchCriteria.UserName, System.StringComparison.OrdinalIgnoreCase)
+                            || user.FirstName.Equals(searchCriteria.FirstName, System.StringComparison.OrdinalIgnoreCase)
+                            || user.LastName.Equals(searchCriteria.LastName, System.StringComparison.OrdinalIgnoreCase)
+                            || user.Zip.Equals(searchCriteria.Zipcode, System.StringComparison.OrdinalIgnoreCase)
+                        select user;
         }
-
 
         public UserProfile Get(int id)
         {

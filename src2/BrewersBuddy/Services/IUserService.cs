@@ -10,6 +10,7 @@ namespace BrewersBuddy.Services
         IPrincipal GetCurrentUser();
         int GetCurrentUserId();
         UserProfile Get(int id);
+        IEnumerable<UserProfile> Find(UserSearchCriteria searchCriteria);
         ICollection<Friend> Friends(int id);
         ICollection<UserProfile> FriendProfiles(int id);
     }
