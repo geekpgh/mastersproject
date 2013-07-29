@@ -145,12 +145,9 @@ namespace BrewersBuddy.Tests.TestUtilities
             Recipe recipe = new Recipe();
             recipe.Name = name;
             recipe.AddDate = DateTime.Now;
-            recipe.Costs = "1.00";
+            //recipe.Cost = 1.00;
             recipe.Description = "Easy Recipe";
-            recipe.Prep = "Buy the booze";
-            recipe.Process = "Make the booze";
-            recipe.Finishing = "Takes Forever";
-            
+            //recipe.HowtoMakeit = "I don't know";
             recipe.OwnerId = owner.UserId;
 
             db.Recipes.Add(recipe);
