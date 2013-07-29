@@ -7,14 +7,12 @@ namespace BrewersBuddy.Migrations
     {
         public override void Up()
         {
-            DropColumn("dbo.Recipe", "HowLongtoFerment");
             DropColumn("dbo.Recipe", "WhenCanIDrinkIt");
         }
         
         public override void Down()
         {
             AddColumn("dbo.Recipe", "WhenCanIDrinkIt", c => c.String());
-            AddColumn("dbo.Recipe", "HowLongtoFerment", c => c.String());
         }
     }
 }
