@@ -7,12 +7,12 @@ namespace BrewersBuddy.Migrations
     {
         public override void Up()
         {
-            DropColumn("dbo.Recipe", "WhenCanIDrinkIt");
+                //Empty migration to sync the hashes
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Recipe", "WhenCanIDrinkIt", c => c.String());
+            //Empty migration to sync the hashes
         }
     }
 }
