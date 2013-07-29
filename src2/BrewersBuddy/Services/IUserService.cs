@@ -1,10 +1,16 @@
-﻿using System.Security.Principal;
+﻿using BrewersBuddy.Models;
+using System;
+using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace BrewersBuddy.Services
 {
-    public interface IUserService
+    public interface IUserService : IDisposable
     {
         IPrincipal GetCurrentUser();
         int GetCurrentUserId();
+        UserProfile Get(int id);
+        ICollection<Friend> Friends(int id);
+        ICollection<UserProfile> FriendProfiles(int id);
     }
 }

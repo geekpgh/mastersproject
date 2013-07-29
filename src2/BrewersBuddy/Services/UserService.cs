@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using BrewersBuddy.Models;
+using System.Collections.Generic;
+using System.Security.Principal;
 using System.Web;
 using WebMatrix.WebData;
 
@@ -6,6 +8,8 @@ namespace BrewersBuddy.Services
 {
     public class UserService : IUserService
     {
+        private BrewersBuddyContext db = new BrewersBuddyContext();
+
         public IPrincipal GetCurrentUser()
         {
             return HttpContext.Current.User;
@@ -19,6 +23,47 @@ namespace BrewersBuddy.Services
                 return 0;
 
             return WebSecurity.GetUserId(currentUser.Identity.Name);
+        }
+
+
+        public UserProfile getCurrentUser()
+        {
+            return Get(GetCurrentUserId());
+        }
+
+
+        public UserProfile Get(int id)
+        {
+            return db.UserProfiles.Find(id);
+        }
+
+        public ICollection<Friend> Friends(int id)
+        {
+            UserProfile user = Get(id);
+
+            return user.Friends;
+        }
+
+        public ICollection<UserProfile> FriendProfiles(int id)
+        {
+            ICollection<Friend> friends = Friends(id);
+            ICollection<UserProfile> friendProfiles = new List<UserProfile>();
+            foreach (Friend friend in friends)
+            {
+                //Don't double add or include the user themself
+                if (!friendProfiles.Contains(friend.User) && friend.UserId != id)
+                {
+                    friendProfiles.Add(friend.User);
+                }
+            }
+
+            return friendProfiles;
+        }
+
+        public void Dispose()
+        {
+            if (db != null)
+                db.Dispose();
         }
     }
 }

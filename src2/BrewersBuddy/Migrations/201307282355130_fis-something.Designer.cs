@@ -5,13 +5,13 @@ namespace BrewersBuddy.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class UpdateRecipeContent : IMigrationMetadata
+    public sealed partial class fissomething : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateRecipeContent));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fissomething));
         
         string IMigrationMetadata.Id
         {
-            get { return "201307282322096_Update-Recipe-Content"; }
+            get { return "201307282355130_fis-something"; }
         }
         
         string IMigrationMetadata.Source

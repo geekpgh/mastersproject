@@ -1,0 +1,41 @@
+﻿@using BrewersBuddy.Utilities;
+@model IEnumerable<BrewersBuddy.Models.Batch>
+
+
+@{
+    ViewBag.Title = "Shared";
+}
+
+<h2>Shared Batches</h2>
+<div class="subnav" data-spy="affix" data-offset-top="70">
+    <ul class="nav nav-pills">
+        @Html.SubmenuActionLink("My Batches", "Index", "Batch")
+        @Html.SubmenuActionLink("Shared Batches", "Shared", "Batch")
+        @Html.SubmenuActionLink("Create New", "Create", "Batch")
+    </ul>
+</div>
+
+<div class="index-list">
+@if (Model.Count() == 0) {
+    <div class="row">
+		<div class="span9">
+            Your friends haven't shared any batches yet, check back soon or get some more friends!
+        </div>
+    </div>
+}
+@foreach (var item in Model) {
+	<div class="row">
+		<div class="span9">
+            <h4>@Html.ActionLink(item.Name, "Details", new { id=item.BatchId })</h4>
+            <p>
+                @Html.DisplayFor(modelItem => item.Description)
+            </p>
+            <p>
+                <span class="label label-@item.Type.ToString().ToLower()">@item.Type.ToString().ToLower()</span>
+                <span class="label">@item.StartDate.ToShortDateString()</span>
+            </p>
+            <hr />
+		</div>
+	</div>
+}
+</div>
