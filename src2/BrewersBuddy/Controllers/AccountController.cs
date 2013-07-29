@@ -732,7 +732,7 @@ namespace BrewersBuddy.Controllers
 
             using (client)
             {
-                using (var message = new MailMessage("noreply@brewersbuddy.com", emailid))
+                using (var message = new MailMessage(appSettings["EmailUsername"], emailid))
                 {
                     message.Subject = subject;
                     message.IsBodyHtml = true;
