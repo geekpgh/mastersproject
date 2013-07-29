@@ -90,6 +90,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Details
         public ActionResult Details(int id = 0)
         {
+            CheckViewAuthorization(id);
             Container container = _containerService.Get(id);
             if (container == null)
             {
@@ -103,7 +104,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Edit
         public ActionResult Edit(int id = 0)
         {
-            CheckAuthorization(id);
+            CheckEditAuthorization(id);
             Container container = _containerService.Get(id);
 
             if (container == null)
@@ -120,7 +121,7 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Container container)
         {
-            CheckAuthorization(container.ContainerId);
+            CheckEditAuthorization(container.ContainerId);
 
             if (ModelState.IsValid)
             {
@@ -135,7 +136,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Container/Delete
         public ActionResult Delete(int id = 0)
         {
-            CheckAuthorization(id);
+            CheckEditAuthorization(id);
             Container container = _containerService.Get(id);
             if (container == null)
             {
@@ -150,21 +151,37 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CheckAuthorization(id);
+            CheckEditAuthorization(id);
             Container container = _containerService.Get(id);
             _containerService.Delete(container);
             return RedirectToAction("Index");
         }
 
 
-        private void CheckAuthorization(int containerId)
+        private void CheckViewAuthorization(int containerId)
         {
             int currentUser = _userService.GetCurrentUserId();
-            int containerOwner = _containerService.Get(containerId).OwnerId;
+            Container container = _containerService.Get(containerId);
 
-            if (containerOwner != currentUser)
+            if (!container.CanView(currentUser))
             {
-                throw new UnauthorizedAccessException("Cannot alter data you do not own.");
+                throw new UnauthorizedAccessException("Cannot view this data.");
+            }
+        }
+
+
+        private void CheckEditAuthorization(int containerId)
+        {
+            int currentUser = _userService.GetCurrentUserId();
+            Container container = _containerService.Get(containerId);
+
+            if (!container.CanEdit(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot edit data you do not own.");
+            }
+            else
+            {
+                ViewBag.CanEdit = true;
             }
         }
     }

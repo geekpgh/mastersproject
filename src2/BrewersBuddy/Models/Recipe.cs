@@ -21,6 +21,42 @@ namespace BrewersBuddy.Models
         public string Finishing { get; set; }
 
         public virtual ICollection<Ingredient> Ingredients { get; set; }
+
+        [ForeignKey("OwnerId")]
+        public virtual UserProfile Owner { get; set; }
+
+
+        public bool IsOwner(int userId)
+        {
+            return userId == OwnerId;
+        }
+
+
+        public bool CanEdit(int userId)
+        {
+            //Only the owner can edit
+            return IsOwner(userId);
+        }
+
+
+        public bool CanView(int userId)
+        {
+            if(IsOwner(userId))
+            {
+                return true;
+            }
+
+            //Friends may view
+            foreach(Friend friend in Owner.Friends)
+            {
+                if (friend.UserId == userId || friend.FriendUserId == userId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
 }

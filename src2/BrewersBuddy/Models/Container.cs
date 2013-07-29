@@ -50,6 +50,20 @@ namespace BrewersBuddy.Models
 
         [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
+
+
+        public bool CanView(int userId)
+        {
+            Batch batch = this.Batch;
+            return batch.CanView(userId);
+        }
+
+
+        public bool CanEdit(int userId)
+        {
+            Batch batch = this.Batch;
+            return batch.CanEdit(userId);
+        }
     }
 
 }

@@ -39,6 +39,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Recipe/Details/5
         public ActionResult Details(int id = 0)
         {
+            CheckViewAuthorization(id);
             Recipe Recipe = _recipeService.Get(id);
             if (Recipe == null)
             {
@@ -80,6 +81,7 @@ namespace BrewersBuddy.Controllers
 
 		public ActionResult Edit(int id = 0)
 		{
+            CheckEditAuthorization(id);
 			TempData["Success"] = string.Empty;
 			foreach (Recipe recipe in _recipeService.GetAllForUser(_userService.GetCurrentUserId()))
 			{
@@ -99,6 +101,7 @@ namespace BrewersBuddy.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(Recipe recipe)
 		{
+            CheckEditAuthorization(recipe.RecipeId);
 			if (ModelState.IsValid)
 			{
 				_recipeService.Update(recipe);
@@ -114,6 +117,7 @@ namespace BrewersBuddy.Controllers
         // GET: /Recipe/Delete/5
         public ActionResult Delete(int id = 0)
         {
+            CheckEditAuthorization(id);
             Recipe Recipe = _recipeService.Get(id);
             if (Recipe == null)
             {
@@ -129,9 +133,37 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            CheckEditAuthorization(id);
             Recipe recipe = _recipeService.Get(id);
             _recipeService.Delete(recipe);
             return RedirectToAction("Index");
+        }
+
+        private void CheckViewAuthorization(int recipeId)
+        {
+            int currentUser = _userService.GetCurrentUserId();
+            Recipe recipe = _recipeService.Get(recipeId);
+
+            if (!recipe.CanView(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot view this data.");
+            }
+        }
+
+
+        private void CheckEditAuthorization(int recipeId)
+        {
+            int currentUser = _userService.GetCurrentUserId();
+            Recipe recipe = _recipeService.Get(recipeId);
+
+            if (!recipe.CanEdit(currentUser))
+            {
+                throw new UnauthorizedAccessException("Cannot edit data you do not own.");
+            }
+            else
+            {
+                ViewBag.CanEdit = true;
+            }
         }
 
     }
