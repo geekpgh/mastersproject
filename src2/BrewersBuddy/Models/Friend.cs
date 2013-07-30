@@ -20,5 +20,8 @@ namespace BrewersBuddy.Models
 
 		public int FriendUserId { get; set; }
 
+        [ForeignKey("FriendUserId")]
+        public UserProfile FriendUser { get; set; }
+
 	}
 }

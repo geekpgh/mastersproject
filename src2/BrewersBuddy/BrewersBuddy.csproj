@@ -380,6 +380,10 @@
     <Compile Include="Migrations\201307290208514_recipe-container-owner.Designer.cs">
       <DependentUpon>201307290208514_recipe-container-owner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307300022159_friend-user.cs" />
+    <Compile Include="Migrations\201307300022159_friend-user.Designer.cs">
+      <DependentUpon>201307300022159_friend-user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -741,6 +745,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307290208514_recipe-container-owner.resx">
       <DependentUpon>201307290208514_recipe-container-owner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307300022159_friend-user.resx">
+      <DependentUpon>201307300022159_friend-user.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
