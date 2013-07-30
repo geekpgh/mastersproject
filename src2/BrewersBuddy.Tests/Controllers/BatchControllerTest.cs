@@ -257,6 +257,21 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
+        public void TestDetailsWithNonExistingBatchReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchController controller = new BatchController(batchService, ratingService, userService);
+
+            ActionResult result = controller.Details(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
         public void TestBatchEdit()
         {
             // Set up the controller
@@ -307,6 +322,21 @@ namespace BrewersBuddy.Tests.Controllers
                 resultIs = "UnauthorizedAccessException";
             }
             Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
+
+        [Test]
+        public void TestEditWithNonExistingBatchReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchController controller = new BatchController(batchService, ratingService, userService);
+
+            ActionResult result = controller.Edit(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]
@@ -378,6 +408,21 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.NotNull(view.Model);
             Assert.IsInstanceOf<Batch>(view.Model);
             Assert.AreEqual(batch.Name, returnedBatch.Name);
+        }
+
+        [Test]
+        public void TestDeleteWithNonExistingBatchReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchController controller = new BatchController(batchService, ratingService, userService);
+
+            ActionResult result = controller.Delete(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]

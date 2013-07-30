@@ -117,8 +117,6 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
-            userService.GetCurrentUserId().Returns(1);
-
             var recipeService = Substitute.For<IRecipeService>();
 
             RecipeController controller = new RecipeController(recipeService, userService);
@@ -126,6 +124,31 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Details(0);
 
             Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
+        public void TestRecipeUserCannotView()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var recipeService = Substitute.For<IRecipeService>();
+
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Recipe recipe = TestUtils.createRecipe(context, "Awesome Recipe", bob);
+            recipeService.Get(1).Returns(recipe);
+
+            RecipeController controller = new RecipeController(recipeService, userService);
+
+            var resultIs = "";
+            try
+            {
+                ActionResult result = controller.Details(1);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                resultIs = "UnauthorizedAccessException";
+            }
+            Assert.AreEqual("UnauthorizedAccessException", resultIs);
         }
 
         [Test]
@@ -157,7 +180,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestRecipeUserCannotEdit()
+        public void TestRecipeNotFound()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -174,6 +197,30 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
+        [Test]
+        public void TestRecipeUserCannotEdit()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var recipeService = Substitute.For<IRecipeService>();
+
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Recipe recipe = TestUtils.createRecipe(context, "Awesome Recipe", bob);
+            recipeService.Get(1).Returns(recipe);
+
+            RecipeController controller = new RecipeController(recipeService, userService);
+
+            var resultIs = "";
+            try
+            {
+                ActionResult result = controller.Edit(1);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                resultIs = "UnauthorizedAccessException";
+            }
+            Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
         [Test]
         public void TestRecipeEditPost()
         {
@@ -252,8 +299,6 @@ namespace BrewersBuddy.Tests.Controllers
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
-            userService.GetCurrentUserId().Returns(1);
-
             var recipeService = Substitute.For<IRecipeService>();
 
             RecipeController controller = new RecipeController(recipeService, userService);

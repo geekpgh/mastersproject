@@ -70,12 +70,12 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Details/5
         public ActionResult Details(int id = 0)
         {
-            CheckViewAuthorization(id);
             Batch batch = _batchService.Get(id);
             if (batch == null)
             {
                 return HttpNotFound();
             }
+            CheckViewAuthorization(id);
 
             int currentUserId = _userService.GetCurrentUserId();
 
@@ -135,13 +135,13 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            CheckEditAuthorization(id);
             Batch batch = _batchService.Get(id);
 
             if (batch == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
 
             return View(batch);
         }
@@ -168,12 +168,12 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            CheckEditAuthorization(id);
             Batch batch = _batchService.Get(id);
             if (batch == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
             return View(batch);
         }
 

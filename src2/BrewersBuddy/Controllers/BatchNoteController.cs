@@ -76,12 +76,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            CheckViewAuthorization(id);
             BatchNote batchNote = _noteService.Get(id);
             if (batchNote == null)
             {
                 return HttpNotFound();
             }
+            CheckViewAuthorization(id);
 
             //See if they can edit so we can disable things if this is read only
             //This removed all buttons from the view that require edit privs.
@@ -96,12 +96,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            CheckEditAuthorization(id);
             BatchNote note = _noteService.Get(id);
             if (note == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
 
             return View(note);
         }
@@ -127,12 +127,12 @@ namespace BrewersBuddy.Controllers
         // GET: /Batch/Delete/5
         public ActionResult Delete(int id = 0)
         {
-            CheckEditAuthorization(id);
             BatchNote note = _noteService.Get(id);
             if (note == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
             return View(note);
         }
 

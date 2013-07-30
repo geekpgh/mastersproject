@@ -328,7 +328,36 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.AreEqual(container.Name, returnedContainer.Name);
         }
 
-       [Test]
+        [Test]
+        public void TestContainerUserCannotView()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(0);
+
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
+
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
+
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+            var resultIs = "";
+            try
+            {
+                ActionResult result = controller.Details(1);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                resultIs = "UnauthorizedAccessException";
+            }
+            Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
+
+        [Test]
         public void TestContainerDeleteConfirmed()
         {
             // Set up the controller
@@ -409,6 +438,21 @@ namespace BrewersBuddy.Tests.Controllers
        }
 
        [Test]
+       public void TestDeleteWithNonExistingContainerReturnsNotFound()
+       {
+           // Set up the controller
+           var userService = Substitute.For<IUserService>();
+           var batchService = Substitute.For<IBatchService>();
+           var containerService = Substitute.For<IContainerService>();
+
+           ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+           ActionResult result = controller.Delete(0);
+
+           Assert.IsInstanceOf<HttpNotFoundResult>(result);
+       }
+
+       [Test]
        public void TestContainerEditPost()
        {
            // Set up the controller
@@ -457,6 +501,21 @@ namespace BrewersBuddy.Tests.Controllers
            Assert.NotNull(view.Model);
            Assert.IsInstanceOf<Container>(view.Model);
            Assert.AreEqual(container.Name, returnedContainer.Name);
+       }
+
+       [Test]
+       public void TestEditWithNonExistingContainerReturnsNotFound()
+       {
+           // Set up the controller
+           var userService = Substitute.For<IUserService>();
+           var batchService = Substitute.For<IBatchService>();
+           var containerService = Substitute.For<IContainerService>();
+
+           ContainerController controller = new ContainerController(batchService, containerService, userService);
+
+           ActionResult result = controller.Edit(0);
+
+           Assert.IsInstanceOf<HttpNotFoundResult>(result);
        }
 
        [Test]

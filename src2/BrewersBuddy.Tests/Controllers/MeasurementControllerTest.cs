@@ -272,6 +272,21 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
+        public void TestDetailsWithNonExistingMeasurementReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var measurementService = Substitute.For<IMeasurementService>();
+
+            MeasurementController controller = new MeasurementController(measurementService, userService, batchService);
+
+            ActionResult result = controller.Details(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
         public void TestMeasurementEdit()
         {
             // Set up the controller
@@ -326,6 +341,21 @@ namespace BrewersBuddy.Tests.Controllers
                 resultIs = "UnauthorizedAccessException";
             }
             Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
+
+        [Test]
+        public void TestEditWithNonExistingMeasurementReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var measurementService = Substitute.For<IMeasurementService>();
+
+            MeasurementController controller = new MeasurementController(measurementService, userService, batchService);
+
+            ActionResult result = controller.Edit(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]
@@ -403,6 +433,21 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.NotNull(view.Model);
             Assert.IsInstanceOf<Measurement>(view.Model);
             Assert.AreEqual(measurement.Name, returnedmeasurement.Name);
+        }
+
+        [Test]
+        public void TestDeleteWithNonExistingMeasurementReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var measurementService = Substitute.For<IMeasurementService>();
+
+            MeasurementController controller = new MeasurementController(measurementService, userService, batchService);
+
+            ActionResult result = controller.Delete(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]

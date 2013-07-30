@@ -242,6 +242,21 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
+        public void TestDetailsWithNonExistingNoteReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var noteService = Substitute.For<IBatchNoteService>();
+
+            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+
+            ActionResult result = controller.Details(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
         public void TestBatchNoteEdit()
         {
             // Set up the controller
@@ -294,6 +309,21 @@ namespace BrewersBuddy.Tests.Controllers
                 resultIs = "UnauthorizedAccessException";
             }
             Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
+
+        [Test]
+        public void TestEditWithNonExistingNoteReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var noteService = Substitute.For<IBatchNoteService>();
+
+            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+
+            ActionResult result = controller.Edit(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]
@@ -368,6 +398,21 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.NotNull(view.Model);
             Assert.IsInstanceOf<BatchNote>(view.Model);
             Assert.AreEqual(note.Text, returnedNote.Text);
+        }
+
+        [Test]
+        public void TestDeleteWithNonExistingNoteReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var noteService = Substitute.For<IBatchNoteService>();
+
+            BatchNoteController controller = new BatchNoteController(batchService, noteService, userService);
+
+            ActionResult result = controller.Delete(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]

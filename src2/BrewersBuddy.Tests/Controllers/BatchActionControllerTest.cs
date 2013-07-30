@@ -274,6 +274,21 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
+        public void TestDetailsWithNonExistingActionReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
+
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
+
+            ActionResult result = controller.Details(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
         public void TestBatchActionEdit()
         {
             // Set up the controller
@@ -326,6 +341,21 @@ namespace BrewersBuddy.Tests.Controllers
                 resultIs = "UnauthorizedAccessException";
             }
             Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
+
+        [Test]
+        public void TestEditWithNonExistingActionReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
+
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
+
+            ActionResult result = controller.Edit(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
         }
 
         [Test]
@@ -403,7 +433,22 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestBatchActionDeleteNoteConfirmed()
+        public void TestDeleteWithNonExistingActionReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var batchActionService = Substitute.For<IBatchActionService>();
+
+            BatchActionController controller = new BatchActionController(batchActionService, batchService, userService);
+
+            ActionResult result = controller.Delete(0);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
+
+        [Test]
+        public void TestBatchActionDeleteConfirmed()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();

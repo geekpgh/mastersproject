@@ -84,12 +84,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            CheckViewAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
             }
+            CheckViewAuthorization(id);
 
             //See if they can edit so we can disable things if this is read only
             //This removed all buttons from the view that require edit privs.
@@ -104,12 +104,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            CheckEditAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
             return View(measurement);
         }
 
@@ -134,12 +134,12 @@ namespace BrewersBuddy.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            CheckEditAuthorization(id);
             Measurement measurement = _measurementService.Get(id);
             if (measurement == null)
             {
                 return HttpNotFound();
             }
+            CheckEditAuthorization(id);
             return View(measurement);
         }
 
