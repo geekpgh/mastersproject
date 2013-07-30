@@ -8,6 +8,7 @@ using NSubstitute;
 using BrewersBuddy.Services;
 using System.Collections.Generic;
 using System;
+using System.Security.Principal;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -26,6 +27,27 @@ namespace BrewersBuddy.Tests.Controllers
                 .GetCustomAttributes(typeof(AuthorizeAttribute), true);
 
             Assert.AreEqual(0, methodAttributes.Length);
+        }
+
+        [Test]
+        public void TestRedirectToBatchIndexForAuthenticatedUser()
+        {
+            var identity = Substitute.For<IIdentity>();
+            identity.Name.Returns("user1");
+
+            var principal = Substitute.For<IPrincipal>();
+            principal.Identity.Returns(identity);
+
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUser().Returns(principal);
+
+            HomeController controller = new HomeController(userService);
+
+            RedirectToRouteResult result = controller.Index() as RedirectToRouteResult;
+
+            Assert.NotNull(result);
+            Assert.AreEqual("Batch", result.RouteValues["Controller"]);
+            Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
     }
 }

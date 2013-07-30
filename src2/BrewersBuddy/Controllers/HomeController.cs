@@ -4,21 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrewersBuddy.Services;
+using System.Security.Principal;
 
 namespace BrewersBuddy.Controllers
 {
     public class HomeController : Controller
     {
+        private IUserService _userService;
+
+        public HomeController(IUserService userService)
+        {
+            if (userService == null)
+                throw new ArgumentNullException("userService");
+
+            _userService = userService;
+        }
+
         public ActionResult Index()
         {
-			if (string.IsNullOrWhiteSpace(User.Identity.Name))
+            IPrincipal currentUser = _userService.GetCurrentUser();
+
+			if (currentUser != null)
 			{
-				TempData["ShowButton"] = true;
+                return RedirectToAction("Index", "Batch");
 			}
-			else
-			{
-				TempData["ShowButton"] = false;
-			}
+
             return View();
         }
     }
