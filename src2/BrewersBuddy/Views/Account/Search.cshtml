@@ -1,4 +1,7 @@
-﻿@model IEnumerable<BrewersBuddy.Models.UserProfile>
+﻿@using BrewersBuddy.Models;
+@using System.Linq;
+
+@model IEnumerable<BrewersBuddy.Models.UserProfile>
 
 @{
     ViewBag.Title = "Friend Results";
@@ -43,7 +46,14 @@ else {
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td align="center">
-            @Html.ActionLink("Add Friend", "FriendsList",  new { ID = item.UserId })
+            @if (((IEnumerable<int>)ViewBag.FriendIds).Contains(item.UserId))
+            {
+                <div>Already Friends</div>
+            }
+            else 
+            {
+                @Html.ActionLink("Add Friend", "FriendsList",  new { ID = item.UserId })
+            }
             </td>
         </tr>
     }

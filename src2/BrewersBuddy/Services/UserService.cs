@@ -28,12 +28,15 @@ namespace BrewersBuddy.Services
 
         public IEnumerable<UserProfile> Find(UserSearchCriteria searchCriteria)
         {
+            int currentUserId = GetCurrentUserId();
+
             return from user in db.UserProfiles
                         where 
-                            user.UserName.Equals(searchCriteria.UserName, System.StringComparison.OrdinalIgnoreCase)
+                            (user.UserName.Equals(searchCriteria.UserName, System.StringComparison.OrdinalIgnoreCase)
                             || user.FirstName.Equals(searchCriteria.FirstName, System.StringComparison.OrdinalIgnoreCase)
                             || user.LastName.Equals(searchCriteria.LastName, System.StringComparison.OrdinalIgnoreCase)
-                            || user.Zip.Equals(searchCriteria.Zipcode, System.StringComparison.OrdinalIgnoreCase)
+                            || user.Zip.Equals(searchCriteria.Zipcode, System.StringComparison.OrdinalIgnoreCase))
+                            && user.UserId != currentUserId
                         select user;
         }
 

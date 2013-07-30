@@ -406,6 +406,9 @@ namespace BrewersBuddy.Controllers
 				Zipcode = zipcode
             });
 
+            int currentUserId = _userService.GetCurrentUserId();
+            ViewBag.FriendIds = _userService.Friends(currentUserId).Select(friend => friend.FriendUserId);
+
             return View(users);
         }
 
