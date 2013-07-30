@@ -66,7 +66,7 @@ namespace BrewersBuddy.Controllers
 
             double average = 0;
             if (batch.Ratings != null && batch.Ratings.Count > 0)
-                average = batch.Ratings.Average(rating => rating.Rating);
+                average = Math.Round(batch.Ratings.Average(rating => rating.Rating), 0);
 
             return Json(average, JsonRequestBehavior.AllowGet);
         }

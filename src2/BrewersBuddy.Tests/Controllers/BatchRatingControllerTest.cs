@@ -222,7 +222,7 @@ namespace BrewersBuddy.Tests.Controllers
         }
 
         [Test]
-        public void TestAverageReturnsAverage()
+        public void TestAverageReturnsAverageRoundedToZeroDecimals()
         {
             // Set up the controller
             var userService = Substitute.For<IUserService>();
@@ -249,7 +249,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.IsInstanceOf<JsonResult>(result);
 
-            Assert.AreEqual(41.4, ((JsonResult)result).Data);
+            Assert.AreEqual(41, ((JsonResult)result).Data);
         }
 
         [Test]

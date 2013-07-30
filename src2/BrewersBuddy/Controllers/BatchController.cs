@@ -92,7 +92,7 @@ namespace BrewersBuddy.Controllers
                 ViewBag.UserRating = "N/A";
 
             if (batch.Ratings.Count > 0)
-                ViewBag.AverageRating = batch.Ratings.Average(rating => rating.Rating).ToString();
+                ViewBag.AverageRating = Math.Round(batch.Ratings.Average(rating => rating.Rating), 0).ToString();
             else
                 ViewBag.AverageRating = "N/A";
 
