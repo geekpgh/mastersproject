@@ -473,6 +473,7 @@ namespace BrewersBuddy.Controllers
                 newFriend.UserId = main.UserId;
                 newFriend.FriendUserId = upFriend.UserId;
                 newFriend.User = main;
+                newFriend.FriendUser = upFriend;
 
                 main.Friends.Add(newFriend);
                 db.Entry(main).State = System.Data.EntityState.Modified;

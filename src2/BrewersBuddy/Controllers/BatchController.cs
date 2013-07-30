@@ -51,9 +51,9 @@ namespace BrewersBuddy.Controllers
 
             foreach(UserProfile friendProfile in friendProfiles)
             {
-                IEnumerable<Batch> baches = _batchService.GetAllForUser(friendProfile.UserId);
+                IEnumerable<Batch> batches = _batchService.GetAllForUser(friendProfile.UserId);
 
-                foreach (Batch batch in friendBatches)
+                foreach (Batch batch in batches)
                 {
                     if (!friendBatches.Contains(batch))
                     {

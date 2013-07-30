@@ -132,7 +132,6 @@ namespace BrewersBuddy.Tests.Models
 			Friend newFriend = new Friend();
 			newFriend.UserId = bob.UserId;
 			newFriend.FriendUserId = fred.UserId;
-			newFriend.User = bob;
 
 			bob.Friends.Add(newFriend);
             context.SaveChanges();

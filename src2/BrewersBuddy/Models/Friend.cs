@@ -14,14 +14,13 @@ namespace BrewersBuddy.Models
 		public int FriendId { get; set; }
 		[Required]
 		public int UserId { get; set; }
-		
-		[ForeignKey("UserId")]
-		public UserProfile User { get; set; }
 
 		public int FriendUserId { get; set; }
 
         [ForeignKey("FriendUserId")]
-        public UserProfile FriendUser { get; set; }
+        public virtual UserProfile FriendUser { get; set; }
 
+        [ForeignKey("UserId")]
+        public virtual UserProfile User { get; set; }
 	}
 }
