@@ -48,7 +48,7 @@ namespace BrewersBuddy.Controllers
 
             IEnumerable<BatchRating> ratings = _ratingService.GetAllForBatch(batchId);
 
-            return PartialView(ratings);
+            return PartialView(ratings.ToList());
         }
 
         public ActionResult Average(int batchId = 0)
