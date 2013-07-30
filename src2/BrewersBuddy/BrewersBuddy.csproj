@@ -614,7 +614,7 @@
     <Content Include="Views\BatchRating\Index.cshtml" />
     <Content Include="Views\Batch\_CommentPartial.cshtml" />
     <Content Include="Views\Recipe\Edit.cshtml" />
-    <Content Include="Views\Batch\Shared.cshtml" />
+    <Content Include="Views\Batch\Friends.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\_SearchForm.cshtml" />
     <Content Include="Views\Account\Search.cshtml" />

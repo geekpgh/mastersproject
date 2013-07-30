@@ -43,7 +43,7 @@ namespace BrewersBuddy.Controllers
 
         //
         // GET: /Batch/
-        public ActionResult Shared()
+        public ActionResult Friends()
         {
             int currentUserId = _userService.GetCurrentUserId();
             ICollection<UserProfile> friendProfiles = _userService.FriendProfiles(currentUserId);

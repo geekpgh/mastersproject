@@ -5,11 +5,11 @@
     ViewBag.Title = "All Batches";
 }
 
-<h2>All Batches</h2>
+<h2>My Batches</h2>
 <div class="subnav" data-spy="affix" data-offset-top="70">
     <ul class="nav nav-pills">
         @Html.SubmenuActionLink("My Batches", "Index", "Batch")
-        @Html.SubmenuActionLink("Shared Batches", "Shared", "Batch")
+        @Html.SubmenuActionLink("Friend's Batches", "Friends", "Batch")
         @Html.SubmenuActionLink("Create New", "Create", "Batch")
     </ul>
 </div>
