@@ -60,6 +60,13 @@ namespace BrewersBuddy.Services
                 {
                     friendProfiles.Add(friend.User);
                 }
+
+                //Don't double add or include the user themself
+                if (!friendProfiles.Contains(friend.FriendUser) && friend.FriendUserId != id)
+                {
+                    friendProfiles.Add(friend.FriendUser);
+                }
+
             }
 
             return friendProfiles;

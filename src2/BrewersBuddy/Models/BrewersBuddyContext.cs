@@ -58,6 +58,11 @@ namespace BrewersBuddy.Models
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Friend>()
+                .HasRequired(t => t.FriendUser)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
             // Set up the many-to-many relationship between batches
             // and collaborators
             modelBuilder.Entity<Batch>()
