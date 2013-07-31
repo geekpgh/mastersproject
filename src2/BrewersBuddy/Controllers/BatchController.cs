@@ -42,7 +42,7 @@ namespace BrewersBuddy.Controllers
         }
 
         //
-        // GET: /Batch/
+        // GET: /Batch/Friends
         public ActionResult Friends()
         {
             int currentUserId = _userService.GetCurrentUserId();

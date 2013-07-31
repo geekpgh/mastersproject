@@ -10,16 +10,6 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>RecipeInfo</legend>
-
-        @if (! String.IsNullOrEmpty(TempData["Success"].ToString()))
-        {
-            <div class="success">
-                <p style="color:red;font-size:x-large"> @TempData["Success"] </p>
-            </div>
-        }
-
         @Html.HiddenFor(model => model.RecipeId)
         @Html.HiddenFor(model => model.AddDate)
         @Html.HiddenFor(model => model.OwnerId)
@@ -69,10 +59,9 @@
             @Html.ValidationMessageFor(model => model.Costs)
         </div> 
         <p>
-            <input type="submit" value="Save" />
-            <br><br>
+            <input class="btn btn-success" type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Details", "Recipe", new { id = Model.RecipeId }, new { @class = "btn btn-danger" })
         </p>
-    </fieldset>
 }
 
 @section Scripts {

@@ -39,15 +39,23 @@ namespace BrewersBuddy.Controllers
         // GET: /Recipe/Details/5
         public ActionResult Details(int id = 0)
         {
-            Recipe Recipe = _recipeService.Get(id);
-            if (Recipe == null)
+            Recipe recipe = _recipeService.Get(id);
+            if (recipe == null)
             {
                 return HttpNotFound();
             }
 
             CheckViewAuthorization(id);
 
-            return View(Recipe);
+            int currentUserId = _userService.GetCurrentUserId();
+
+            //See if they can edit so we can disable things if this is read only
+            //This removed all buttons from the view that require edit privs.
+            ViewBag.CanEdit = recipe.CanEdit(currentUserId);
+            //If they aren't the owner remove the add collaborator links
+            ViewBag.IsOwner = recipe.IsOwner(currentUserId);
+
+            return View(recipe);
         }
 
         //
@@ -143,6 +151,32 @@ namespace BrewersBuddy.Controllers
             _recipeService.Delete(recipe);
             return RedirectToAction("Index");
         }
+
+
+        //
+        // GET: /Recipe/Friends
+        public ActionResult Friends()
+        {
+            int currentUserId = _userService.GetCurrentUserId();
+            ICollection<UserProfile> friendProfiles = _userService.FriendProfiles(currentUserId);
+            List<Recipe> friendRecipess = new List<Recipe>();
+
+            foreach (UserProfile friendProfile in friendProfiles)
+            {
+                IEnumerable<Recipe> recipes = _recipeService.GetAllForUser(friendProfile.UserId);
+
+                foreach (Recipe recipe in recipes)
+                {
+                    if (!friendRecipess.Contains(recipe))
+                    {
+                        friendRecipess.Add(recipe);
+                    }
+                }
+            }
+
+            return View(friendRecipess);
+        }
+
 
         private void CheckViewAuthorization(int recipeId)
         {

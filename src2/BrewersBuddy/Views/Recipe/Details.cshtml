@@ -6,8 +6,20 @@
 
 <h2>Details</h2>
 
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Information</h4>
+    </div>
+    <div class="span8" >
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=Model.RecipeId }, new { @class = "btn btn-success btn-small" }) 
+            @Html.ActionLink("Delete", "Delete", new { id=Model.RecipeId }, new { @class = "btn btn btn-danger btn-small" })
+        }
+     </div>
+</div>
 
-<table>
+<table class="table table-striped">
 
     <tr>
         <th class="display-label">
@@ -59,7 +71,4 @@
 
 <br>
 
-
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })

@@ -4,14 +4,24 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<div class="row">
+	<div class="span9">
+		<div class="subhead">
+			@Html.ActionLink("< My Recipes", "Index", "Recipe", null, htmlAttributes: new { @class = "subnav" })
+			<h1>Create</h1>
+		</div>
+	</div>
+</div>
+
+
+
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Recipe</legend>
+    <div class="content row">
+         <div class="span9">
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -58,14 +68,14 @@
             @Html.ValidationMessageFor(model => model.Costs)
         </div>
         <p>
-            <input type="submit" value="Create" />
+            <p>
+                <input class="btn btn-success" type="submit" value="Save" />
+                @Html.ActionLink("Cancel", "Index", "Recipe", null, new { @class = "btn btn-danger" })
+            </p>
         </p>
-    </fieldset>
+    </div>
+   </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

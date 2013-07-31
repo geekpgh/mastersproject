@@ -2,13 +2,13 @@
 @model BrewersBuddy.Models.Batch
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Batch";
 }
 
 <div class="row">
 	<div class="span9">
 		<div class="subhead">
-			@Html.ActionLink("< All Batches", "Index", "Batch", null, htmlAttributes: new { @class = "subnav" })
+			@Html.ActionLink("< My Batches", "Index", "Batch", null, htmlAttributes: new { @class = "subnav" })
 			<h1>Create</h1>
 		</div>
 	</div>
@@ -46,6 +46,7 @@
 
             <p>
                 <input class="btn btn-success" type="submit" value="Save" />
+                @Html.ActionLink("Cancel", "Index", "Batch", null, new { @class = "btn btn-danger" })
             </p>
         </fieldset>
         }

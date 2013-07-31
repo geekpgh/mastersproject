@@ -618,6 +618,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\_SearchForm.cshtml" />
     <Content Include="Views\Account\Search.cshtml" />
+    <Content Include="Views\Recipe\Friends.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
