@@ -44,7 +44,7 @@ namespace BrewersBuddy.Controllers
         }
 
         //
-        // POST: /BatchRating/Create
+        // POST: /BatchNote/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(BatchNote note)
@@ -108,7 +108,7 @@ namespace BrewersBuddy.Controllers
 
 
         //
-        // POST: /Batch/Edit/5
+        // POST: /BatchNote/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BatchNote note)
@@ -124,7 +124,7 @@ namespace BrewersBuddy.Controllers
 
 
         //
-        // GET: /Batch/Delete/5
+        // GET: /BatchNote/Delete/5
         public ActionResult Delete(int id = 0)
         {
             BatchNote note = _noteService.Get(id);
@@ -137,7 +137,7 @@ namespace BrewersBuddy.Controllers
         }
 
         //
-        // POST: /Batch/Delete/5
+        // POST: /BatchNote/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteNoteConfirmed(int id = 0)

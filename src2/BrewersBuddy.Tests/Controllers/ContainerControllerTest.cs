@@ -220,6 +220,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Create(container);
 
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(999, ((Container)((ViewResult)result).Model).BatchId);
         }
 
         [Test]
@@ -539,6 +540,8 @@ namespace BrewersBuddy.Tests.Controllers
            ActionResult result = controller.Edit(container);
 
            Assert.IsInstanceOf<ViewResult>(result);
+           // Container type value for Bottle = 0
+           Assert.AreEqual(0, ((Container)((ViewResult)result).Model).ContainerTypeValue);
        }
 
 

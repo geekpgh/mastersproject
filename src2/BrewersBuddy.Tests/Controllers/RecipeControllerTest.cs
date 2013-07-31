@@ -78,6 +78,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             var recipeService = Substitute.For<IRecipeService>();
             Recipe recipe = new Recipe();
+            recipe.Name = "Test Recipe";
 
             RecipeController controller = new RecipeController(recipeService, userService);
 
@@ -86,6 +87,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Create(recipe);
 
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual("Test Recipe", ((Recipe)((ViewResult)result).Model).Name);
         }
 
         [Test]

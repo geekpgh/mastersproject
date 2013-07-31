@@ -185,6 +185,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             var batchService = Substitute.For<IBatchService>();
             Batch batch = new Batch();
+            batch.Name = "Test Batch";
 
             var ratingService = Substitute.For<IBatchRatingService>();
 
@@ -195,6 +196,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Create(batch);
 
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual("Test Batch", ((Batch)((ViewResult)result).Model).Name);
         }
 
         [Test]
@@ -383,6 +385,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Edit(batch);
 
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual("Test", ((Batch)((ViewResult)result).Model).Name);
         }
 
         [Test]

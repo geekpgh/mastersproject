@@ -7,6 +7,8 @@ using NUnit.Framework;
 using NSubstitute;
 using BrewersBuddy.Services;
 using System.Collections.Generic;
+using BrewersBuddy.Tests.TestUtilities;
+using System;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -25,7 +27,7 @@ namespace BrewersBuddy.Tests.Controllers
 		}
 
 		[Test]
-		public void UserLogin_TEST()
+		public void UserLoginModelInvalid_TEST()
 		{
 			// Set up the controller
 			var userService = Substitute.For<IUserService>();
@@ -44,7 +46,31 @@ namespace BrewersBuddy.Tests.Controllers
 			Assert.AreEqual("NUNIT_Test", ((LoginModel)((ViewResult)result).Model).UserName);
 		}
 
-		//[Test]
+        [Test]
+        public void TestCreateBatchPost()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(999);
+
+            var batchService = Substitute.For<IBatchService>();
+            Batch batch = new Batch();
+
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchController controller = new BatchController(batchService, ratingService, userService);
+
+            ActionResult result = controller.Create(batch);
+            RedirectToRouteResult view = result as RedirectToRouteResult;
+
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.NotNull(view.RouteValues);
+            Assert.IsNotNull(batch.StartDate);
+            Assert.AreEqual(batch.OwnerId, 999);
+            Assert.AreEqual("Index", view.RouteValues["action"]);
+        }
+        
+//[Test]
 		//public void UserLogoff_TEST()
 		//{
 		//	// Set up the controller
@@ -94,14 +120,8 @@ namespace BrewersBuddy.Tests.Controllers
 		public void UserCanEditAccountInformation_TEST()
 		{
 			// Act
-			UserProfile userProfile = new UserProfile();
+            UserProfile userProfile = TestUtils.createUser(context, "Bob", "Smith");
 			userProfile.UserName = "NUNIT_Test";
-			userProfile.Email = "NUNIT@Test.com";
-			userProfile.FirstName = "Nunit";
-			userProfile.LastName = "Test";
-			userProfile.City = "Brewery";
-			userProfile.State = "KS";
-			userProfile.Zip = "12345";
 
 			context.UserProfiles.Add(userProfile);
 			context.SaveChanges();
@@ -119,22 +139,31 @@ namespace BrewersBuddy.Tests.Controllers
 			context.SaveChanges();
 		}
 
+        [Test]
+        public void TestUserCanEditAccountInformation()
+        {
+            // Act
+            var userService = Substitute.For<IUserService>();
+            UserProfile userProfile = TestUtils.createUser(context, "Bob", "Smith");
+            AccountController controller = new AccountController(userService);
 
-		[Test]
+            // Verify user was created
+            Assert.AreEqual("Bob", context.UserProfiles.Find(userProfile.UserId).FirstName);
+
+            userProfile.FirstName = "Fred";
+            ActionResult result = controller.Edit(userProfile);
+
+            // Verify user has changed
+            Assert.AreEqual("Fred", ((UserProfile)((ViewResult)result).Model).FirstName);
+        }
+
+        [Test]
 		public void TestRemoveAccount()
 		{
 			// Act
-			UserProfile userProfile = new UserProfile();
-			userProfile.UserName = "NUNIT_Test";
-			userProfile.Email = "NUNIT@Test.com";
-			userProfile.FirstName = "Nunit";
-			userProfile.LastName = "Test";
-			userProfile.City = "Brewery";
-			userProfile.State = "KS";
-			userProfile.Zip = "12345";
-
-			context.UserProfiles.Add(userProfile);
-			context.SaveChanges();
+            UserProfile userProfile = TestUtils.createUser(context, "Bob", "Smith");
+            userProfile.UserName = "NUNIT_Test";
+            context.SaveChanges();
 
 			UserProfile user = context.UserProfiles.FirstOrDefault(item => item.UserName == "NUNIT_Test");
 			Assert.AreNotEqual(user, null);
@@ -150,26 +179,14 @@ namespace BrewersBuddy.Tests.Controllers
 		public void UserCanEnterZipToFindBrewers_TEST()
 		{
 			// Act
-			UserProfile userProfile = new UserProfile();
-			userProfile.UserName = "NUNIT_Test";
-			userProfile.Email = "NUNIT@Test.com";
-			userProfile.FirstName = "Nunit";
-			userProfile.Zip = "12345";
-			context.UserProfiles.Add(userProfile);
+            UserProfile userProfile = TestUtils.createUser(context, "Bob", "Smith");
+            userProfile.Zip = "12345";
 
-			UserProfile userProfile2 = new UserProfile();
-			userProfile2.UserName = "NUNIT2_Test";
-			userProfile2.Email = "NUNIT2@Test.com";
-			userProfile2.FirstName = "Nunit2";
-			userProfile2.Zip = "12345";
-			context.UserProfiles.Add(userProfile2);
+            UserProfile userProfile2 = TestUtils.createUser(context, "Bob", "Smith");
+            userProfile2.Zip = "12345";
 
-			UserProfile userProfile3 = new UserProfile();
-			userProfile3.UserName = "NUNIT3_Test";
-			userProfile3.Email = "NUNIT3@Test.com";
-			userProfile3.FirstName = "Nunit3";
-			userProfile3.Zip = "12345";
-			context.UserProfiles.Add(userProfile3);
+            UserProfile userProfile3 = TestUtils.createUser(context, "Bob", "Smith");
+            userProfile3.Zip = "12345";
 
 			context.SaveChanges();
 
@@ -183,6 +200,68 @@ namespace BrewersBuddy.Tests.Controllers
 			}
 			context.SaveChanges();
 		}
+
+        [Test]
+        public void TestAccountRegister()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            AccountController controller = new AccountController(userService);
+
+            ActionResult result = controller.Register();
+
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void TestAccountIndex()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            AccountController controller = new AccountController(userService);
+
+            ActionResult result = controller.Index();
+
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void TestAccountLogin()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            AccountController controller = new AccountController(userService);
+            var url = "Test URL";
+
+            ActionResult result = controller.Login(url);
+
+            Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(url, (((ViewResult)result).ViewBag).ReturnUrl);
+        }
+
+        [Test]
+        public void TestAccountExternalLoginFailure()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            AccountController controller = new AccountController(userService);
+
+            ActionResult result = controller.ExternalLoginFailure();
+
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void TestNullUserServiceThrowsArgumentNullException()
+        {
+            var userService = Substitute.For<IUserService>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+                new AccountController(null)
+                );
+        }
+
+
 
 	}
 }

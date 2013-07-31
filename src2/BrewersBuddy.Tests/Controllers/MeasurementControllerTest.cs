@@ -212,6 +212,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Create(measurement);
 
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual(999, ((Measurement)((ViewResult)result).Model).BatchId);
         }
 
         [Test]
@@ -406,6 +407,7 @@ namespace BrewersBuddy.Tests.Controllers
             ActionResult result = controller.Edit(measurement);
                     
             Assert.IsInstanceOf<ViewResult>(result);
+            Assert.AreEqual("Test Name", ((Measurement)((ViewResult)result).Model).Name);
         }
 
         [Test]

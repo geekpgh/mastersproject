@@ -650,6 +650,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201305311944214_CreateMeasurement.resx">
       <DependentUpon>201305311944214_CreateMeasurement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201305311945397_CreateBatchAction.resx">
       <DependentUpon>201305311945397_CreateBatchAction.cs</DependentUpon>
