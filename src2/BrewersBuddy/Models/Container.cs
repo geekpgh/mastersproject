@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace BrewersBuddy.Models
 {
@@ -13,6 +10,7 @@ namespace BrewersBuddy.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ContainerId { get; set; }
+        [Required]
         public string Name { get; set; }
         public double Volume { get; set; }
         public int UnitValue { get; set; }
@@ -21,7 +19,7 @@ namespace BrewersBuddy.Models
         public int Quantity { get; set; }
 
         [Required]
-        public int  ContainerTypeValue { get; set; }
+        public int ContainerTypeValue { get; set; }
 
         public ContainerType Type
         {
