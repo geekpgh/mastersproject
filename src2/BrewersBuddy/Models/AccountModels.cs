@@ -16,9 +16,19 @@ namespace BrewersBuddy.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string City { get; set; }
+
+        [MinLength(2)]
+        [MaxLengthAttribute(2)]
+        [StringLength(100, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 2)]
+        [Display(Name = "State")]
         [RegularExpression(@"[A-Z]{2}", ErrorMessage = "State must be the two character abbreviation")]
         public string State { get; set; }
-        [RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$")]
+
+        [MinLength(5)]
+        [MaxLengthAttribute(5)]
+        [StringLength(100, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "Zip")]
+        [RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "The {0} must be in the format ##### or #####-####")]
         public string Zip { get; set; }
 
         public virtual ICollection<BatchRating> BatchRatings { get; set; }

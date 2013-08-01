@@ -7,7 +7,9 @@
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
-<p class="message-success">@ViewBag.StatusMessage</p>
+@if (!string.IsNullOrWhiteSpace((string)@ViewBag.StatusMessage)) {
+<p class="message-success alert alert-success">@ViewBag.StatusMessage</p>
+}
 
 <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
 
@@ -19,13 +21,6 @@ else
 { 
     @Html.Partial("_SetPasswordPartial")
 }
-
-<section id="externalLogins">
-    @Html.Action("RemoveExternalLogins")
-
-    <h3>Add an external login</h3>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
