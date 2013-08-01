@@ -1,9 +1,7 @@
-﻿using BrewersBuddy.Filters;
-using BrewersBuddy.Models;
+﻿using BrewersBuddy.Models;
 using BrewersBuddy.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
@@ -54,6 +52,8 @@ namespace BrewersBuddy.Controllers
 
             if (batch == null)
                 return new HttpStatusCodeResult(500);
+
+            ViewBag.BatchName = batch.Name;
 
             return View();
         }

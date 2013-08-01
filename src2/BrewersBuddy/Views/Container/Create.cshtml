@@ -10,64 +10,50 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <br /><br /><legend>This is used to add your completed batches to your cellar inventory</legend><br />
+        <legend>Add <strong>@ViewBag.BatchName</strong> to your cellar inventory</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            <strong>@Html.LabelFor(model => model.Name)</strong>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)<br /><br />
+            @Html.ValidationMessageFor(model => model.Name)
         </div>
 
-        <table>
-        <tr><td>
-            <div class="editor-field">
+        <div class="editor-field">
             @Html.LabelFor(model => model.Type)
-            </div>
-        </td><td width="50"></td><td>
-            <div class="editor-field">
-            @Html.LabelFor(model => model.Quantity)
-            </div>
-        </td></tr>
-        <tr><td>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.Type)
-                @Html.ValidationMessageFor(model => model.Type)
-            </div>
-        </td><td width="50"></td><td>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Quantity)
-                @Html.ValidationMessageFor(model => model.Quantity)
-            </div>
-        </td></tr>
-        </table><br /><br />            
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Type)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-field">
+            <strong>@Html.LabelFor(model => model.Quantity)</strong>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>          
         
-        <table>
-        <tr><td>
-            <div class="editor-field">
-            @Html.LabelFor(model => model.Volume)
-            </div>
-        </td><td width="50"></td><td>
-            <div class="editor-field">
+        <div class="editor-field">
+            <strong>@Html.LabelFor(model => model.Volume)</strong>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Volume)
+            @Html.ValidationMessageFor(model => model.Volume)
+        </div>
+
+        <div class="editor-field">
             @Html.LabelFor(model => model.Units)
-            </div>
-        </td></tr>
-        <tr><td>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Volume)
-                @Html.ValidationMessageFor(model => model.Volume)
-            </div>
-        </td><td width="50"></td><td>
-            <div class="editor-field">
-                @Html.EnumDropDownListFor(model => model.Units)
-                @Html.ValidationMessageFor(model => model.Units)
-            </div>
-        </td></tr>
-        </table><br /><br />
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Units)
+            @Html.ValidationMessageFor(model => model.Units)
+        </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" class="btn btn-primary" value="Create" />
         </p>
     </fieldset>
     
