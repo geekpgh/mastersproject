@@ -7,6 +7,7 @@ using BrewersBuddy.Services;
 using BrewersBuddy.Tests.TestUtilities;
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -88,6 +89,75 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.IsInstanceOf<ViewResult>(result);
             Assert.AreEqual("Test Recipe", ((Recipe)((ViewResult)result).Model).Name);
+        }
+
+        [Test]
+        public void TestRecipeFriendList()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+
+            var recipeService = Substitute.For<IRecipeService>();
+
+            //Users Recipes
+            Recipe userRecipe = new Recipe() { Name = "Recipe 1" };
+            recipeService.GetAllForUser(1).Returns(
+                new Recipe[] {
+                    userRecipe,
+                    new Recipe() { Name = "Recipe 2" },
+                    new Recipe() { Name = "Recipe 3" },
+                });
+
+            //Friends Recipes
+            Recipe friend1Recipe = new Recipe() { Name = "Recipe 4" };
+            recipeService.GetAllForUser(2).Returns(
+                new Recipe[] {
+                    friend1Recipe,
+                    new Recipe() { Name = "Recipe 5" },
+                    new Recipe() { Name = "Recipe 6" },
+                });
+
+            //Friends Recipes
+            Recipe friend2Recipe = new Recipe() { Name = "Recipe 7" };
+            recipeService.GetAllForUser(3).Returns(
+                new Recipe[] {
+                    friend2Recipe,
+                    new Recipe() { Name = "Recipe 8" },
+                    new Recipe() { Name = "Recipe 9" },
+                });
+
+            //Other user, not a friend's Recipes
+            Recipe nonFriendRecipe = new Recipe() { Name = "Recipe 10" };
+            recipeService.GetAllForUser(4).Returns(
+                new Recipe[] {
+                    nonFriendRecipe,
+                    new Recipe() { Name = "Recipe 11" },
+                    new Recipe() { Name = "Recipe 12" },
+                });
+
+            RecipeController controller = new RecipeController(recipeService, userService);
+
+            ViewResult result;
+            ViewDataDictionary data;
+            IList recipesList;
+
+            // Check for user 1
+            List<UserProfile> friendProfiles = new List<UserProfile>();
+            friendProfiles.Add(new UserProfile() { UserId = 2 });
+            friendProfiles.Add(new UserProfile() { UserId = 3 });
+
+            userService.GetCurrentUserId().Returns(1);
+            userService.FriendProfiles(1).Returns(friendProfiles);
+
+            result = (ViewResult)controller.Friends();
+            data = result.ViewData;
+            recipesList = result.ViewData.Model as IList;
+
+            Assert.IsTrue(recipesList.Count == 6);
+            Assert.Contains(friend1Recipe, recipesList);
+            Assert.Contains(friend2Recipe, recipesList);
+            Assert.False(recipesList.Contains(userRecipe));
+            Assert.False(recipesList.Contains(nonFriendRecipe));
         }
 
         [Test]
