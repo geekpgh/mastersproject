@@ -7,10 +7,10 @@ namespace BrewersBuddy.Migrations
     {
         public Configuration()
         {
-			AutomaticMigrationsEnabled = false;
-			//AutomaticMigrationsEnabled = true;
-			AutomaticMigrationDataLossAllowed = true;
-		}
+            AutomaticMigrationsEnabled = true;
+            //AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
+        }
 
         protected override void Seed(BrewersBuddy.Models.BrewersBuddyContext context)
         {
