@@ -175,6 +175,7 @@
     <Compile Include="DbTestBase.cs" />
     <Compile Include="Services\BatchServiceTest.cs" />
     <Compile Include="Services\BatchNoteServiceTest.cs" />
+    <Compile Include="Services\BatchActionServiceTest.cs" />
     <Compile Include="TestUtilities\TestUtils.cs" />
     <Compile Include="Utilities\CalculationsTest.cs" />
     <Compile Include="DatabaseInitializer.cs" />
