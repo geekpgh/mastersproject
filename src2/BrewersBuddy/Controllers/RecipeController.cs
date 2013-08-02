@@ -92,7 +92,7 @@ namespace BrewersBuddy.Controllers
 		public ActionResult Edit(int id = 0)
 		{
             CheckEditAuthorization(id);
-			TempData["Success"] = string.Empty;
+
 			foreach (Recipe recipe in _recipeService.GetAllForUser(_userService.GetCurrentUserId()))
 			{
 				if (recipe.RecipeId == id)
@@ -112,11 +112,11 @@ namespace BrewersBuddy.Controllers
 		public ActionResult Edit(Recipe recipe)
 		{
             CheckEditAuthorization(recipe.RecipeId);
+
 			if (ModelState.IsValid)
 			{
 				_recipeService.Update(recipe);
-				TempData["Success"] = "Save Successful";
-				return View(recipe);
+                return RedirectToAction("Details/" + recipe.RecipeId);
 			}
 
 			ModelState.AddModelError("", "Error saving changes to recipe.");

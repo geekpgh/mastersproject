@@ -13,6 +13,10 @@ namespace BrewersBuddy.Models
         public int RecipeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        [Display(Name = "Add Date")]
+        //Show just the date
+        [DataType(DataType.Date)]
         public DateTime AddDate { get; set; }
         public int OwnerId { get; set; }
         public string Costs { get; set; }

@@ -7,6 +7,7 @@ using System.Collections;
 using System.Web.Mvc;
 using System;
 using BrewersBuddy.Tests.TestUtilities;
+using System.Collections.Generic;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -103,6 +104,79 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.IsTrue(batchesList.Count == 2);
         }
+
+        [Test]
+        public void TestBatchFriendList()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+
+            var batchService = Substitute.For<IBatchService>();
+
+            //Users batches
+            Batch userBatch = new Batch() { Name = "Batch 1" };
+            batchService.GetAllForUser(1).Returns(
+                new Batch[] {
+                    userBatch,
+                    new Batch() { Name = "Batch 2" },
+                    new Batch() { Name = "Batch 3" },
+                });
+
+            //Friends batches
+            Batch friend1Batch = new Batch() { Name = "Batch 4" };
+            batchService.GetAllForUser(2).Returns(
+                new Batch[] {
+                    friend1Batch,
+                    new Batch() { Name = "Batch 5" },
+                    new Batch() { Name = "Batch 6" },
+                });
+
+            //Friends batches
+            Batch friend2Batch = new Batch() { Name = "Batch 7" };
+            batchService.GetAllForUser(3).Returns(
+                new Batch[] {
+                    friend2Batch,
+                    new Batch() { Name = "Batch 8" },
+                    new Batch() { Name = "Batch 9" },
+                });
+
+            //Other user, not a friend's batches
+            Batch nonFriendBatch = new Batch() { Name = "Batch 10" };
+            batchService.GetAllForUser(4).Returns(
+                new Batch[] {
+                    nonFriendBatch,
+                    new Batch() { Name = "Batch 11" },
+                    new Batch() { Name = "Batch 12" },
+                });
+
+            var noteService = Substitute.For<IBatchNoteService>();
+            var ratingService = Substitute.For<IBatchRatingService>();
+
+            BatchController controller = new BatchController(batchService, ratingService, userService);
+
+            ViewResult result;
+            ViewDataDictionary data;
+            IList batchesList;
+
+            // Check for user 1
+            List<UserProfile> friendProfiles = new List<UserProfile>();
+            friendProfiles.Add(new UserProfile() { UserId = 2});
+            friendProfiles.Add(new UserProfile() { UserId = 3 });
+
+            userService.GetCurrentUserId().Returns(1);
+            userService.FriendProfiles(1).Returns(friendProfiles);
+
+            result = (ViewResult)controller.Friends();
+            data = result.ViewData;
+            batchesList = result.ViewData.Model as IList;
+
+            Assert.IsTrue(batchesList.Count == 6);
+            Assert.Contains(friend1Batch, batchesList);
+            Assert.Contains(friend2Batch, batchesList);
+            Assert.False(batchesList.Contains(userBatch));
+            Assert.False(batchesList.Contains(nonFriendBatch));
+        }
+
 
         [Test]
         public void TestNullBatchServiceThrowsArgumentNullException()
