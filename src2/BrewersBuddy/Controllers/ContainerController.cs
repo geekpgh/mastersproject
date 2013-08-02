@@ -130,7 +130,7 @@ namespace BrewersBuddy.Controllers
             if (ModelState.IsValid)
             {
                 _containerService.Update(container);
-                return RedirectToAction("Details/" + container.ContainerId);
+                return RedirectToAction("Details", "Container", new { id = container.ContainerId });
             }
 
             return View(container);

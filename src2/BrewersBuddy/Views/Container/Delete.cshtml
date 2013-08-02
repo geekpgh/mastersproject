@@ -4,63 +4,27 @@
     ViewBag.Title = "Delete";
 }
 
-<fieldset>
-    <br /><br /><legend>Are you sure you want to delete this batch from inventory?</legend>
+<h3>Are you sure you want to delete this batch from inventory?</h3>
 
-<table>
+<table class="table table-striped">
     <tr>
-        <td WIDTH=150>
-            <div class="display-label">
-            <b>@Html.DisplayNameFor(model => model.Name)</b>&nbsp;&nbsp;
-            </div>
-        </td>
-        <td>
-            <div class="display-field">
-            @Html.DisplayFor(model => model.Name)
-            </div>
-        </td>
-    </tr>    <tr>
-        <td>
-            <div class="display-label">
-            <b>@Html.DisplayNameFor(model => model.Type)</b>&nbsp;&nbsp;
-            </div>
-        </td>
-        <td>
-            <div class="display-field">
-            @Html.DisplayFor(model => model.Type)
-            </div>
-        </td>
+        <td width="100"><strong>@Html.DisplayNameFor(model => model.Name)</strong></td>
+        <td>@Html.DisplayFor(model => model.Name)</td>
     </tr>
     <tr>
-        <td>
-            <div class="display-label">
-            <b>@Html.DisplayNameFor(model => model.Volume)</b>&nbsp;&nbsp;
-            </div>
-        </td>
-        <td>
-            <div class="display-field">
-            @Html.DisplayFor(model => model.Volume)&nbsp;
-            @Html.DisplayFor(model => model.Units)
-            </div>
-        </td>
+        <td width="100"><strong>@Html.DisplayNameFor(model => model.Type)</strong></td>
+        <td>@Html.DisplayFor(model => model.Type)</td>
     </tr>
     <tr>
-        <td>
-            <div class="display-label">
-            <b>@Html.DisplayNameFor(model => model.Quantity)</b>&nbsp;&nbsp;
-            </div>
-        </td>
-        <td>
-            <div class="display-field">
-            @Html.DisplayFor(model => model.Quantity)
-            </div>
-        </td>
+        <td width="100"><strong>@Html.DisplayNameFor(model => model.Quantity)</strong></td>
+        <td>@Html.DisplayFor(model => model.Quantity)</td>
+    </tr>
+    <tr>
+        <td width="100"><strong>@Html.DisplayNameFor(model => model.Volume)</strong></td>
+        <td>@Html.DisplayFor(model => model.Volume) @Html.DisplayFor(model => model.Units)</td>
     </tr>
 </table>
 
-<br /><br />
-        
-</fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>

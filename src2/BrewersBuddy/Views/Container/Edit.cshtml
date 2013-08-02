@@ -5,12 +5,14 @@
     ViewBag.Title = "Edit";
 }
 
+<h2>Edit @Model.Name</h2>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Edit @Model.Name</legend>
+        <legend></legend>
 
         @Html.HiddenFor(model => model.BatchId)
         @Html.HiddenFor(model => model.ContainerId)

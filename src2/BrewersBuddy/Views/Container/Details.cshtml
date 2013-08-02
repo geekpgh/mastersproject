@@ -4,11 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2 class="display-label">@Html.DisplayFor(model => model.Name)</h2><br />
+<h2 class="display-label">@Html.DisplayFor(model => model.Name)</h2>
 
-<h4>Created from batch:&nbsp;&nbsp;<b>@Html.ActionLink(Model.Batch.Name, "Details", "Batch", new { id=Model.BatchId }, null)
-    </b></h4><br /><br />
-
+<h4>Created from batch: @Html.ActionLink(Model.Batch.Name, "Details", "Batch", new { id=Model.BatchId }, null)</h4>
+<br />
 <div class="row-fluid">
     <div class="span4">
         <h4>Information</h4>
