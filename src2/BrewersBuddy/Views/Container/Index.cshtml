@@ -8,47 +8,42 @@
 <h2>Cellar</h2>
 
 <div class="index-list">
-@if (Model.Count() == 0) {
+@if (Model.Count() == 0)
+{
     <div class="row"><br />
 		<div class="span9">
             You have not added any finished batches to you cellar yet.  Go to <b>@Html.ActionLink("Batches", "Index", "Batch")</b> to add one.
         </div><br /><br />
     </div>
 }
-@foreach (var item in Model) {
-	<div class="row">
-		<div class="span9">
-            <h4>@Html.ActionLink(item.Name, "Details", new { id=item.ContainerId })</h4>
-            <table>
-                <tr>
-                    <td width="75">
-                        @Html.LabelFor(modelItem => item.Quantity)
-                    </td><td width="75">
-                        @Html.LabelFor(modelItem => item.Volume)
-                    </td><td width="75"> 
-                        @Html.LabelFor(modelItem => item.Units)
-                    </td><td width="75">
-                        @Html.LabelFor(modelItem => item.Type)
-                    </td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <td width="75">
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td><td width="75">
-                        @Html.DisplayFor(modelItem => item.Volume)
-                    </td><td width="75"> 
-                        @Html.DisplayFor(modelItem => item.Units)
-                    </td><td width="75">
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                </tr>
-            </table><br />
-
-            <hr />
-	    </div>	
-	</div>
+else {
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { id=item.ContainerId })
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td> 
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Volume) @Html.DisplayFor(modelItem => item.Units)
+            </td>
+        </tr>
+    }
+        </tbody>
+    </table>
 }
 </div>
