@@ -309,12 +309,11 @@ namespace BrewersBuddy.Tests.Controllers
             RecipeController controller = new RecipeController(recipeService, userService);
 
             ActionResult result = controller.Edit(recipe);
-            ViewResult view = result as ViewResult;
-            Recipe returnedrecipe = (Recipe)view.Model;
+            RedirectToRouteResult view = result as RedirectToRouteResult;
 
-            Assert.NotNull(view.Model);
-            Assert.IsInstanceOf<Recipe>(view.Model);
-            Assert.AreEqual(recipe.Name, returnedrecipe.Name);
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.NotNull(view.RouteValues);
+            Assert.AreEqual("Details/1", view.RouteValues["action"]);
         }
 
         [Test]
