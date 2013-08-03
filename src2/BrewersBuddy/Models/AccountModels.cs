@@ -129,7 +129,7 @@ namespace BrewersBuddy.Models
         [MaxLengthAttribute(2)]
         [StringLength(100, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 2)]
         [Display(Name = "State")]
-        [RegularExpression(@"[A-Z]{2}", ErrorMessage = "State must be the two character capital abbreviation")]
+        [RegularExpression(@"[A-Z]{2}", ErrorMessage = "State must be the two character abbreviation in captial letters. Example: PA")]
         public string State { get; set; }
 
         [MinLength(5)]
