@@ -1,4 +1,5 @@
 ﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace BrewersBuddy.Services
 
         public BatchRating Get(int id)
         {
-            return db.BatchRatings.Find(id);
+            throw new NotSupportedException("Cannot get by id");
         }
 
         public IEnumerable<BatchRating> GetAllForBatch(int batchId)
