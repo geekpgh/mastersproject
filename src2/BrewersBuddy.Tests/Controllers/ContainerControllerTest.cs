@@ -1,12 +1,12 @@
 ﻿using BrewersBuddy.Controllers;
 using BrewersBuddy.Models;
 using BrewersBuddy.Services;
+using BrewersBuddy.Tests.TestUtilities;
 using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Web.Mvc;
-using System;
-using BrewersBuddy.Tests.TestUtilities;
 
 namespace BrewersBuddy.Tests.Controllers
 {
@@ -313,7 +313,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
 
             container.Name = "Test Container";
             containerService.Get(999).Returns(container);
@@ -341,7 +341,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
             containerService.Get(1).Returns(container);
 
             ContainerController controller = new ContainerController(batchService, containerService, userService);
@@ -372,7 +372,7 @@ namespace BrewersBuddy.Tests.Controllers
 
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
             containerService.Get(1).Returns(container);
 
             ActionResult result = controller.DeleteConfirmed(container.ContainerId);
@@ -383,166 +383,166 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.AreEqual("Index", view.RouteValues["action"]);
         }
 
-       [Test]
-       public void TestContainerUnauthorizedAccessException()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           userService.GetCurrentUserId().Returns(999);
+        [Test]
+        public void TestContainerUnauthorizedAccessException()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(999);
 
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-           Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-           Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
-           containerService.Get(1).Returns(container);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
 
-           var resultIs = ""; 
-           try
-           {
-               ActionResult result = controller.DeleteConfirmed(container.ContainerId);
-           }
-           catch (UnauthorizedAccessException e)
-           {
-               resultIs = "UnauthorizedAccessException";
-           }
-           Assert.AreEqual("UnauthorizedAccessException", resultIs);
-       }
+            var resultIs = "";
+            try
+            {
+                ActionResult result = controller.DeleteConfirmed(container.ContainerId);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                resultIs = "UnauthorizedAccessException";
+            }
+            Assert.AreEqual("UnauthorizedAccessException", resultIs);
+        }
 
-       [Test]
-       public void TestContainerDelete()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           userService.GetCurrentUserId().Returns(1);
+        [Test]
+        public void TestContainerDelete()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
 
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-           Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-           Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
-           containerService.Get(1).Returns(container);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
 
-           ActionResult result = controller.Delete(container.ContainerId);
-           ViewResult view = result as ViewResult;
-           Container returnedContainer = (Container)view.Model;
+            ActionResult result = controller.Delete(container.ContainerId);
+            ViewResult view = result as ViewResult;
+            Container returnedContainer = (Container)view.Model;
 
-           Assert.NotNull(view.Model);
-           Assert.IsInstanceOf<Container>(view.Model);
-           Assert.AreEqual(container.Name, returnedContainer.Name);
-       }
+            Assert.NotNull(view.Model);
+            Assert.IsInstanceOf<Container>(view.Model);
+            Assert.AreEqual(container.Name, returnedContainer.Name);
+        }
 
-       [Test]
-       public void TestDeleteWithNonExistingContainerReturnsNotFound()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+        [Test]
+        public void TestDeleteWithNonExistingContainerReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           ActionResult result = controller.Delete(0);
+            ActionResult result = controller.Delete(0);
 
-           Assert.IsInstanceOf<HttpNotFoundResult>(result);
-       }
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
 
-       [Test]
-       public void TestContainerEditPost()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           userService.GetCurrentUserId().Returns(1);
+        [Test]
+        public void TestContainerEditPost()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
 
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-           Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-           Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
-           containerService.Get(1).Returns(container);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
 
-           ActionResult result = controller.Edit(container);
-           RedirectToRouteResult view = result as RedirectToRouteResult;
+            ActionResult result = controller.Edit(container);
+            RedirectToRouteResult view = result as RedirectToRouteResult;
 
-           Assert.IsInstanceOf<RedirectToRouteResult>(result);
-           Assert.NotNull(view.RouteValues);
-           Assert.AreEqual("Details/1", view.RouteValues["action"]);
-       }
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.NotNull(view.RouteValues);
+            Assert.AreEqual("Details", view.RouteValues["action"]);
+        }
 
-       [Test]
-       public void TestContainerEdit()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           userService.GetCurrentUserId().Returns(1);
+        [Test]
+        public void TestContainerEdit()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
 
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-           Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-           Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
-           containerService.Get(1).Returns(container);
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
 
-           ActionResult result = controller.Edit(container.ContainerId);
-           ViewResult view = result as ViewResult;
-           Container returnedContainer = (Container)view.Model;
+            ActionResult result = controller.Edit(container.ContainerId);
+            ViewResult view = result as ViewResult;
+            Container returnedContainer = (Container)view.Model;
 
-           Assert.NotNull(view.Model);
-           Assert.IsInstanceOf<Container>(view.Model);
-           Assert.AreEqual(container.Name, returnedContainer.Name);
-       }
+            Assert.NotNull(view.Model);
+            Assert.IsInstanceOf<Container>(view.Model);
+            Assert.AreEqual(container.Name, returnedContainer.Name);
+        }
 
-       [Test]
-       public void TestEditWithNonExistingContainerReturnsNotFound()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+        [Test]
+        public void TestEditWithNonExistingContainerReturnsNotFound()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           ActionResult result = controller.Edit(0);
+            ActionResult result = controller.Edit(0);
 
-           Assert.IsInstanceOf<HttpNotFoundResult>(result);
-       }
+            Assert.IsInstanceOf<HttpNotFoundResult>(result);
+        }
 
-       [Test]
-       public void TestContainerEditModelInvalid()
-       {
-           // Set up the controller
-           var userService = Substitute.For<IUserService>();
-           userService.GetCurrentUserId().Returns(1);
+        [Test]
+        public void TestContainerEditModelInvalid()
+        {
+            // Set up the controller
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
 
-           var batchService = Substitute.For<IBatchService>();
-           var containerService = Substitute.For<IContainerService>();
+            var batchService = Substitute.For<IBatchService>();
+            var containerService = Substitute.For<IContainerService>();
 
-           ContainerController controller = new ContainerController(batchService, containerService, userService);
+            ContainerController controller = new ContainerController(batchService, containerService, userService);
 
-           UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
-           Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-           Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
-           containerService.Get(1).Returns(container);
-           controller.ModelState.AddModelError("key", "not valid");
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+            Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
+            containerService.Get(1).Returns(container);
+            controller.ModelState.AddModelError("key", "not valid");
 
-           ActionResult result = controller.Edit(container);
+            ActionResult result = controller.Edit(container);
 
-           Assert.IsInstanceOf<ViewResult>(result);
-           // Container type value for Bottle = 0
-           Assert.AreEqual(0, ((Container)((ViewResult)result).Model).ContainerTypeValue);
-       }
+            Assert.IsInstanceOf<ViewResult>(result);
+            // Container type value for Bottle = 0
+            Assert.AreEqual(0, ((Container)((ViewResult)result).Model).ContainerTypeValue);
+        }
 
 
     }

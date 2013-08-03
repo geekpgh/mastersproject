@@ -1,7 +1,7 @@
-﻿using System.Data.Entity;
-using BrewersBuddy.Models;
+﻿using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
+using System.Data.Entity;
 
 namespace BrewersBuddy.Tests.Models
 {
@@ -13,7 +13,7 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
 
             DbSet<Container> containers = context.Containers;
             Container foundContainer = containers.Find(container.ContainerId);
@@ -29,7 +29,7 @@ namespace BrewersBuddy.Tests.Models
         {
             UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
             Batch batch = TestUtils.createBatch(context, "Test", BatchType.Mead, bob);
-            Container container = TestUtils.createContainer(context, batch, ContainerType.Bottle, bob);
+            Container container = TestUtils.createContainer(context, "Name", batch, ContainerType.Bottle, bob);
 
             DbSet<Container> containers = context.Containers;
             Container foundContainer = containers.Find(container.ContainerId);

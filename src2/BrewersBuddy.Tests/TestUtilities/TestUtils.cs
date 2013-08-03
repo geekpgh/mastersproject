@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
-using BrewersBuddy.Models;
 
 namespace BrewersBuddy.Tests.TestUtilities
 {
@@ -29,7 +29,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             batch.StartDate = DateTime.Now;
 
             db.Batches.Add(batch);
-            
+
             db.SaveChanges();
 
             return batch;
@@ -95,7 +95,7 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batchComment;
         }
 
-        public static BatchAction createBatchAction(BrewersBuddyContext db, Batch batch, UserProfile user, string title, string description, 
+        public static BatchAction createBatchAction(BrewersBuddyContext db, Batch batch, UserProfile user, string title, string description,
                                                     ActionType type)
         {
             BatchAction batchAction = new BatchAction();
@@ -113,9 +113,10 @@ namespace BrewersBuddy.Tests.TestUtilities
             return batchAction;
         }
 
-        public static Container createContainer(BrewersBuddyContext db, Batch batch, ContainerType type, UserProfile user)
+        public static Container createContainer(BrewersBuddyContext db, string name, Batch batch, ContainerType type, UserProfile user)
         {
             Container container = new Container();
+            container.Name = name;
             container.Batch = batch;
             container.Type = type;
             container.OwnerId = user.UserId;
@@ -158,7 +159,7 @@ namespace BrewersBuddy.Tests.TestUtilities
 
             return recipe;
         }
-        
+
         public static ICollection<Batch> createBatches(BrewersBuddyContext db, int number, UserProfile owner)
         {
             List<Batch> batches = new List<Batch>();
