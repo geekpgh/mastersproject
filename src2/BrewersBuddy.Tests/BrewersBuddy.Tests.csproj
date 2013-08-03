@@ -169,6 +169,7 @@
     <Compile Include="Models\BatchTest.cs" />
     <Compile Include="Models\BatchCommentTest.cs" />
     <Compile Include="Models\BatchNoteTest.cs" />
+    <Compile Include="Models\RecipeTest.cs" />
     <Compile Include="Models\ContainerTest.cs" />
     <Compile Include="Models\MeasurementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
