@@ -3,6 +3,7 @@
 
 namespace BrewersBuddy.App_Start
 {
+    using BrewersBuddy.Models;
     using BrewersBuddy.Services;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
@@ -52,15 +53,16 @@ namespace BrewersBuddy.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IBatchService>().To<BatchService>();
-            kernel.Bind<IBatchRatingService>().To<BatchRatingService>();
-            kernel.Bind<IBatchNoteService>().To<BatchNoteService>();
-            kernel.Bind<IBatchActionService>().To<BatchActionService>();
-            kernel.Bind<IMeasurementService>().To<MeasurementService>();
-            kernel.Bind<IRecipeService>().To<RecipeService>();
-            kernel.Bind<IUserService>().To<UserService>();
-            kernel.Bind<IContainerService>().To<ContainerService>();
-            kernel.Bind<IBatchCommentService>().To<BatchCommentService>();
+            kernel.Bind<BrewersBuddyContext>().ToSelf().InRequestScope();
+            kernel.Bind<IBatchService>().To<BatchService>().InRequestScope();
+            kernel.Bind<IBatchRatingService>().To<BatchRatingService>().InRequestScope();
+            kernel.Bind<IBatchNoteService>().To<BatchNoteService>().InRequestScope();
+            kernel.Bind<IBatchActionService>().To<BatchActionService>().InRequestScope();
+            kernel.Bind<IMeasurementService>().To<MeasurementService>().InRequestScope();
+            kernel.Bind<IRecipeService>().To<RecipeService>().InRequestScope();
+            kernel.Bind<IUserService>().To<UserService>().InRequestScope();
+            kernel.Bind<IContainerService>().To<ContainerService>().InRequestScope();
+            kernel.Bind<IBatchCommentService>().To<BatchCommentService>().InRequestScope();
         }
     }
 }

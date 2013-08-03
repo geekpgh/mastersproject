@@ -15,7 +15,7 @@ namespace BrewersBuddy.Tests.Services
         {
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, peter);
-            BatchActionService batchActionService = new BatchActionService();
+            BatchActionService batchActionService = new BatchActionService(context);
             BatchAction action = new BatchAction();
             action.ActionId = 1;
             action.Description = "test";
@@ -40,7 +40,7 @@ namespace BrewersBuddy.Tests.Services
             BatchAction action = TestUtils.createBatchAction(context, batch, bilbo, "Test Action", "This is a test", ActionType.Bottle);
 
             //See that the service can find it
-            BatchActionService actionService = new BatchActionService();
+            BatchActionService actionService = new BatchActionService(context);
             BatchAction foundAction = actionService.Get(action.ActionId);
 
             Assert.IsNotNull(foundAction);
@@ -61,7 +61,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, bilbo);
             BatchAction action = TestUtils.createBatchAction(context, batch, bilbo, "Test Action", "This is a test", ActionType.Bottle);
 
-            BatchActionService actionService = new BatchActionService();
+            BatchActionService actionService = new BatchActionService(context);
             BatchAction foundAction = actionService.Get(action.ActionId);
 
             Assert.IsNotNull(foundAction);
@@ -73,7 +73,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            BatchActionService actionService = new BatchActionService();
+            BatchActionService actionService = new BatchActionService(context);
             BatchAction foundAction = actionService.Get(5);
 
             Assert.IsNull(foundAction);
@@ -88,7 +88,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             action.Title = "Altered Action";
-            BatchActionService actionService = new BatchActionService();
+            BatchActionService actionService = new BatchActionService(context);
             actionService.Update(action);
 
             //Get it  and see it changed
@@ -107,7 +107,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, peter);
             BatchAction action3 = TestUtils.createBatchAction(context, batch2, peter, "Test Action 3", "This is a test 3", ActionType.Bottle);
 
-            BatchActionService actionService = new BatchActionService();
+            BatchActionService actionService = new BatchActionService(context);
             IEnumerable<BatchAction> actionsEnumerable = actionService.GetAllForBatch(batch.BatchId);
 
             int foundCount = 0;

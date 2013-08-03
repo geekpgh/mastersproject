@@ -1,4 +1,5 @@
 ﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,8 +8,15 @@ namespace BrewersBuddy.Services
 {
     public class BatchService : IBatchService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
-        private BrewersBuddyContext db2 = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public BatchService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public void AddAction(Batch batch, BatchAction action)
         {
@@ -57,8 +65,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Batch @object)
         {
-            db2.Entry(@object).State = EntityState.Modified;
-            db2.SaveChanges();
+            db.Entry(@object).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Dispose()

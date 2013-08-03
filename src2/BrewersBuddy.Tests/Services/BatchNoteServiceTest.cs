@@ -15,7 +15,7 @@ namespace BrewersBuddy.Tests.Services
         {
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, peter);
-            BatchNoteService batchNoteService = new BatchNoteService();
+            BatchNoteService batchNoteService = new BatchNoteService(context);
             BatchNote note = new BatchNote();
             note.NoteId = 1;
             note.Text = "test";
@@ -40,7 +40,7 @@ namespace BrewersBuddy.Tests.Services
             BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "This is a test", bilbo);
 
             //See that the service can find it
-            BatchNoteService noteService = new BatchNoteService();
+            BatchNoteService noteService = new BatchNoteService(context);
             BatchNote foundNote = noteService.Get(note.NoteId);
 
             Assert.IsNotNull(foundNote);
@@ -61,7 +61,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, bilbo);
             BatchNote note = TestUtils.createBatchNote(context, batch, "Test Note", "This is a test", bilbo);
 
-            BatchNoteService noteService = new BatchNoteService();
+            BatchNoteService noteService = new BatchNoteService(context);
             BatchNote foundNote = noteService.Get(note.NoteId);
 
             Assert.IsNotNull(foundNote);
@@ -73,7 +73,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            BatchNoteService noteService = new BatchNoteService();
+            BatchNoteService noteService = new BatchNoteService(context);
             BatchNote foundNote = noteService.Get(5);
 
             Assert.IsNull(foundNote);
@@ -88,7 +88,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             note.Title = "Altered Note";
-            BatchNoteService noteService = new BatchNoteService();
+            BatchNoteService noteService = new BatchNoteService(context);
             noteService.Update(note);
 
             //Get it  and see it changed
@@ -107,7 +107,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, peter);
             BatchNote note3 = TestUtils.createBatchNote(context, batch2, "Wrong Note", "This is a test", peter);
 
-            BatchNoteService noteService = new BatchNoteService();
+            BatchNoteService noteService = new BatchNoteService(context);
             IEnumerable<BatchNote> notesEnumerable = noteService.GetAllForBatch(batch.BatchId);
 
             int foundCount = 0;

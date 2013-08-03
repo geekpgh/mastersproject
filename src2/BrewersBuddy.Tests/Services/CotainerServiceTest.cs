@@ -7,14 +7,14 @@ using System.Collections.Generic;
 namespace BrewersBuddy.Tests.Services
 {
     [TestFixture]
-    public class ContainerServiceTest :DbTestBase
+    public class ContainerServiceTest : DbTestBase
     {
         [Test]
         public void TestCreate()
         {
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Test Batch", BatchType.Beer, peter);
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             Container container = new Container();
             container.ContainerId = 1;
             container.ContainerTypeValue = 1;
@@ -41,7 +41,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             container.Name = "Altered Container";
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             containerService.Update(container);
 
             //Get it  and see it changed
@@ -56,7 +56,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Test Batch", BatchType.Beer, bilbo);
             Container container = TestUtils.createContainer(context, "Test Container", batch, ContainerType.Bottle, bilbo);
 
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             Container foundContainer = containerService.Get(container.ContainerId);
 
             Assert.IsNotNull(foundContainer);
@@ -68,7 +68,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             Container foundContainer = containerService.Get(5);
 
             Assert.IsNull(foundContainer);
@@ -82,7 +82,7 @@ namespace BrewersBuddy.Tests.Services
             Container container = TestUtils.createContainer(context, "Test Container", batch, ContainerType.Bottle, bilbo);
 
             //See that the service can find it
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             Container foundContainer = containerService.Get(container.ContainerId);
 
             Assert.IsNotNull(foundContainer);
@@ -110,7 +110,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch3 = TestUtils.createBatch(context, "Test Batch2", BatchType.Wine, sauron);
             Container container3 = TestUtils.createContainer(context, "Test Container", batch3, ContainerType.Bottle, sauron);
 
-            ContainerService containerService = new ContainerService();
+            ContainerService containerService = new ContainerService(context);
             IEnumerable<Container> containeresEnumerable = containerService.GetAllForUser(gandalf.UserId);
 
             int foundCount = 0;

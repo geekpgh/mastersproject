@@ -16,7 +16,7 @@ namespace BrewersBuddy.Tests.Services
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, peter);
 
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
 
             BatchComment comment = new BatchComment()
             {
@@ -41,7 +41,7 @@ namespace BrewersBuddy.Tests.Services
             BatchComment comment = TestUtils.createBatchComment(context, batch, bilbo, "This is my comment");
 
             //See that the service can find it
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
             BatchComment foundComment = commentService.Get(comment.BatchCommentId);
 
             Assert.IsNotNull(foundComment);
@@ -62,7 +62,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, bilbo);
             BatchComment comment = TestUtils.createBatchComment(context, batch, bilbo, "This is my comment");
 
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
             BatchComment foundComment = commentService.Get(comment.BatchCommentId);
 
             Assert.IsNotNull(foundComment);
@@ -73,7 +73,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
             BatchComment foundComment = commentService.Get(5);
 
             Assert.IsNull(foundComment);
@@ -88,7 +88,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             comment.Comment = "Altered Comment";
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
             commentService.Update(comment);
 
             //Get it  and see it changed
@@ -108,7 +108,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, frodo);
             BatchComment note3 = TestUtils.createBatchComment(context, batch2, frodo, "This is frodos comment two");
 
-            BatchCommentService commentService = new BatchCommentService();
+            BatchCommentService commentService = new BatchCommentService(context);
             IEnumerable<BatchComment> comments = commentService.GetAllForBatch(batch.BatchId);
 
             Assert.AreEqual(2, comments.Count());

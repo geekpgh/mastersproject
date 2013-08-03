@@ -15,7 +15,7 @@ namespace BrewersBuddy.Tests.Services
         {
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, peter);
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             Measurement measurement = new Measurement();
             measurement.MeasurementId = 1;
             measurement.Measured = "PH";
@@ -40,7 +40,7 @@ namespace BrewersBuddy.Tests.Services
             Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Measurement", "This is a test", "PH", 5.5);
 
             //See that the service can find it
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             Measurement foundMeasurement = measurementService.Get(measurement.MeasurementId);
 
             Assert.IsNotNull(foundMeasurement);
@@ -61,7 +61,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, bilbo);
             Measurement measurement = TestUtils.createMeasurement(context, batch, "Test Measurement", "This is a test", "PH", 5.5);
 
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             Measurement foundMeasurement = measurementService.Get(measurement.MeasurementId);
 
             Assert.IsNotNull(foundMeasurement);
@@ -73,7 +73,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             Measurement foundMeasurement = measurementService.Get(5);
 
             Assert.IsNull(foundMeasurement);
@@ -88,7 +88,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             measurement.Name = "Altered Measurement";
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             measurementService.Update(measurement);
 
             //Get it  and see it changed
@@ -107,7 +107,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, peter);
             Measurement measurement3 = TestUtils.createMeasurement(context, batch2, "Test Measurement", "This is a test", "PH", 5.5);
 
-            MeasurementService measurementService = new MeasurementService();
+            MeasurementService measurementService = new MeasurementService(context);
             IEnumerable<Measurement> measurementsEnumerable = measurementService.GetAllForBatch(batch.BatchId);
 
             int foundCount = 0;

@@ -14,7 +14,7 @@ namespace BrewersBuddy.Tests.Services
         public void TestCreate()
         {
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             Recipe recipe = new Recipe();
             recipe.RecipeId = 1;
             recipe.Costs = "$200";
@@ -42,7 +42,7 @@ namespace BrewersBuddy.Tests.Services
 
             //Now change it
             recipe.Name = "Altered Recipe";
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             recipeService.Update(recipe);
 
             //Get it  and see it changed
@@ -56,7 +56,7 @@ namespace BrewersBuddy.Tests.Services
             UserProfile bilbo = TestUtils.createUser(context, "bilbo", "baggins");
             Recipe recipe = TestUtils.createRecipe(context, "Test Recipe", bilbo);
 
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             Recipe foundRecipe = recipeService.Get(recipe.RecipeId);
 
             Assert.IsNotNull(foundRecipe);
@@ -68,7 +68,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             Recipe foundRecipe = recipeService.Get(5);
 
             Assert.IsNull(foundRecipe);
@@ -81,7 +81,7 @@ namespace BrewersBuddy.Tests.Services
             Recipe recipe = TestUtils.createRecipe(context, "Test Recipe", bilbo);
 
             //See that the service can find it
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             Recipe foundRecipe = recipeService.Get(recipe.RecipeId);
 
             Assert.IsNotNull(foundRecipe);
@@ -106,7 +106,7 @@ namespace BrewersBuddy.Tests.Services
 
             Recipe recipe3 = TestUtils.createRecipe(context, "Test Recipe", sauron);
 
-            RecipeService recipeService = new RecipeService();
+            RecipeService recipeService = new RecipeService(context);
             IEnumerable<Recipe> recipeesEnumerable = recipeService.GetAllForUser(gandalf.UserId);
 
             int foundCount = 0;

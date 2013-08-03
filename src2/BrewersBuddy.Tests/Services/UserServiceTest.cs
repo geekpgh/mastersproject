@@ -27,7 +27,7 @@ namespace BrewersBuddy.Tests.Services
                 new string[0]
                 );
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             IPrincipal currentUser = userService.GetCurrentUser();
 
@@ -48,7 +48,7 @@ namespace BrewersBuddy.Tests.Services
                 new string[0]
                 );
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             IPrincipal currentUser = userService.GetCurrentUser();
 
@@ -63,7 +63,7 @@ namespace BrewersBuddy.Tests.Services
                 new HttpResponse(new StringWriter())
                 );
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             int currentUserId = userService.GetCurrentUserId();
 
@@ -88,7 +88,7 @@ namespace BrewersBuddy.Tests.Services
             user.UserName = "testuser";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             int currentUserId = userService.GetCurrentUserId();
 
@@ -123,7 +123,7 @@ namespace BrewersBuddy.Tests.Services
             user5.UserName = "testuser4";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             IEnumerable<UserProfile> users = userService.Find(new UserSearchCriteria()
             {
@@ -162,7 +162,7 @@ namespace BrewersBuddy.Tests.Services
             user5.UserName = "testuser4";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             List<UserProfile> users = userService.Find(new UserSearchCriteria()
             {
@@ -204,7 +204,7 @@ namespace BrewersBuddy.Tests.Services
             user5.UserName = "testuser4";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             List<UserProfile> users = userService.Find(new UserSearchCriteria()
             {
@@ -248,7 +248,7 @@ namespace BrewersBuddy.Tests.Services
             user5.Zip = "25540";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             List<UserProfile> users = userService.Find(new UserSearchCriteria()
             {
@@ -293,7 +293,7 @@ namespace BrewersBuddy.Tests.Services
             user5.UserName = "testuser4";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             List<UserProfile> users = userService.Find(new UserSearchCriteria()
             {
@@ -311,7 +311,7 @@ namespace BrewersBuddy.Tests.Services
         {
             UserProfile bilbo = TestUtils.createUser(context, "bilbo", "baggins");
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
             UserProfile foundUser = userService.Get(bilbo.UserId);
 
             Assert.IsNotNull(foundUser);
@@ -323,7 +323,7 @@ namespace BrewersBuddy.Tests.Services
         [Test]
         public void TestGetNonExistant()
         {
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
             UserProfile user = userService.Get(5);
 
             Assert.IsNull(user);
@@ -361,7 +361,7 @@ namespace BrewersBuddy.Tests.Services
             TestUtils.createFriend(context, friend4, user);
             TestUtils.createFriend(context, friend5, user);
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             ICollection<Friend> friends = userService.Friends(user.UserId);
 
@@ -391,7 +391,7 @@ namespace BrewersBuddy.Tests.Services
             user.UserName = "testuser";
             context.SaveChanges();
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             ICollection<Friend> friends = userService.Friends(user.UserId);
 
@@ -430,7 +430,7 @@ namespace BrewersBuddy.Tests.Services
             TestUtils.createFriend(context, friend4, user);
             TestUtils.createFriend(context, friend5, user);
 
-            UserService userService = new UserService();
+            UserService userService = new UserService(context);
 
             ICollection<UserProfile> friends = userService.FriendProfiles(user.UserId);
 

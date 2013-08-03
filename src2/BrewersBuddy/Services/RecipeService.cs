@@ -1,4 +1,5 @@
 ﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,8 +8,15 @@ namespace BrewersBuddy.Services
 {
     public class RecipeService : IRecipeService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
-        private BrewersBuddyContext db2 = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public RecipeService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public void Create(Recipe @object)
         {
@@ -36,8 +44,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Recipe @object)
         {
-            db2.Entry(@object).State = EntityState.Modified;
-            db2.SaveChanges();
+            db.Entry(@object).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Dispose()

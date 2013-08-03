@@ -8,8 +8,15 @@ namespace BrewersBuddy.Services
 {
     public class ContainerService : IContainerService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
-        private BrewersBuddyContext db2 = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public ContainerService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public void Create(Container @object)
         {
@@ -35,8 +42,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Container @object)
         {
-            db2.Entry(@object).State = EntityState.Modified;
-            db2.SaveChanges();
+            db.Entry(@object).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Dispose()

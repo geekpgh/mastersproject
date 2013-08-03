@@ -8,7 +8,15 @@ namespace BrewersBuddy.Services
 {
     public class BatchRatingService : IBatchRatingService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public BatchRatingService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public void Create(BatchRating @object)
         {

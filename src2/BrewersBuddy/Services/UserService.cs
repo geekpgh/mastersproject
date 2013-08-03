@@ -1,4 +1,5 @@
 ﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -9,7 +10,15 @@ namespace BrewersBuddy.Services
 {
     public class UserService : IUserService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public UserService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public IPrincipal GetCurrentUser()
         {

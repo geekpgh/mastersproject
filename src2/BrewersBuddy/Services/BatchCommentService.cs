@@ -1,4 +1,5 @@
 ﻿using BrewersBuddy.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,15 @@ namespace BrewersBuddy.Services
 {
     public class BatchCommentService : IBatchCommentService
     {
-        private BrewersBuddyContext db = new BrewersBuddyContext();
+        private readonly BrewersBuddyContext db;
+
+        public BatchCommentService(BrewersBuddyContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            db = context;
+        }
 
         public void Create(BatchComment @object)
         {

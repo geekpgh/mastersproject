@@ -16,7 +16,7 @@ namespace BrewersBuddy.Tests.Services
             UserProfile peter = TestUtils.createUser(context, "peter", "parker");
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, peter);
 
-            BatchRatingService ratingService = new BatchRatingService();
+            BatchRatingService ratingService = new BatchRatingService(context);
 
             BatchRating rating = new BatchRating()
             {
@@ -41,7 +41,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch = TestUtils.createBatch(context, "Hobbit Brew", BatchType.Beer, bilbo);
             BatchRating rating = TestUtils.createBatchRating(context, batch, bilbo, 50, "This is my rating");
 
-            BatchRatingService ratingService = new BatchRatingService();
+            BatchRatingService ratingService = new BatchRatingService(context);
             BatchRating foundRating = ratingService.GetUserRatingForBatch(batch.BatchId, bilbo.UserId);
 
             //Now delete it and see that it is gone
@@ -61,7 +61,7 @@ namespace BrewersBuddy.Tests.Services
             //Now change it
             rating.Rating = 75;
 
-            BatchRatingService ratingService = new BatchRatingService();
+            BatchRatingService ratingService = new BatchRatingService(context);
             ratingService.Update(rating);
 
             //Get it  and see it changed
@@ -81,7 +81,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, frodo);
             BatchRating note3 = TestUtils.createBatchRating(context, batch2, frodo, 10, "This is frodos rating two");
 
-            BatchRatingService ratingService = new BatchRatingService();
+            BatchRatingService ratingService = new BatchRatingService(context);
             IEnumerable<BatchRating> ratings = ratingService.GetAllForBatch(batch.BatchId);
 
             Assert.AreEqual(2, ratings.Count());
@@ -105,7 +105,7 @@ namespace BrewersBuddy.Tests.Services
             Batch batch2 = TestUtils.createBatch(context, "Wrong Batch", BatchType.Beer, frodo);
             BatchRating note3 = TestUtils.createBatchRating(context, batch2, frodo, 10, "This is frodos rating two");
 
-            BatchRatingService ratingService = new BatchRatingService();
+            BatchRatingService ratingService = new BatchRatingService(context);
 
             BatchRating rating;
 
