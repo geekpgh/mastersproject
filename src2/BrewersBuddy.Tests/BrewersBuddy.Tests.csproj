@@ -177,6 +177,7 @@
     <Compile Include="Services\BatchNoteServiceTest.cs" />
     <Compile Include="Services\BatchActionServiceTest.cs" />
     <Compile Include="Services\MeasurementServiceTest.cs" />
+    <Compile Include="Services\ReipeServiceTest.cs" />
     <Compile Include="TestUtilities\TestUtils.cs" />
     <Compile Include="Utilities\CalculationsTest.cs" />
     <Compile Include="DatabaseInitializer.cs" />
