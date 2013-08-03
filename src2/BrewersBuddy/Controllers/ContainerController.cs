@@ -55,7 +55,12 @@ namespace BrewersBuddy.Controllers
 
             ViewBag.BatchName = batch.Name;
 
-            return View();
+            Container container = new Container()
+            {
+                Name = batch.Name
+            };
+
+            return View(container);
         }
 
 
