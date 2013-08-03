@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BrewersBuddy.Services
 {
-    public class BatchCommentSerice : IBatchCommentService
+    public class BatchCommentService : IBatchCommentService
     {
         private BrewersBuddyContext db = new BrewersBuddyContext();
 
