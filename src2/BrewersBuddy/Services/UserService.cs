@@ -1,9 +1,9 @@
 ﻿using BrewersBuddy.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using WebMatrix.WebData;
-using System.Linq;
 
 namespace BrewersBuddy.Services
 {
@@ -31,13 +31,13 @@ namespace BrewersBuddy.Services
             int currentUserId = GetCurrentUserId();
 
             return from user in db.UserProfiles
-                        where 
-                            (user.UserName.Equals(searchCriteria.UserName, System.StringComparison.OrdinalIgnoreCase)
-                            || user.FirstName.Equals(searchCriteria.FirstName, System.StringComparison.OrdinalIgnoreCase)
-                            || user.LastName.Equals(searchCriteria.LastName, System.StringComparison.OrdinalIgnoreCase)
-                            || user.Zip.Equals(searchCriteria.Zipcode, System.StringComparison.OrdinalIgnoreCase))
-                            && user.UserId != currentUserId
-                        select user;
+                   where
+                       (user.UserName.Equals(searchCriteria.UserName, System.StringComparison.OrdinalIgnoreCase)
+                       || user.FirstName.Equals(searchCriteria.FirstName, System.StringComparison.OrdinalIgnoreCase)
+                       || user.LastName.Equals(searchCriteria.LastName, System.StringComparison.OrdinalIgnoreCase)
+                       || user.Zip.Equals(searchCriteria.Zipcode, System.StringComparison.OrdinalIgnoreCase))
+                       && user.UserId != currentUserId
+                   select user;
         }
 
         public UserProfile Get(int id)
@@ -55,24 +55,9 @@ namespace BrewersBuddy.Services
         public ICollection<UserProfile> FriendProfiles(int id)
         {
             ICollection<Friend> friends = Friends(id);
-            ICollection<UserProfile> friendProfiles = new List<UserProfile>();
-            foreach (Friend friend in friends)
-            {
-                //Don't double add or include the user themself
-                if (!friendProfiles.Contains(friend.User) && friend.UserId != id)
-                {
-                    friendProfiles.Add(friend.User);
-                }
 
-                //Don't double add or include the user themself
-                if (!friendProfiles.Contains(friend.FriendUser) && friend.FriendUserId != id)
-                {
-                    friendProfiles.Add(friend.FriendUser);
-                }
-
-            }
-
-            return friendProfiles;
+            return friends.Select(friend => friend.FriendUser)
+                .ToList();
         }
 
         public void Dispose()
