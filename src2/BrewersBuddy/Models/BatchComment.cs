@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace BrewersBuddy.Models
 {
@@ -23,6 +20,8 @@ namespace BrewersBuddy.Models
         [Required]
         [MaxLength(256)]
         public string Comment { get; set; }
+
+        public DateTime? PostDate { get; set; }
 
         [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }

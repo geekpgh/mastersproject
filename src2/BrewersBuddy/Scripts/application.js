@@ -29,7 +29,8 @@
                 
                 var html = template.html()
                     .replace("{{comment}}", data.Comment)
-                    .replace("{{username}}", data.UserName);
+                    .replace("{{username}}", data.UserName)
+                    .replace("{{date}}", data.PostDate);
 
                 $("#batch-comments").append(html);
             })

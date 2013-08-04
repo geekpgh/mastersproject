@@ -13,6 +13,11 @@ else {
         <div class="row">
             <div class="span6">
                 <p>@comment.Comment</p>
+                <div class="pull-right">
+                    @if(comment.PostDate.HasValue) {
+                        <span>@comment.PostDate.Value.ToString("f")</span>
+                    }
+                </div>
                 <div><strong>@comment.User.UserName</strong></div>
             </div>
         </div>
@@ -24,6 +29,7 @@ else {
     <div class="row">
         <div class="span6">
             <p>{{comment}}</p>
+            <div class="pull-right">{{date}}</div>
             <div><strong>{{username}}</strong></div>
         </div>
      </div>

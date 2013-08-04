@@ -392,6 +392,10 @@
     <Compile Include="Migrations\201308041441180_MakeRecipeNameAndOwnerRequired.Designer.cs">
       <DependentUpon>201308041441180_MakeRecipeNameAndOwnerRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201308041848410_AddPostDateToBatchComment.cs" />
+    <Compile Include="Migrations\201308041848410_AddPostDateToBatchComment.Designer.cs">
+      <DependentUpon>201308041848410_AddPostDateToBatchComment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActionType.cs">
@@ -766,6 +770,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201308041441180_MakeRecipeNameAndOwnerRequired.resx">
       <DependentUpon>201308041441180_MakeRecipeNameAndOwnerRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308041848410_AddPostDateToBatchComment.resx">
+      <DependentUpon>201308041848410_AddPostDateToBatchComment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -172,5 +172,44 @@ namespace BrewersBuddy.Tests.Controllers
 
             Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
         }
+
+        [Test]
+        public void TestNewCommentHasPostDateSet()
+        {
+            var identity = Substitute.For<IIdentity>();
+            identity.Name.Returns("user1");
+
+            var principal = Substitute.For<IPrincipal>();
+            principal.Identity.Returns(identity);
+
+            var userService = Substitute.For<IUserService>();
+            userService.GetCurrentUserId().Returns(1);
+            userService.GetCurrentUser().Returns(principal);
+
+            var batchService = Substitute.For<IBatchService>();
+            batchService.Get(1).Returns(new Batch()
+            {
+                OwnerId = 1
+            });
+
+            var commentService = Substitute.For<IBatchCommentService>();
+
+            BatchCommentController controller = new BatchCommentController(commentService, batchService, userService);
+
+            ActionResult result = controller.Create(new BatchComment()
+            {
+                BatchId = 1,
+                Comment = "My comment"
+            });
+
+            Assert.IsNotNull(result);
+
+            JsonResult json = result as JsonResult;
+
+            dynamic data = json.Data;
+            Assert.AreEqual("My comment", data.Comment);
+            Assert.AreEqual("user1", data.UserName);
+            Assert.IsNotNull(data.PostDate);
+        }
     }
 }

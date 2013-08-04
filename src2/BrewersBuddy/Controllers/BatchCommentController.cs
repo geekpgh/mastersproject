@@ -1,7 +1,6 @@
 ﻿using BrewersBuddy.Models;
 using BrewersBuddy.Services;
 using System;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace BrewersBuddy.Controllers
@@ -51,13 +50,15 @@ namespace BrewersBuddy.Controllers
                     return new HttpUnauthorizedResult();
 
                 userComment.UserId = userId;
+                userComment.PostDate = DateTime.Now;
 
                 _commentService.Create(userComment);
 
                 return Json(new
                 {
                     Comment = userComment.Comment,
-                    UserName = _userService.GetCurrentUser().Identity.Name
+                    UserName = _userService.GetCurrentUser().Identity.Name,
+                    PostDate = userComment.PostDate.Value.ToString("f")
                 });
             }
 
