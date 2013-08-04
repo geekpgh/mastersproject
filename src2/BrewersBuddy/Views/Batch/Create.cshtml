@@ -5,14 +5,8 @@
     ViewBag.Title = "Create Batch";
 }
 
-<div class="row">
-	<div class="span9">
-		<div class="subhead">
-			@Html.ActionLink("< My Batches", "Index", "Batch", null, htmlAttributes: new { @class = "subnav" })
-			<h1>Create</h1>
-		</div>
-	</div>
-</div>
+<h2>Create Batch</h2>
+
 <div class="content row">
     <div class="span9">
         @using (Html.BeginForm()) {

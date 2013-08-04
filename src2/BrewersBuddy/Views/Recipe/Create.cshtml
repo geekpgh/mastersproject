@@ -4,17 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<div class="row">
-	<div class="span9">
-		<div class="subhead">
-			@Html.ActionLink("< My Recipes", "Index", "Recipe", null, htmlAttributes: new { @class = "subnav" })
-			<h1>Create</h1>
-		</div>
-	</div>
-</div>
-
-
-
+<h2>Create Recipe</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
