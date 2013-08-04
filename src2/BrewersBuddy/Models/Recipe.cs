@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Security;
 
 namespace BrewersBuddy.Models
 {
@@ -11,6 +10,7 @@ namespace BrewersBuddy.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int RecipeId { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -45,13 +45,13 @@ namespace BrewersBuddy.Models
 
         public bool CanView(int userId)
         {
-            if(IsOwner(userId))
+            if (IsOwner(userId))
             {
                 return true;
             }
 
             //Friends may view
-            foreach(Friend friend in Owner.Friends)
+            foreach (Friend friend in Owner.Friends)
             {
                 if (friend.UserId == userId || friend.FriendUserId == userId)
                 {

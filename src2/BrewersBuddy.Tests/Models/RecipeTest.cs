@@ -1,13 +1,15 @@
-﻿using System.Data.Entity;
-using BrewersBuddy.Models;
+﻿using BrewersBuddy.Models;
 using BrewersBuddy.Tests.TestUtilities;
 using NUnit.Framework;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
 
 namespace BrewersBuddy.Tests.Models
 {
     [TestFixture]
-    class RecipeTest :DbTestBase
+    class RecipeTest : DbTestBase
     {
         [Test]
         public void TestCreateRecipe()
@@ -76,6 +78,30 @@ namespace BrewersBuddy.Tests.Models
 
             Assert.AreEqual(recipe.IsOwner(bob.UserId), true);
             Assert.AreNotEqual(recipe.IsOwner(fred.UserId), true);
+        }
+
+        [Test]
+        public void TestRecipeNameIsRequired()
+        {
+            UserProfile bob = TestUtils.createUser(context, "Bob", "Smith");
+
+            Recipe recipe = new Recipe();
+
+            var validationContext = new ValidationContext(recipe, null, null);
+            var validationResults = new List<ValidationResult>();
+
+            Validator.TryValidateObject(recipe, validationContext, validationResults);
+
+            foreach (var validationResult in validationResults)
+            {
+                if (validationResult.MemberNames.Contains("Name"))
+                {
+                    Assert.AreEqual("The Name field is required.", validationResult.ErrorMessage);
+                    return;
+                }
+            }
+
+            Assert.Inconclusive();
         }
     }
 }
