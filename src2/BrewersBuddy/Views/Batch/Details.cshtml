@@ -12,12 +12,19 @@
             var submit = $("#comment-form input[type=submit]");
 
             $("#comment-form textarea").keyup(function () {
+                var limit = parseInt($(this).attr("maxlength"));
                 var val = $(this).val();
 
                 if (val.length > 0)
                     submit.removeAttr("disabled");
                 else
                     submit.attr("disabled", "disabled");
+
+                // Enforce the maxlength on the comment box
+                if (val.length > limit) {
+                    var newText = val.substr(0, limit);
+                    $(this).val(newText);
+                }
             });
         });
     </script>
@@ -262,6 +269,5 @@ else
 
 <br />    
 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
-
 
 <div id="modal" class="modal hide fade" role="dialog"></div>
