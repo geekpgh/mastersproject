@@ -69,28 +69,6 @@ namespace BrewersBuddy.Tests.Controllers
             Assert.AreEqual(batch.OwnerId, 999);
             Assert.AreEqual("Index", view.RouteValues["action"]);
         }
-        
-//[Test]
-		//public void UserLogoff_TEST()
-		//{
-		//	// Set up the controller
-		//	var userService = Substitute.For<IUserService>();
-		//	userService.GetCurrentUserId().Returns(1);
-		//	AccountController controller = new AccountController();
-
-		//	LoginModel login = new LoginModel();
-		//	login.UserName = "NUNIT_Test";
-		//	login.Password = "12345";
-		//	login.RememberMe = false;
-
-		//	controller.Login(login, "");
-
-		//	ActionResult result = controller.LogOff();
-
-		//	Assert.IsInstanceOf<ViewResult>(result);
-		//	Assert.AreNotEqual("NUNIT_Test", ((LoginModel)((ViewResult)result).Model).UserName);
-		//}
-
 
 		[Test]
 		public void RegisterUser_TEST()
