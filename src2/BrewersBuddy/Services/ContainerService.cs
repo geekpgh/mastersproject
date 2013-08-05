@@ -42,7 +42,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Container @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var container = db.Containers.Find(@object.ContainerId);
+            db.Entry(container).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

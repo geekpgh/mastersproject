@@ -50,7 +50,8 @@ namespace BrewersBuddy.Services
 
         public void Update(BatchRating @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var rating = db.BatchRatings.Find(@object.BatchId, @object.UserId);
+            db.Entry(rating).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

@@ -42,7 +42,8 @@ namespace BrewersBuddy.Services
 
         public void Update(BatchNote @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var note = db.BatchNotes.Find(@object.NoteId);
+            db.Entry(note).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

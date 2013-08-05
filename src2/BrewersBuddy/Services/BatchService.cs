@@ -65,7 +65,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Batch @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var batch = db.Batches.Find(@object.BatchId);
+            db.Entry(batch).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

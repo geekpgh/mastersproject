@@ -44,7 +44,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Recipe @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var recipe = db.Batches.Find(@object.RecipeId);
+            db.Entry(recipe).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

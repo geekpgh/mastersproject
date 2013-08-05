@@ -43,7 +43,8 @@ namespace BrewersBuddy.Services
 
         public void Update(BatchComment @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var comment = db.BatchComments.Find(@object.BatchCommentId);
+            db.Entry(comment).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 

@@ -42,7 +42,8 @@ namespace BrewersBuddy.Services
 
         public void Update(Measurement @object)
         {
-            db.Entry(@object).State = EntityState.Modified;
+            var measurement = db.Measurements.Find(@object.MeasurementId);
+            db.Entry(measurement).CurrentValues.SetValues(@object);
             db.SaveChanges();
         }
 
