@@ -360,9 +360,23 @@ namespace BrewersBuddy.Controllers
                 }
             }
 
+            // Remove all user recipes
+            var ownedRecipes = from recipe in db.Recipes
+                               where (recipe.OwnerId == user.UserId)
+                               select recipe;
+            if (ownedRecipes != null)
+            {
+                var list = ownedRecipes.ToList();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    db.Recipes.Remove(list[i]);
+                }
+            }
+
             // Remove all user friends
             var userFriends = from friend in db.Friends
-                              where (friend.UserId == user.UserId)
+                              where (friend.UserId == user.UserId
+                              || friend.FriendUserId == user.UserId)
                               select friend;
             if (userFriends != null)
             {
