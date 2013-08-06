@@ -30,6 +30,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </p>
             <p>
+                <span class="label">By @item.Owner.FirstName @item.Owner.LastName</span>
                 <span class="label">@item.AddDate.ToShortDateString()</span>
             </p>
             <hr />

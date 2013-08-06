@@ -25,6 +25,9 @@
         <th class="display-label">
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th class="display-label">
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
         <th width="30%"class="display-label">
             @Html.DisplayNameFor(model => model.Description)
         </th>
@@ -47,6 +50,9 @@
     <tr>
         <td align="center">
             @Html.DisplayFor(model => model.Name)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.Owner)
         </td>
         <td align="center">
             @Html.DisplayFor(model => model.Description)
