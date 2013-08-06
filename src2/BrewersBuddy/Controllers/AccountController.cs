@@ -345,9 +345,6 @@ namespace BrewersBuddy.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(UserProfile user)
         {
-            WebSecurity.Logout();
-            OAuthWebSecurity.DeleteAccount(user.UserName, user.UserId.ToString());
-
             UserProfile user1 = db.UserProfiles.Find(user.UserId);
 
             // Remove all user batches
@@ -379,6 +376,9 @@ namespace BrewersBuddy.Controllers
             // Remove user                            
             db.UserProfiles.Remove(user1);
             db.SaveChanges();
+
+            WebSecurity.Logout();
+            OAuthWebSecurity.DeleteAccount(user.UserName, user.UserId.ToString());
 
             return RedirectToAction("..");
         }
