@@ -373,7 +373,8 @@ namespace BrewersBuddy.Controllers
                 }
             }
 
-            // Remove user                            
+            db.SaveChanges();
+
             db.UserProfiles.Remove(user1);
             db.SaveChanges();
 
