@@ -39,10 +39,19 @@ namespace BrewersBuddy.Models
         public virtual ICollection<BatchComment> BatchComments { get; set; }
         public virtual ICollection<Friend> Friends { get; set; }
         public virtual ICollection<Batch> CollaboratorBatches { get; set; }
+        
 
         public UserProfile()
         {
             this.Friends = new List<Friend>();
+        }
+
+        public virtual string Name
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
         }
     }
 
