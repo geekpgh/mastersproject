@@ -121,7 +121,10 @@ namespace BrewersBuddy.Controllers
 
                 _ratingService.Create(userRating);
 
-                return Json(userRating);
+                return Json(new
+                {
+                    Rating = userRating.Rating
+                });
             }
 
             return new HttpStatusCodeResult(500);
