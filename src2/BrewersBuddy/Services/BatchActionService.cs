@@ -45,9 +45,6 @@ namespace BrewersBuddy.Services
             var action = db.BatchActions.Find(@object.ActionId);
             db.Entry(action).CurrentValues.SetValues(@object);
             db.SaveChanges();
-
-            db.Entry(@object).State = EntityState.Modified;
-            db.SaveChanges();
         }
 
         public void Dispose()
