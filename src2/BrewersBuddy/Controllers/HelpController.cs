@@ -13,11 +13,5 @@ namespace BrewersBuddy.Controllers
         {
             return View();
         }
-
-        public ActionResult Manual()
-        {
-            return View();
-        }
-
     }
 }
