@@ -25,7 +25,9 @@ namespace BrewersBuddy.Controllers
         {
             IPrincipal currentUser = _userService.GetCurrentUser();
 
-			if (currentUser != null)
+			if (currentUser != null 
+                && currentUser.Identity != null
+                && !String.IsNullOrWhiteSpace(currentUser.Identity.Name))
 			{
                 return RedirectToAction("Index", "Batch");
 			}
