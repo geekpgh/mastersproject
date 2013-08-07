@@ -358,6 +358,7 @@
     <Content Include="Scripts\application.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\BrewersBuddyUsersManual.pdf" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootswatch.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -443,7 +444,6 @@
     <Content Include="Views\BatchNote\Delete.cshtml" />
     <Content Include="Views\Help\FAQ.cshtml" />
     <Content Include="Views\Shared\_HelpPartial.cshtml" />
-    <Content Include="Views\Help\Manual.cshtml" />
     <Content Include="Views\BatchNote\Create.cshtml" />
     <Content Include="Views\Measurement\Create.cshtml" />
     <Content Include="Views\Account\FriendsList.cshtml" />
