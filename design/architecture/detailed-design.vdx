@@ -1952,7 +1952,7 @@
 <VerticalAlign>1</VerticalAlign>
 <DefaultTabStop>0.3888888888888889</DefaultTabStop>
 </TextBlock>
-<Char IX="0"><Font>0</Font><Color>0</Color><Style>0</Style><Size>0.1666666666666667</Size><ColorTrans>0</ColorTrans></Char><Para IX="0"><IndFirst>0</IndFirst><IndLeft>0</IndLeft><IndRight>-0</IndRight><SpLine>-1.2</SpLine><SpBefore>0</SpBefore><HorzAlign>1</HorzAlign></Para><Text><cp IX="0"/><pp IX="0"/>Invertory System</Text>
+<Char IX="0"><Font>0</Font><Color>0</Color><Style>0</Style><Size>0.1666666666666667</Size><ColorTrans>0</ColorTrans></Char><Para IX="0"><IndFirst>0</IndFirst><IndLeft>0</IndLeft><IndRight>-0</IndRight><SpLine>-1.2</SpLine><SpBefore>0</SpBefore><HorzAlign>1</HorzAlign></Para><Text><cp IX="0"/><pp IX="0"/>Inventory System</Text>
 </Shape>
 
 <Shape ID="25" Type="Shape" Name="Rectangle Fill:Chalk.25"><XForm><Angle>-0</Angle>
