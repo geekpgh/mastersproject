@@ -1,0 +1,64 @@
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.Container
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Add <strong>@ViewBag.BatchName</strong> to your cellar inventory</legend>
+
+        <div class="editor-label">
+            <strong>@Html.LabelFor(model => model.Name)</strong>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-field">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Type)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-field">
+            <strong>@Html.LabelFor(model => model.Quantity)</strong>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>          
+        
+        <div class="editor-field">
+            <strong>@Html.LabelFor(model => model.Volume)</strong>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Volume)
+            @Html.ValidationMessageFor(model => model.Volume)
+        </div>
+
+        <div class="editor-field">
+            @Html.LabelFor(model => model.Units)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Units)
+            @Html.ValidationMessageFor(model => model.Units)
+        </div>
+
+        <p>
+            <input type="submit" class="btn btn-primary" value="Create" />
+        </p>
+    </fieldset>
+    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

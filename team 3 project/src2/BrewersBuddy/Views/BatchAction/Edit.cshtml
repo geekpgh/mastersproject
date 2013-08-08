@@ -1,0 +1,62 @@
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.BatchAction
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>BatchAction</legend>
+
+        @Html.HiddenFor(model => model.ActionId)
+        @Html.HiddenFor(model => model.BatchId)
+        @Html.HiddenFor(model => model.PerformerId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.EnumDropDownListFor(model => model.Type)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActionDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ActionDate)
+            @Html.ValidationMessageFor(model => model.ActionDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Description", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <p>
+           <input class="btn btn-success" type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Details", "Batch", new { id = Model.BatchId }, new { @class = "btn btn-danger" })
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

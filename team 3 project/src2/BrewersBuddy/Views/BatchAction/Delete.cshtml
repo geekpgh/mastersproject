@@ -1,0 +1,64 @@
+﻿@model BrewersBuddy.Models.BatchAction
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>BatchAction</legend>
+
+<table>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Title)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Title)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.ActionDate)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.ActionDate)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Description)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.Description)
+            </div>
+        </td>
+    </tr>
+    <tr><td>
+            <div class="display-label">
+            <b>@Html.DisplayNameFor(model => model.Performer)</b>&nbsp;&nbsp;
+            </div>
+        </td><td>
+            <div class="display-field">
+            @Html.DisplayFor(model => model.PerformerName)
+            </div>
+        </td>
+    </tr></table>
+
+<br>    
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        @Html.ActionLink("Cancel", "Details", "Batch", new { id = Model.BatchId }, new { @class = "btn btn-success" })
+        <input class="btn btn-danger" type="submit" value="Delete" />
+    </p>
+}

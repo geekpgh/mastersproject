@@ -1,0 +1,38 @@
+﻿@model BrewersBuddy.Models.Recipe
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+
+
+<div class="content row">
+         <div class="span9">
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <br />
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <br />
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AddDate)
+    </div>
+   <br />
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AddDate)
+    </div>
+    </div>
+</div>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        @Html.ActionLink("Cancel", "Details", "Recipe", new { id = Model.RecipeId }, new { @class = "btn btn-success" })
+        <input class="btn btn-danger" type="submit" value="Delete" />
+    </p>
+}

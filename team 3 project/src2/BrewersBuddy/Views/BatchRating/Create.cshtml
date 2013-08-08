@@ -1,0 +1,65 @@
+﻿@model BrewersBuddy.Models.BatchRating
+
+@{
+    ViewBag.Title = "Rate " + ViewBag.BatchName;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@ViewBag.Title</h3>
+</div>
+
+<div class="modal-body" id="rating-body">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rating)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Rating, (IEnumerable<SelectListItem>)ViewBag.Ratings)
+            @Html.ValidationMessageFor(model => model.Rating)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comment)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Comment", new { rows=10, columns=40 })
+            @Html.ValidationMessageFor(model => model.Comment)
+        </div>
+    </fieldset>
+}
+</div>
+
+<div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <input id="rating-submit" type="submit" class="btn btn-primary" value="Rate this batch" />
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#rating-submit").click(function () {
+            var form = $("#rating-body form");
+            var action = form.attr("action");
+            $.post(action, form.serialize())
+                .done(function (data) {
+                    var rating = data.Rating;
+                    $("#my-rating").html(rating);
+
+                    var averageUri = $("#average-rating").attr("data-uri");
+                    $.get(averageUri)
+                        .done(function (data) {
+                            $("#average-rating").text(data);
+                        });
+
+                    $("#modal").modal("hide");
+                })
+                .fail(function (data) {
+                    alert("An error occurred");
+                });
+        });
+    });
+</script>

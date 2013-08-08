@@ -1,0 +1,27 @@
+﻿@model BrewersBuddy.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+@if (!string.IsNullOrWhiteSpace((string)@ViewBag.StatusMessage)) {
+<p class="message-success alert alert-success">@ViewBag.StatusMessage</p>
+}
+
+<p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+
+@if (ViewBag.HasLocalPassword)
+{
+    @Html.Partial("_ChangePasswordPartial")
+}
+else
+{ 
+    @Html.Partial("_SetPasswordPartial")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

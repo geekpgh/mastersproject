@@ -1,0 +1,24 @@
+﻿<div class="span4" id="ratings">
+    <div class="rating pull-right">
+        <div id="my-rating" class="rating-value">
+            @if(ViewBag.UserRating == "N/A") {
+                @Html.ActionLink((string)ViewBag.UserRating, "Create", "BatchRating", new { BatchId = Model.BatchId }, null)
+            }
+            else {
+                @ViewBag.UserRating
+            }
+        </div>
+        <div class="rating-label">Your Rating</div>
+    </div>
+    <div class="rating pull-right">
+        <div id="average-rating" class="rating-value" data-uri="/BatchRating/Average?BatchId=@Model.BatchId">
+            @if (ViewBag.AverageRating == "N/A") {
+                @ViewBag.AverageRating
+            }
+            else { 
+                @Html.ActionLink((string)ViewBag.AverageRating, "Index", "BatchRating", new { BatchId = Model.BatchId }, null)
+            }
+        </div>
+        <div class="rating-label">Avg Rating</div>
+    </div>
+</div>

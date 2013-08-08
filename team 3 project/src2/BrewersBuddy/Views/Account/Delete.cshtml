@@ -1,0 +1,81 @@
+﻿@model BrewersBuddy.Models.UserProfile
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete Account</h2>
+<h4>Are you sure you want to delete this account? This action is PERMANENT.</h4>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<fieldset>
+        <legend></legend>
+
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.UserName)
+
+    <table class="table table-striped">
+        <tr>
+            <td width="100">
+                <div class="display-label">
+                <b>@Html.DisplayNameFor(model => model.UserName)</b>&nbsp;&nbsp;&nbsp;
+                </div>
+            </td>
+            <td>
+                <div class="display-field">
+                @Html.DisplayFor(model => model.UserName)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <div class="display-label">
+                <b>@Html.DisplayNameFor(model => model.FirstName)</b>&nbsp;&nbsp;&nbsp;
+                </div>
+            </td>
+            <td>
+                <div class="display-field">
+                @Html.DisplayFor(model => model.FirstName)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <div class="display-label">
+                <b>@Html.DisplayNameFor(model => model.LastName)</b>&nbsp;&nbsp;&nbsp;
+                </div>
+            </td>
+            <td>
+                <div class="display-field">
+                @Html.DisplayFor(model => model.LastName)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <div class="display-label">
+                <b>@Html.DisplayNameFor(model => model.Email)</b>&nbsp;&nbsp;&nbsp;
+                </div>
+            </td>
+            <td>
+                <div class="display-field">
+                @Html.DisplayFor(model => model.Email)
+                </div>
+            </td>
+        </tr>
+    </table>
+
+        <p>
+            <input type="submit" class="btn btn-danger" value="Delete" />
+            <br><br>
+        </p>
+
+        <p>
+            @Html.ActionLink("Back", "Edit") 
+        </p>                
+
+</fieldset>
+}
+        

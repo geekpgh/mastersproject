@@ -1,0 +1,52 @@
+﻿@using BrewersBuddy.Utilities;
+@model BrewersBuddy.Models.Batch
+
+@{
+    ViewBag.Title = "Create Batch";
+}
+
+<h2>Create Batch</h2>
+
+<div class="content row">
+    <div class="span9">
+        @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Type)
+            </div>
+            <div class="editor-field">
+                @Html.EnumDropDownListFor(model => model.Type)
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="editor-field">
+                @Html.TextArea("Description", new { rows=10, columns=40 })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+
+            <p>
+                <input class="btn btn-success" type="submit" value="Save" />
+                @Html.ActionLink("Cancel", "Index", "Batch", null, new { @class = "btn btn-danger" })
+            </p>
+        </fieldset>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

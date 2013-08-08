@@ -1,0 +1,80 @@
+﻿@model BrewersBuddy.Models.Recipe
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row-fluid">
+    <div class="span4">
+        <h4>Information</h4>
+    </div>
+    <div class="span8" >
+        @if(ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=Model.RecipeId }, new { @class = "btn btn-success btn-small" }) 
+            @Html.ActionLink("Delete", "Delete", new { id=Model.RecipeId }, new { @class = "btn btn btn-danger btn-small" })
+        }
+     </div>
+</div>
+
+<table class="table table-striped">
+
+    <tr>
+        <th class="display-label">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="display-label">
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
+        <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Prep)
+        </th>
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Process)
+        </th>
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Finishing)
+        </th>
+                <th width="30%"class="display-label">
+            @Html.DisplayNameFor(model => model.Costs)
+        </th>
+        <th width="30%" class="display-label"> @Html.DisplayNameFor(model => model.AddDate)
+        </th>
+    </tr>
+
+    <tr>
+        <td align="center">
+            @Html.DisplayFor(model => model.Name)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.Owner.Name)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.Description)
+        </td>
+        <td align="center">
+             @Html.DisplayFor(model => model.Prep)
+        </td>
+                <td align="center">
+             @Html.DisplayFor(model => model.Process)
+        </td>
+                <td align="center">
+             @Html.DisplayFor(model => model.Finishing)
+        </td>
+                <td align="center">
+             @Html.DisplayFor(model => model.Costs)
+        </td>
+        <td align="center">
+            @Html.DisplayFor(model => model.AddDate)
+        </td>
+    </tr>
+</table>
+
+<br>
+
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })

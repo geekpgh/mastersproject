@@ -1,0 +1,50 @@
+﻿<h4>Comments</h4>
+
+<div id="batch-comments">
+@if (Model.Comments.Count == 0) { 
+    <div class="row" id="no-comments">
+        <div class="span6">
+            No comments have been added
+        </div>
+    </div>
+}
+else {
+    foreach (BrewersBuddy.Models.BatchComment comment in Model.Comments) { 
+        <div class="row">
+            <div class="span6">
+                <p>@comment.Comment</p>
+                <div class="pull-right">
+                    @if(comment.PostDate.HasValue) {
+                        <span>@comment.PostDate.Value.ToString("f")</span>
+                    }
+                </div>
+                <div><strong>@comment.User.UserName</strong></div>
+            </div>
+        </div>
+    }
+}
+</div>
+
+<div id="comment-template" style="display: none">
+    <div class="row">
+        <div class="span6">
+            <p>{{comment}}</p>
+            <div class="pull-right">{{date}}</div>
+            <div><strong>{{username}}</strong></div>
+        </div>
+     </div>
+</div>
+
+<div class="fluid-row" style="margin-top: 20px">
+@using (Html.BeginForm("Create", "BatchComment", new { BatchId = Model.BatchId }, FormMethod.Post, new { id = "comment-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <textarea name="Comment" rows="4" style="width: 550px" placeholder="Enter your comments (max 256 characters)" maxlength="256"></textarea>
+    
+    <p>
+        <input class="btn btn-success" type="submit" value="Comment" disabled="disabled" />
+    </p>
+}
+</div>
